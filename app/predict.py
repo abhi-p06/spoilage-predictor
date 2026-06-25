@@ -12,8 +12,8 @@ Graceful fallback: if any model file is absent (e.g. before training),
 a calibrated heuristic is used so the Flask app stays fully runnable.
 
 Models expected at (relative to this file's parent):
-  ../models/cnn_freshness.h5
-  ../models/lstm_spoilage.h5
+  ../models/cnn_freshness.keras
+  ../models/lstm_spoilage.keras
   ../models/lstm_scaler.pkl
   ../models/fusion_xgb.pkl
 """
@@ -29,8 +29,8 @@ from PIL import Image
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 MODEL_DIR   = Path(__file__).parent.parent / "models"
-CNN_PATH    = MODEL_DIR / "cnn_freshness.h5"
-LSTM_PATH   = MODEL_DIR / "lstm_spoilage.h5"
+CNN_PATH    = MODEL_DIR / "cnn_freshness.keras"
+LSTM_PATH   = MODEL_DIR / "lstm_spoilage.keras"
 SCALER_PATH = MODEL_DIR / "lstm_scaler.pkl"
 FUSION_PATH = MODEL_DIR / "fusion_xgb.pkl"
 

@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use("Agg")  # non-interactive backend — no display needed
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -53,7 +55,7 @@ print(f"GPU / Metal devices: {tf.config.list_physical_devices('GPU')}")
 # ── Paths ─────────────────────────────────────────────────────────────────────
 # Notebook lives at  spoilage-predictor/notebooks/
 # PROJECT_ROOT is    spoilage-predictor/
-PROJECT_ROOT = Path().resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # Kaggle extracts to:  data/images/dataset/dataset/train  &  .../test
 # (verified on disk after download)
@@ -62,7 +64,7 @@ TRAIN_DIR  = DATA_DIR / "train"     # lowercase — actual folder name on disk
 TEST_DIR   = DATA_DIR / "test"      # lowercase — actual folder name on disk
 MODEL_DIR  = PROJECT_ROOT / "models"
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
-MODEL_PATH = MODEL_DIR / "cnn_freshness.h5"
+MODEL_PATH = MODEL_DIR / "cnn_freshness.keras"
 
 assert TRAIN_DIR.exists(), f"Train dir not found: {TRAIN_DIR}\nCheck dataset was downloaded correctly."
 assert TEST_DIR.exists(),  f"Test dir not found: {TEST_DIR}"

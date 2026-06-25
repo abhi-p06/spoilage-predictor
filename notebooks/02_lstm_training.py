@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use("Agg")  # non-interactive backend — no display needed
 import os
 import warnings
 from pathlib import Path
@@ -21,11 +23,11 @@ from tensorflow.keras import layers
 print(f"TensorFlow : {tf.__version__}")
 print(f"GPU devices: {tf.config.list_physical_devices('GPU')}")
 
-PROJECT_ROOT = Path().resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_PATH    = PROJECT_ROOT / "data" / "sensors" / "sensor_logs.csv"
 MODEL_DIR    = PROJECT_ROOT / "models"
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
-MODEL_PATH   = MODEL_DIR / "lstm_spoilage.h5"
+MODEL_PATH   = MODEL_DIR / "lstm_spoilage.keras"
 SCALER_PATH  = MODEL_DIR / "lstm_scaler.pkl"    # saved for inference
 
 # Hyper-parameters

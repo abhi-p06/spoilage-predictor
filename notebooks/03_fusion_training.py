@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use("Agg")  # non-interactive backend — no display needed
 import warnings
 from pathlib import Path
 
@@ -20,12 +22,12 @@ from sklearn.preprocessing import label_binarize
 
 print(f"XGBoost version : {xgb.__version__}")
 
-PROJECT_ROOT = Path().resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODEL_DIR    = PROJECT_ROOT / "models"
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
-CNN_PATH     = MODEL_DIR / "cnn_freshness.h5"
-LSTM_PATH    = MODEL_DIR / "lstm_spoilage.h5"
+CNN_PATH     = MODEL_DIR / "cnn_freshness.keras"
+LSTM_PATH    = MODEL_DIR / "lstm_spoilage.keras"
 SCALER_PATH  = MODEL_DIR / "lstm_scaler.pkl"
 FUSION_PATH  = MODEL_DIR / "fusion_xgb.pkl"
 

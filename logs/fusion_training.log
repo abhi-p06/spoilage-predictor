@@ -1,0 +1,76 @@
+XGBoost version : 3.2.0
+Fusion model output → /Users/abby/Desktop/spoilage-predictor/models/fusion_xgb.pkl
+CNN  model  : ⚠️  not found — will simulate CNN outputs
+LSTM model  : ✅  found
+Helper functions defined.
+Fusion dataset: (10000, 7)
+Class balance  — fresh=5268, spoiled=4732
+
+Days-to-spoilage stats:
+count    10000.00
+mean         2.37
+std          3.30
+min          0.00
+25%          0.00
+50%          0.00
+75%          4.00
+max         15.00
+Train : (8000, 5)
+Test  : (2000, 5)
+[0]	validation_0-logloss:0.62255
+[50]	validation_0-logloss:0.03033
+[100]	validation_0-logloss:0.01503
+[150]	validation_0-logloss:0.01274
+[200]	validation_0-logloss:0.01227
+[250]	validation_0-logloss:0.01212
+[300]	validation_0-logloss:0.01197
+[350]	validation_0-logloss:0.01172
+[399]	validation_0-logloss:0.01163
+
+✅  XGBoost classifier trained.
+5-Fold CV AUC : 0.9998 ± 0.0000
+Per-fold      : [0.9998 0.9998 0.9998 0.9998 0.9998]
+Test ROC-AUC : 0.9999
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       Fresh       1.00      0.99      1.00      1054
+     Spoiled       0.99      1.00      0.99       946
+
+    accuracy                           0.99      2000
+   macro avg       0.99      1.00      0.99      2000
+weighted avg       1.00      0.99      1.00      2000
+
+
+Feature Importances:
+   feature  importance
+ cnn_score    0.783662
+      days    0.128479
+cold_chain    0.044199
+produce_id    0.027688
+ lstm_risk    0.015972
+[0]	validation_0-rmse:3.09174
+[50]	validation_0-rmse:0.35311
+[100]	validation_0-rmse:0.19687
+[150]	validation_0-rmse:0.15428
+[200]	validation_0-rmse:0.14926
+[250]	validation_0-rmse:0.14845
+[300]	validation_0-rmse:0.14794
+[350]	validation_0-rmse:0.14794
+[399]	validation_0-rmse:0.14767
+
+Days-to-spoilage  MAE : 0.07 days
+Days-to-spoilage  R²  : 0.9980
+✅  Fusion bundle saved → /Users/abby/Desktop/spoilage-predictor/models/fusion_xgb.pkl
+    File size : 1.04 MB
+
+Round-trip test (apple, day 3, no cold chain, cnn=0.85, lstm=0.12):
+  Spoilage probability : 0.0%
+  Days to spoilage     : 6.0 days
+Scenario                                       Spoilage%  Days Left    Alert
+------------------------------------------------------------------------------
+Fresh apple (day 1, cold chain)                     0.0%        13d  🟢 GREEN
+Border-line banana (day 5, ambient)                38.5%         0d 🟡 YELLOW
+Old tomato (day 9, ambient)                       100.0%         0d    🔴 RED
+Rotten mango (day 8, no cold)                     100.0%         0d    🔴 RED

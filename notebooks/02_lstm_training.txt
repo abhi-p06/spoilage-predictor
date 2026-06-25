@@ -1,0 +1,284 @@
+import os
+import warnings
+from pathlib import Path
+
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+warnings.filterwarnings("ignore")
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, roc_curve
+import joblib
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+print(f"TensorFlow : {tf.__version__}")
+print(f"GPU devices: {tf.config.list_physical_devices('GPU')}")
+
+PROJECT_ROOT = Path().resolve().parent
+DATA_PATH    = PROJECT_ROOT / "data" / "sensors" / "sensor_logs.csv"
+MODEL_DIR    = PROJECT_ROOT / "models"
+MODEL_DIR.mkdir(parents=True, exist_ok=True)
+MODEL_PATH   = MODEL_DIR / "lstm_spoilage.h5"
+SCALER_PATH  = MODEL_DIR / "lstm_scaler.pkl"    # saved for inference
+
+# Hyper-parameters
+TIMESTEPS   = 24
+N_FEATURES  = 4     # ethylene, co2, humidity, temperature
+BATCH_SIZE  = 64
+EPOCHS      = 40
+LR          = 1e-3
+SEED        = 42
+TEST_SIZE   = 0.20
+VAL_SIZE    = 0.15
+
+FEATURE_COLS = [
+    [f"h{h:02d}_ethylene", f"h{h:02d}_co2", f"h{h:02d}_humidity", f"h{h:02d}_temperature"]
+    for h in range(TIMESTEPS)
+]
+# Flatten for loading: [h00_ethylene, h00_co2, ..., h23_temperature]
+FLAT_COLS = [col for hour_cols in FEATURE_COLS for col in hour_cols]
+
+print(f"Data path  : {DATA_PATH}")
+print(f"Model out  : {MODEL_PATH}")
+print(f"Feature cols: {len(FLAT_COLS)} (= {TIMESTEPS} steps × {N_FEATURES} features)")
+
+df = pd.read_csv(DATA_PATH)
+print(f"Shape : {df.shape}")
+print(f"Columns (first 7): {list(df.columns[:7])}")
+print(f"\nClass balance:")
+print(df.groupby(["produce", "label"]).size().rename("count").to_string())
+
+# Plot mean ethylene trajectory: fresh vs spoiled, per produce type
+eth_cols = [f"h{h:02d}_ethylene" for h in range(TIMESTEPS)]
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 8), sharey=False)
+produce_types = ["apple", "banana", "mango", "tomato"]
+colors = {0: '#0F6E56', 1: '#D7263D'}
+
+for ax, produce in zip(axes.flat, produce_types):
+    for label, name in zip([0, 1], ["Fresh", "Spoiling"]):
+        subset = df[(df.produce == produce) & (df.label == label)][eth_cols]
+        mean_vals = subset.mean().values
+        std_vals  = subset.std().values
+        x = range(TIMESTEPS)
+        ax.plot(x, mean_vals, color=colors[label], lw=2, label=name)
+        ax.fill_between(x, mean_vals - std_vals, mean_vals + std_vals,
+                        color=colors[label], alpha=0.15)
+    ax.set(title=produce.capitalize(), xlabel="Hour", ylabel="Ethylene (ppm)")
+    ax.legend(); ax.grid(alpha=0.3)
+
+plt.suptitle("Mean Ethylene Trajectory: Fresh vs Spoiling (±1 std)", fontsize=13, fontweight='bold')
+plt.tight_layout()
+plt.savefig(PROJECT_ROOT / "notebooks" / "lstm_ethylene_eda.png", dpi=120, bbox_inches='tight')
+plt.show()
+
+# Extract raw feature matrix: shape (N, 24, 4)
+X_raw = df[FLAT_COLS].values.reshape(-1, TIMESTEPS, N_FEATURES).astype(np.float32)
+y     = df["label"].values.astype(np.int32)
+
+print(f"X_raw shape : {X_raw.shape}")
+print(f"y shape     : {y.shape}")
+print(f"Class balance — 0: {(y==0).sum()}, 1: {(y==1).sum()}")
+
+# Scale features: flatten to (N*24, 4) → fit StandardScaler → reshape back
+N = X_raw.shape[0]
+X_flat = X_raw.reshape(N * TIMESTEPS, N_FEATURES)
+
+scaler = StandardScaler()
+X_scaled_flat = scaler.fit_transform(X_flat)
+X_scaled = X_scaled_flat.reshape(N, TIMESTEPS, N_FEATURES).astype(np.float32)
+
+# Save scaler for use in predict.py
+joblib.dump(scaler, SCALER_PATH)
+print(f"Scaler saved → {SCALER_PATH}")
+print(f"Feature means : {scaler.mean_.round(2)}")
+print(f"Feature stds  : {scaler.scale_.round(2)}")
+
+# Train / val / test split
+X_tv, X_test, y_tv, y_test = train_test_split(
+    X_scaled, y, test_size=TEST_SIZE, random_state=SEED, stratify=y
+)
+X_train, X_val, y_train, y_val = train_test_split(
+    X_tv, y_tv, test_size=VAL_SIZE / (1 - TEST_SIZE), random_state=SEED, stratify=y_tv
+)
+
+print(f"Train : {X_train.shape}  (fresh={( y_train==0).sum()}, spoiled={(y_train==1).sum()})")
+print(f"Val   : {X_val.shape}")
+print(f"Test  : {X_test.shape}")
+
+def build_lstm_model() -> keras.Model:
+    """
+    2-layer Bidirectional LSTM for time-series spoilage classification.
+
+    Input  : (batch, 24, 4)
+    Output : (batch, 1) — sigmoid probability of spoilage
+
+    Architecture
+    ------------
+    BiLSTM(128, return_sequences=True) + LayerNorm + Dropout
+    BiLSTM(64)  + LayerNorm + Dropout
+    Dense(64, relu) + Dropout
+    Dense(1, sigmoid)
+    """
+    inp = keras.Input(shape=(TIMESTEPS, N_FEATURES), name="sensor_sequence")
+
+    x = layers.Bidirectional(
+        layers.LSTM(128, return_sequences=True, dropout=0.2, recurrent_dropout=0.0),
+        name="bilstm_1"
+    )(inp)
+    x = layers.LayerNormalization()(x)
+    x = layers.Dropout(0.3)(x)
+
+    x = layers.Bidirectional(
+        layers.LSTM(64, return_sequences=False, dropout=0.2, recurrent_dropout=0.0),
+        name="bilstm_2"
+    )(x)
+    x = layers.LayerNormalization()(x)
+    x = layers.Dropout(0.3)(x)
+
+    x = layers.Dense(64, activation="relu", name="fc1")(x)
+    x = layers.Dropout(0.2)(x)
+    out = layers.Dense(1, activation="sigmoid", name="spoilage_risk")(x)
+
+    model = keras.Model(inp, out, name="lstm_spoilage")
+    return model
+
+lstm_model = build_lstm_model()
+lstm_model.summary(line_length=90)
+
+lstm_model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=LR),
+    loss="binary_crossentropy",
+    metrics=[
+        "accuracy",
+        keras.metrics.AUC(name="auc"),
+        keras.metrics.Precision(name="precision"),
+        keras.metrics.Recall(name="recall"),
+    ]
+)
+
+callbacks = [
+    keras.callbacks.EarlyStopping(
+        monitor="val_auc", patience=8,
+        restore_best_weights=True,
+        mode="max", verbose=1
+    ),
+    keras.callbacks.ModelCheckpoint(
+        filepath=str(MODEL_PATH),
+        monitor="val_auc",
+        save_best_only=True,
+        mode="max", verbose=1
+    ),
+    keras.callbacks.ReduceLROnPlateau(
+        monitor="val_loss", factor=0.5, patience=4,
+        min_lr=1e-6, verbose=1
+    ),
+]
+
+history = lstm_model.fit(
+    X_train, y_train,
+    validation_data=(X_val, y_val),
+    epochs=EPOCHS,
+    batch_size=BATCH_SIZE,
+    callbacks=callbacks,
+    verbose=1,
+)
+
+fig, axes = plt.subplots(1, 3, figsize=(16, 5))
+h = history.history
+ep = range(1, len(h["loss"]) + 1)
+
+for ax, (train_key, val_key, title) in zip(axes, [
+    ("loss",     "val_loss",     "Loss"),
+    ("accuracy", "val_accuracy", "Accuracy"),
+    ("auc",      "val_auc",      "AUC-ROC"),
+]):
+    ax.plot(ep, h[train_key], lw=2, color='#0F6E56', label='Train')
+    ax.plot(ep, h[val_key],   lw=2, color='#F59E0B', linestyle='--', label='Val')
+    ax.set(title=title, xlabel='Epoch')
+    ax.legend(); ax.grid(alpha=0.3)
+
+plt.suptitle("LSTM Training History", fontsize=13, fontweight='bold')
+plt.tight_layout()
+plt.savefig(PROJECT_ROOT / "notebooks" / "lstm_training_curves.png", dpi=120, bbox_inches='tight')
+plt.show()
+
+best_model = keras.models.load_model(MODEL_PATH)
+test_results = best_model.evaluate(X_test, y_test, verbose=0)
+print("── Test Set Results ─────────────────────────────────")
+for name, val in zip(best_model.metrics_names, test_results):
+    print(f"  {name:<12}: {val:.4f}")
+
+y_prob = best_model.predict(X_test, verbose=0).flatten()
+y_pred = (y_prob >= 0.5).astype(int)
+
+auc = roc_auc_score(y_test, y_prob)
+fpr, tpr, _ = roc_curve(y_test, y_prob)
+
+print(f"ROC-AUC : {auc:.4f}")
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred, target_names=["Fresh", "Spoiling"]))
+
+# ROC curve + Confusion matrix side by side
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))
+
+# ROC
+ax1.plot(fpr, tpr, lw=2, color='#0F6E56', label=f'AUC = {auc:.3f}')
+ax1.plot([0,1],[0,1],'--', color='grey')
+ax1.set(title='ROC Curve — LSTM Spoilage Classifier',
+        xlabel='False Positive Rate', ylabel='True Positive Rate')
+ax1.legend(); ax1.grid(alpha=0.3)
+
+# Confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Greens',
+            xticklabels=['Fresh','Spoiling'],
+            yticklabels=['Fresh','Spoiling'], ax=ax2, linewidths=0.5)
+ax2.set(title='Confusion Matrix', xlabel='Predicted', ylabel='True')
+
+plt.tight_layout()
+plt.savefig(PROJECT_ROOT / "notebooks" / "lstm_evaluation.png", dpi=120, bbox_inches='tight')
+plt.show()
+
+# Evaluate accuracy per produce type
+# We need to retrieve the produce column for test indices
+# Re-split with same seed to get indices
+df_indexed = df.reset_index(drop=True)
+indices_all = np.arange(len(df))
+idx_tv, idx_test = train_test_split(
+    indices_all, test_size=TEST_SIZE, random_state=SEED,
+    stratify=df["label"].values
+)
+test_produces = df_indexed.loc[idx_test, "produce"].values
+
+print("Per-produce accuracy on test set:")
+print("-" * 40)
+for prod in ["apple", "banana", "mango", "tomato"]:
+    mask = test_produces == prod
+    if mask.sum() == 0:
+        continue
+    acc = (y_pred[mask] == y_test[mask]).mean()
+    auc_p = roc_auc_score(y_test[mask], y_prob[mask]) if len(np.unique(y_test[mask])) > 1 else float('nan')
+    print(f"  {prod:<10} n={mask.sum():>4}  accuracy={acc:.3f}  AUC={auc_p:.3f}")
+
+best_model.save(MODEL_PATH)
+print(f"✅  LSTM model saved → {MODEL_PATH}")
+print(f"    File size : {MODEL_PATH.stat().st_size / 1e6:.1f} MB")
+print(f"✅  Scaler saved  → {SCALER_PATH}")
+
+# Quick single-sample inference test
+sample_seq = X_test[0:1]   # shape (1, 24, 4)
+risk = float(best_model.predict(sample_seq, verbose=0)[0][0])
+true_lbl = y_test[0]
+print(f"\nSample inference → risk={risk:.3f}  true_label={'Spoiling' if true_lbl==1 else 'Fresh'}")
+
+print("\
+\nNote: predict.py loads both lstm_spoilage.h5 and lstm_scaler.pkl")
+print("  The scaler is applied to raw sensor features before LSTM inference.")

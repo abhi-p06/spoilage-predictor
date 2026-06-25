@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments
+.env
+.venv/
+env/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# Model files (large — use Git LFS if needed)
+models/*.h5
+models/*.pkl
+
+# Dataset (downloaded separately)
+data/images/
+
+# Flask uploads
+app/static/uploads/
+
+# Reports
+app/static/uploads/*.txt
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# IDE
+.vscode/
+.idea/
+*.swp

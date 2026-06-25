@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spoilage Analysis — {{ r.produce }} Results</title>
+  <meta name="description" content="AI spoilage analysis for {{ r.produce }}: {{ r.spoilage_pct }}% spoilage probability, {{ r.days_to_spoilage }} days remaining.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <style>
+    /* ── Inline dynamic styles that depend on alert colour ─── */
+    :root {
+      --alert-colour:
+        {% if r.alert == 'red' %}#D7263D
+        {% elif r.alert == 'yellow' %}#F59E0B
+        {% else %}#059669{% endif %};
+    }
+
+    .explanation-card { border-top-color: var(--alert-colour) !important; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ────────────────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <span class="logo-icon">🌿</span>
+    <div>
+      <span>Spoilage Predictor</span>
+      <div class="navbar-subtitle">Post-Harvest AI System</div>
+    </div>
+  </div>
+  <a href="/" style="color:white; font-size:0.85rem; text-decoration:none; opacity:0.85;">
+    ← New Analysis
+  </a>
+</nav>
+
+<main class="page-wrapper">
+
+  <!-- ══════════════════════════════════════════════════════════════
+       TOP — Alert Banner
+  ══════════════════════════════════════════════════════════════════ -->
+  <div class="alert-banner {{ r.alert }}" role="alert">
+    <h2>{{ r.alert_label }}</h2>
+    <p>{{ r.recommendation }}</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       COLUMNS — Photo (left) + Metrics 2×2 (right)
+  ══════════════════════════════════════════════════════════════════ -->
+  <div class="result-columns">
+
+    <!-- Left: uploaded photo -->
+    <div class="card photo-card">
+      <span class="section-label">Uploaded Image</span>
+      <img
+        src="{{ url_for('static', filename=r.image_url) }}"
+        alt="Uploaded {{ r.produce }} photo"
+        id="produce-photo"
+      >
+      <div class="produce-label">{{ r.produce }}</div>
+      <div class="timestamp">🕐 {{ r.timestamp }}</div>
+    </div>
+
+    <!-- Right: 2×2 metric cards -->
+    <div class="metric-grid">
+
+      <!-- Card 1: Spoilage Probability -->
+      <div class="metric-card">
+        <div class="metric-label">Spoilage Probability</div>
+        <div class="metric-value {{ r.alert }}">{{ r.spoilage_pct }}%</div>
+        <div class="metric-sub">Overall risk score</div>
+      </div>
+
+      <!-- Card 2: Days to Spoilage -->
+      <div class="metric-card">
+        <div class="metric-label">Days to Spoilage</div>
+        <div class="metric-value {{ r.alert }}">{{ r.days_to_spoilage }}</div>
+        <div class="metric-sub">days remaining</div>
+      </div>
+
+      <!-- Card 3: CNN Freshness Score -->
+      <div class="metric-card">
+        <div class="metric-label">Visual Condition</div>
+        <div class="metric-value {% if r.cnn_score_pct >= 65 %}green{% elif r.cnn_score_pct >= 40 %}yellow{% else %}red{% endif %}">
+          {{ r.cnn_score_pct }}%
+        </div>
+        <div class="metric-sub">CNN Freshness Score</div>
+      </div>
+
+      <!-- Card 4: Sensor Risk Score -->
+      <div class="metric-card">
+        <div class="metric-label">Gas / Env Risk</div>
+        <div class="metric-value {% if r.lstm_score_pct <= 35 %}green{% elif r.lstm_score_pct <= 65 %}yellow{% else %}red{% endif %}">
+          {{ r.lstm_score_pct }}%
+        </div>
+        <div class="metric-sub">Sensor Risk Score</div>
+      </div>
+
+    </div><!-- /metric-grid -->
+  </div><!-- /result-columns -->
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       MIDDLE — Pure-CSS Semicircular Gauge
+  ══════════════════════════════════════════════════════════════════ -->
+  <div class="card gauge-section" style="margin-top:1.25rem;">
+    <h3>Spoilage Risk Gauge</h3>
+
+    <!--
+      SVG semicircle gauge.
+      The coloured arc is drawn using stroke-dasharray / stroke-dashoffset
+      on a semicircle path of radius 100, circumference ≈ 314.
+      Half-circumference = 157. We show the "spoilage" portion as:
+        dasharray = 157   (half-circle track)
+        dashoffset = 157 * (1 - pct/100)
+    -->
+    {% set pct = r.spoilage_pct %}
+    {% set half_circ = 157 %}
+    {% set fill_len  = (pct / 100 * half_circ) | round(1) %}
+    {% set gap_len   = (half_circ - fill_len) | round(1) %}
+
+    <!-- Colour of the arc matches the alert -->
+    {% if r.alert == 'red' %}
+      {% set arc_color = '#D7263D' %}
+    {% elif r.alert == 'yellow' %}
+      {% set arc_color = '#F59E0B' %}
+    {% else %}
+      {% set arc_color = '#059669' %}
+    {% endif %}
+
+    <div class="gauge-wrap">
+      <svg viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grey track (full semicircle) -->
+        <path
+          d="M 20 140 A 120 120 0 0 1 260 140"
+          fill="none"
+          stroke="#E5E7EB"
+          stroke-width="18"
+          stroke-linecap="round"
+        />
+
+        <!-- Coloured fill arc -->
+        <!-- Path length of the semicircle arc r=120: π×120 ≈ 376.99 -->
+        {% set arc_len = 376.99 %}
+        {% set drawn   = (pct / 100 * arc_len) | round(2) %}
+        {% set empty   = (arc_len - drawn) | round(2) %}
+
+        <path
+          d="M 20 140 A 120 120 0 0 1 260 140"
+          fill="none"
+          stroke="{{ arc_color }}"
+          stroke-width="18"
+          stroke-linecap="round"
+          stroke-dasharray="{{ drawn }} {{ empty }}"
+          stroke-dashoffset="0"
+        />
+
+        <!-- Percentage text -->
+        <text
+          x="140" y="125"
+          text-anchor="middle"
+          font-family="Inter, sans-serif"
+          font-size="32"
+          font-weight="800"
+          fill="{{ arc_color }}"
+        >{{ pct }}%</text>
+
+        <!-- "Spoilage Risk" sub-label -->
+        <text
+          x="140" y="148"
+          text-anchor="middle"
+          font-family="Inter, sans-serif"
+          font-size="11"
+          fill="#6B7280"
+        >Spoilage Risk</text>
+
+        <!-- Needle dot at arc tip -->
+        {% set angle_rad = 3.14159 * pct / 100 %}
+        {% set nx = (140 - 120 * (1 - pct/100 * 2 + 1)) %}
+        <!-- Simple dot approximation at end of arc -->
+      </svg>
+    </div>
+
+    <div class="gauge-labels">
+      <span style="color:#059669;">0% FRESH</span>
+      <span style="color:#D7263D;">100% SPOILED</span>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       TIMELINE BAR
+  ══════════════════════════════════════════════════════════════════ -->
+  <div class="card timeline-section" style="margin-top:1.25rem;">
+    <h3>Spoilage Timeline</h3>
+
+    <!--
+      Total shelf life = r.shelf_life days.
+      Today is at day r.days.
+      Zones (as % of shelf_life):
+        SAFE    = 0 → 33%
+        WARNING = 33% → 70%
+        SPOILED = 70% → 100%
+    -->
+    {% set shelf   = r.shelf_life %}
+    {% set today_d = r.days %}
+    {% set today_pct = [(today_d / shelf * 100) | round(1), 100] | min %}
+
+    <!-- zone widths as % of bar -->
+    {% set safe_w    = 33 %}
+    {% set warn_w    = 37 %}
+    {% set spoil_w   = 30 %}
+
+    <div class="timeline-bar-wrap">
+      <!-- Today marker positioned at today_pct along the bar -->
+      <div
+        class="today-marker"
+        style="left: {{ today_pct }}%;"
+        aria-label="You are here — day {{ today_d }}"
+      ></div>
+
+      <div class="timeline-bar">
+        <div class="zone safe"    style="width:{{ safe_w }}%;">SAFE</div>
+        <div class="zone warning" style="width:{{ warn_w }}%;">WARNING</div>
+        <div class="zone spoiled" style="width:{{ spoil_w }}%;">SPOILED</div>
+      </div>
+
+      <div class="timeline-markers">
+        <span>Day 0</span>
+        <span>Day {{ (shelf * 0.33) | round | int }}</span>
+        <span>Day {{ (shelf * 0.70) | round | int }}</span>
+        <span>Day {{ shelf }} (spoiled)</span>
+      </div>
+    </div>
+
+    <p style="font-size:0.78rem; color:#6B7280; margin-top:0.75rem; text-align:center;">
+      ▼ marker shows Day {{ today_d }} (today) &nbsp;|&nbsp;
+      Estimated spoilage at Day {{ shelf }}
+    </p>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       PRODUCE INFO PANEL
+  ══════════════════════════════════════════════════════════════════ -->
+  <div class="card" style="margin-top:1.25rem; padding:1.5rem 1.75rem;">
+    <span class="section-label">Batch Details</span>
+    <table class="info-table" aria-label="Produce information">
+      <tbody>
+        <tr>
+          <td>Produce Type</td>
+          <td>{{ r.produce }} &mdash; typical shelf life {{ r.shelf_life }} days
+              {% if r.cold_chain == 'Yes' %}(cold chain applied){% endif %}
+          </td>
+        </tr>
+        <tr>
+          <td>Storage Condition</td>
+          <td>
+            {% if r.cold_chain == 'Yes' %}
+              ❄️ Cold Chain / Refrigerated
+            {% else %}
+              🌡️ Ambient / Room Temperature
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <td>Days Since Harvest</td>
+          <td>{{ r.days }} day{% if r.days != 1 %}s{% endif %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       ACTION BUTTONS
+  ══════════════════════════════════════════════════════════════════ -->
+  <div class="btn-row">
+    <a href="/" class="btn-secondary" id="analyse-another-btn">
+      🔄 &nbsp;Analyse Another Batch
+    </a>
+    <a href="/report" class="btn-secondary" id="download-report-btn">
+      ⬇️ &nbsp;Download Report (.txt)
+    </a>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       UNDERSTANDING YOUR RESULTS
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="explanations-section" aria-labelledby="explain-heading">
+    <div class="section-title" id="explain-heading">Understanding Your Results</div>
+    <div class="section-sub">
+      Every number on this page is explained below &mdash; no black boxes.
+    </div>
+
+    <div class="explanation-grid">
+
+      <!-- 1: Spoilage Probability -->
+      <div class="explanation-card" style="border-top-color: var(--alert-colour);">
+        <span class="exp-icon">🎯</span>
+        <div class="exp-name">Spoilage Probability</div>
+        <span class="exp-label">What it means</span>
+        <p class="exp-text">
+          The overall chance that this produce will be unfit for sale or consumption
+          based on all available data.
+        </p>
+        <span class="exp-label">How it's calculated</span>
+        <p class="exp-text" style="margin-bottom:0;">
+          A fusion model (XGBoost) combines the visual freshness score and sensor risk
+          score with your entered storage and harvest details to produce this final number.
+        </p>
+      </div>
+
+      <!-- 2: CNN Freshness Score -->
+      <div class="explanation-card" style="border-top-color: var(--alert-colour);">
+        <span class="exp-icon">📸</span>
+        <div class="exp-name">CNN Freshness Score (Visual Condition)</div>
+        <span class="exp-label">What it means</span>
+        <p class="exp-text">
+          How fresh the produce looks based purely on the uploaded photo.
+          100% means the surface shows no visible signs of spoilage, bruising, or discoloration.
+        </p>
+        <span class="exp-label">How it's calculated</span>
+        <p class="exp-text" style="margin-bottom:0;">
+          A MobileNetV2 deep learning model trained on 13,000 labelled fruit images
+          analyses color, texture, and surface patterns in the photo.
+        </p>
+      </div>
+
+      <!-- 3: Sensor Risk Score -->
+      <div class="explanation-card" style="border-top-color: var(--alert-colour);">
+        <span class="exp-icon">📡</span>
+        <div class="exp-name">Sensor Risk Score (Gas / Environment Risk)</div>
+        <span class="exp-label">What it means</span>
+        <p class="exp-text">
+          The spoilage risk estimated from environmental conditions — specifically
+          ethylene gas and CO₂ levels, humidity, and temperature over the past 24 hours.
+        </p>
+        <span class="exp-label">How it's calculated</span>
+        <p class="exp-text" style="margin-bottom:0;">
+          An LSTM neural network reads a 24-hour sequence of sensor readings and detects
+          whether the gas and temperature trend indicates active spoilage.
+        </p>
+      </div>
+
+      <!-- 4: Days to Spoilage -->
+      <div class="explanation-card" style="border-top-color: var(--alert-colour);">
+        <span class="exp-icon">📅</span>
+        <div class="exp-name">Days to Spoilage</div>
+        <span class="exp-label">What it means</span>
+        <p class="exp-text">
+          The estimated number of days before this batch crosses the spoilage threshold
+          and becomes unfit for market.
+        </p>
+        <span class="exp-label">How it's calculated</span>
+        <p class="exp-text" style="margin-bottom:0;">
+          Derived from the fusion model output, adjusted for storage type (cold chain
+          extends shelf life) and days already elapsed since harvest.
+        </p>
+      </div>
+
+      <!-- 5: Days Since Harvest -->
+      <div class="explanation-card" style="border-top-color: var(--alert-colour);">
+        <span class="exp-icon">⏱️</span>
+        <div class="exp-name">Days Since Harvest</div>
+        <span class="exp-label">What it means</span>
+        <p class="exp-text">
+          How long ago this produce was picked. Every day after harvest, ethylene
+          production increases and shelf life decreases — this directly impacts all
+          model predictions.
+        </p>
+        <span class="exp-label">How it's calculated</span>
+        <p class="exp-text" style="margin-bottom:0;">
+          Entered manually by the user on the input form.
+        </p>
+      </div>
+
+      <!-- 6: Cold Chain Storage -->
+      <div class="explanation-card" style="border-top-color: var(--alert-colour);">
+        <span class="exp-icon">❄️</span>
+        <div class="exp-name">Cold Chain Storage</div>
+        <span class="exp-label">What it means</span>
+        <p class="exp-text">
+          Whether the produce was kept refrigerated during storage and transport.
+          Cold chain significantly slows ethylene production and microbial growth.
+        </p>
+        <span class="exp-label">How it's calculated</span>
+        <p class="exp-text" style="margin-bottom:0;">
+          Entered manually by the user. A "Yes" reduces predicted spoilage risk and
+          extends estimated shelf life in the fusion model.
+        </p>
+      </div>
+
+    </div><!-- /explanation-grid -->
+  </section>
+
+</main>
+
+<footer>
+  Post-Harvest Spoilage Predictor &mdash; SY B.Tech AI &amp; Data Science College Project &mdash; 2024
+</footer>
+
+</body>
+</html>

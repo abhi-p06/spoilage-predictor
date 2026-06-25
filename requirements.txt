@@ -1,0 +1,40 @@
+# ============================================================
+# Post-Harvest Spoilage Predictor — requirements.txt
+# Python 3.11 | Apple M4 MacBook (tensorflow-macos + metal)
+# ============================================================
+
+# --- Core scientific stack ---
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.5.0
+scipy==1.13.1
+matplotlib==3.9.0
+seaborn==0.13.2
+
+# --- Deep learning (Apple Silicon) ---
+tensorflow-macos==2.16.1
+tensorflow-metal==1.3.0
+
+# --- XGBoost ---
+xgboost==2.0.3
+
+# --- Image processing ---
+Pillow==10.3.0
+opencv-python-headless==4.9.0.80
+
+# --- Flask web app ---
+Flask==3.0.3
+Werkzeug==3.0.3
+
+# --- Notebook environment ---
+jupyter==1.0.0
+ipykernel==6.29.4
+ipywidgets==8.1.3
+
+# --- Dataset download ---
+kaggle==1.6.14
+
+# --- Utilities ---
+tqdm==4.66.4
+joblib==1.4.2
+python-dotenv==1.0.1

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spoilage Predictor — Analyse Produce</title>
+  <meta name="description" content="Upload a photo of your fruit or vegetable and get an AI-powered spoilage prediction in seconds. Built for small farmers in India.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- ── Navbar ────────────────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <span class="logo-icon">🌿</span>
+    <div>
+      <span>Spoilage Predictor</span>
+      <div class="navbar-subtitle">Post-Harvest AI System</div>
+    </div>
+  </div>
+  <span style="font-size:0.8rem; opacity:0.7;">SY B.Tech AI &amp; Data Science</span>
+</nav>
+
+<!-- ── Loading overlay (shown on submit) ─────────────────────────────────── -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="spinner"></div>
+  <p style="font-weight:600; color:#0F6E56;">Analysing produce… please wait</p>
+</div>
+
+<!-- ── Page content ──────────────────────────────────────────────────────── -->
+<main class="page-wrapper">
+
+  <div class="page-title">
+    <h1>Post-Harvest Spoilage Predictor</h1>
+    <p>Upload a photo and fill in the details below to get your AI-powered freshness analysis.</p>
+  </div>
+
+  <div class="card form-card">
+    <div class="form-header">
+      <div class="form-header-icon">📸</div>
+      <div class="form-header-text">
+        <h2>New Batch Analysis</h2>
+        <p>All fields are required for the most accurate prediction.</p>
+      </div>
+    </div>
+
+    <form
+      id="predict-form"
+      method="POST"
+      action="/predict"
+      enctype="multipart/form-data"
+      onsubmit="document.getElementById('loading-overlay').classList.add('active')"
+    >
+
+      <!-- Photo upload -->
+      <div class="form-group">
+        <label for="image">Produce Photo</label>
+        <div class="upload-zone" id="upload-zone">
+          <input
+            type="file"
+            name="image"
+            id="image"
+            accept=".jpg,.jpeg,.png,.webp"
+            required
+            onchange="previewFile(this)"
+          >
+          <div class="upload-icon" id="upload-icon">🖼️</div>
+          <div class="upload-label" id="upload-label">Click or drag to upload photo</div>
+          <div class="upload-hint">JPG, PNG, WEBP — max 16 MB</div>
+        </div>
+      </div>
+
+      <!-- Produce type -->
+      <div class="form-group">
+        <label for="produce">Produce Type</label>
+        <div class="select-wrapper">
+          <select name="produce" id="produce" required>
+            <option value="" disabled selected>Select produce type…</option>
+            <option value="apple">🍎 Apple</option>
+            <option value="banana">🍌 Banana</option>
+            <option value="tomato">🍅 Tomato</option>
+            <option value="mango">🥭 Mango</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Days since harvest -->
+      <div class="form-group">
+        <label for="days">Days Since Harvest</label>
+        <input
+          type="number"
+          name="days"
+          id="days"
+          min="0"
+          max="60"
+          step="1"
+          placeholder="e.g. 3"
+          required
+        >
+      </div>
+
+      <!-- Cold chain -->
+      <div class="form-group">
+        <label for="cold_chain">Cold Chain Storage?</label>
+        <div class="select-wrapper">
+          <select name="cold_chain" id="cold_chain" required>
+            <option value="" disabled selected>Select storage condition…</option>
+            <option value="yes">❄️ Yes — Refrigerated</option>
+            <option value="no">🌡️ No — Ambient / Room Temperature</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" id="submit-btn">
+        🔍 &nbsp;Analyse Freshness
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Info strip -->
+  <div style="display:flex; gap:1rem; margin-top:1.25rem; flex-wrap:wrap;">
+    <div class="card" style="flex:1; min-width:180px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:1.5rem;">🤖</span>
+      <div>
+        <div style="font-size:0.78rem; font-weight:700; color:#0F6E56;">3 AI Models</div>
+        <div style="font-size:0.75rem; color:#6B7280;">CNN + LSTM + XGBoost</div>
+      </div>
+    </div>
+    <div class="card" style="flex:1; min-width:180px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:1.5rem;">⚡</span>
+      <div>
+        <div style="font-size:0.78rem; font-weight:700; color:#0F6E56;">Instant Results</div>
+        <div style="font-size:0.75rem; color:#6B7280;">Under 3 seconds</div>
+      </div>
+    </div>
+    <div class="card" style="flex:1; min-width:180px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:1.5rem;">🌱</span>
+      <div>
+        <div style="font-size:0.78rem; font-weight:700; color:#0F6E56;">4 Produce Types</div>
+        <div style="font-size:0.75rem; color:#6B7280;">Apple · Banana · Tomato · Mango</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Post-Harvest Spoilage Predictor &mdash; SY B.Tech AI &amp; Data Science College Project &mdash; 2024
+</footer>
+
+<script>
+  /* Preview selected file name in upload zone */
+  function previewFile(input) {
+    const zone  = document.getElementById('upload-zone');
+    const icon  = document.getElementById('upload-icon');
+    const label = document.getElementById('upload-label');
+    if (input.files && input.files[0]) {
+      const name = input.files[0].name;
+      icon.textContent  = '✅';
+      label.textContent = name;
+      zone.style.borderColor = '#0F6E56';
+      zone.style.background  = '#D8EDE8';
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    name: Lint (flake8)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install flake8
+        run: pip install flake8
+
+      - name: Lint app/
+        run: flake8 app/ --max-line-length=120 --exclude=app/static/
+
+      - name: Lint root scripts
+        run: flake8 download_dataset.py generate_sensor_data.py train_all.py --max-line-length=120
+
+  security:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for accidental .env commit
+        run: |
+          if git ls-files | grep -E '^\.env$'; then
+            echo "❌ .env file is committed — remove it immediately!"
+            exit 1
+          fi
+          echo "✅ No .env file committed."
+
+      - name: Check for model files
+        run: |
+          if git ls-files | grep -E '\.(keras|h5)$'; then
+            echo "⚠️  Large model files committed — consider using Git LFS or gitignore."
+          else
+            echo "✅ No large model files committed."
+          fi
+
+  import-check:
+    name: Import check (no TF required)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install lightweight deps only
+        run: |
+          pip install flask python-dotenv requests xgboost scikit-learn numpy pandas twilio
+
+      - name: Check mandi_prices imports
+        run: python -c "import sys; sys.path.insert(0, 'app'); import mandi_prices; print('✅ mandi_prices OK')"
+
+      - name: Check sms_alerts imports
+        run: python -c "import sys; sys.path.insert(0, 'app'); import sms_alerts; print('✅ sms_alerts OK')"

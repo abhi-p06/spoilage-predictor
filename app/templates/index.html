@@ -3,44 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spoilage Predictor — Analyse Produce</title>
-  <meta name="description" content="Upload a photo of your fruit or vegetable and get an AI-powered spoilage prediction in seconds. Built for small farmers in India.">
+  <title>AgriRoute — Analyse Route &amp; Spoilage Risk</title>
+  <meta name="description" content="Select your route, upload a photo, and get an AI-powered spoilage prediction with live mandi price data.">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+
+  <style>
+    /* ── Transport type toggle ── */
+    .transport-toggle { display:flex; gap:0.75rem; margin-bottom:1.25rem; }
+
+    .transport-btn {
+      flex:1; padding:0.7rem 0.5rem; border-radius:var(--radius-sm);
+      border:2px solid var(--border); background:white;
+      font-family:inherit; font-size:0.88rem; font-weight:600;
+      color:var(--text-mid); cursor:pointer;
+      transition:all 0.18s; text-align:center;
+    }
+    .transport-btn:hover { border-color:var(--green); color:var(--green); }
+    .transport-btn.active {
+      background:var(--green-light); border-color:var(--green);
+      color:var(--green-dark);
+    }
+    .transport-btn .tb-icon { font-size:1.3rem; display:block; margin-bottom:3px; }
+
+    /* ── Storage radio fix — override form-group input width:100% ── */
+    .storage-options { display:flex; gap:1rem; flex-wrap:wrap; }
+
+    .storage-card {
+      flex:1; min-width:120px;
+      display:flex; align-items:center; gap:10px;
+      padding:0.75rem 1rem;
+      border:2px solid var(--border); border-radius:var(--radius-sm);
+      cursor:pointer; background:white; transition:all 0.18s;
+      user-select:none;
+    }
+    .storage-card:hover { border-color:var(--green); background:var(--green-light); }
+    .storage-card.selected {
+      border-color:var(--green); background:var(--green-light);
+    }
+    .storage-card input[type="radio"] {
+      /* reset all form-group overrides */
+      width:18px !important; height:18px !important;
+      min-width:0 !important; padding:0 !important;
+      border:none !important; box-shadow:none !important;
+      background:transparent !important;
+      accent-color:var(--green);
+      cursor:pointer; flex-shrink:0;
+    }
+    .storage-card-text { font-size:0.9rem; font-weight:600; color:var(--text-dark); }
+    .storage-card-sub  { font-size:0.75rem; color:var(--text-light); }
+
+    /* ── Route map ── */
+    #route-map {
+      height:300px; border-radius:var(--radius-sm);
+      border:1.5px solid var(--border);
+      margin-top:1rem; overflow:hidden;
+      display:none;          /* hidden until both cities chosen */
+    }
+    #route-map.visible { display:block; }
+
+    .route-status {
+      font-size:0.8rem; color:var(--text-light);
+      margin-top:0.5rem; min-height:1.2em;
+    }
+    .route-status.ok   { color:var(--green); font-weight:600; }
+    .route-status.err  { color:var(--red); }
+
+    /* ── City dropdowns grid ── */
+    .city-grid {
+      display:grid; grid-template-columns:1fr auto 1fr; gap:0.75rem;
+      align-items:end; margin-top:0.25rem;
+    }
+    .city-arrow {
+      font-size:1.2rem; color:var(--text-light);
+      padding-bottom:0.65rem; text-align:center;
+    }
+
+    /* ── State section panel ── */
+    #route-panel { display:none; }
+    #route-panel.visible { display:block; }
+  </style>
 </head>
 <body>
 
-<!-- ── Navbar ────────────────────────────────────────────────────────────── -->
+<!-- ── Navbar ─────────────────────────────────────────────────────────────── -->
 <nav class="navbar">
   <div class="navbar-brand">
     <span class="logo-icon">🌿</span>
     <div>
-      <span>Spoilage Predictor</span>
+      <span>AgriRoute</span>
       <div class="navbar-subtitle">Post-Harvest AI System</div>
     </div>
   </div>
   <span style="font-size:0.8rem; opacity:0.7;">SY B.Tech AI &amp; Data Science</span>
 </nav>
 
-<!-- ── Loading overlay (shown on submit) ─────────────────────────────────── -->
+<!-- ── Loading overlay ───────────────────────────────────────────────────── -->
 <div class="loading-overlay" id="loading-overlay">
   <div class="spinner"></div>
-  <p style="font-weight:600; color:#0F6E56;">Analysing produce… please wait</p>
+  <p style="font-weight:600; color:#0F6E56;">Analysing route &amp; produce… please wait</p>
 </div>
 
 <!-- ── Page content ──────────────────────────────────────────────────────── -->
 <main class="page-wrapper">
 
   <div class="page-title">
-    <h1>Post-Harvest Spoilage Predictor</h1>
-    <p>Upload a photo and fill in the details below to get your AI-powered freshness analysis.</p>
+    <h1>Route &amp; Spoilage Risk Predictor</h1>
+    <p>Choose your transport type, select cities, upload a photo, and get AI-powered freshness analysis.</p>
   </div>
 
-  <div class="card form-card">
+  <div class="card form-card" style="max-width:760px;">
     <div class="form-header">
-      <div class="form-header-icon">📸</div>
+      <div class="form-header-icon">🛣️</div>
       <div class="form-header-text">
-        <h2>New Batch Analysis</h2>
-        <p>All fields are required for the most accurate prediction.</p>
+        <h2>New Route Analysis</h2>
+        <p>Select transport type first, then choose your origin and destination.</p>
       </div>
     </div>
 
@@ -49,70 +127,228 @@
       method="POST"
       action="/predict"
       enctype="multipart/form-data"
-      onsubmit="document.getElementById('loading-overlay').classList.add('active')"
+      onsubmit="handleSubmit(event)"
     >
 
-      <!-- Photo upload -->
+      <!-- ══════════════════════════════════════════════════
+           SECTION 1: ROUTE SELECTION
+      ══════════════════════════════════════════════════════ -->
+      <div class="section-label" style="margin-bottom:0.85rem;">ROUTE SELECTION</div>
+
+      <!-- Step 1: Transport type -->
+      <label style="font-size:0.82rem; font-weight:600; color:var(--text-mid);
+        text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:0.5rem;">
+        Transport Type
+      </label>
+      <div class="transport-toggle">
+        <button type="button" class="transport-btn" id="btn-within" onclick="setTransport('within')">
+          <span class="tb-icon">🏙️</span>
+          Within State
+        </button>
+        <button type="button" class="transport-btn" id="btn-inter" onclick="setTransport('inter')">
+          <span class="tb-icon">🛣️</span>
+          Inter-State
+        </button>
+      </div>
+
+      <!-- Step 2: Route panel (appears after transport type chosen) -->
+      <div id="route-panel">
+
+        <!-- Within-State: single state picker + two city dropdowns -->
+        <div id="panel-within" style="display:none;">
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label for="state-within">State</label>
+            <div class="select-wrapper">
+              <select id="state-within" onchange="populateCities('within')">
+                <option value="">Select state…</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="city-grid">
+            <div class="form-group" style="margin-bottom:0;">
+              <label for="city-origin-within">Origin City</label>
+              <div class="select-wrapper">
+                <select id="city-origin-within" onchange="onCityChange()">
+                  <option value="">Select origin…</option>
+                </select>
+              </div>
+            </div>
+            <div class="city-arrow">→</div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label for="city-dest-within">Destination Mandi</label>
+              <div class="select-wrapper">
+                <select id="city-dest-within" onchange="onCityChange()">
+                  <option value="">Select destination…</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inter-State: origin state + city, destination state + city -->
+        <div id="panel-inter" style="display:none;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div class="form-group" style="margin-bottom:0.75rem;">
+                <label for="state-origin-inter">Origin State</label>
+                <div class="select-wrapper">
+                  <select id="state-origin-inter" onchange="populateCities('inter-origin')">
+                    <option value="">Select state…</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="city-origin-inter">Origin City</label>
+                <div class="select-wrapper">
+                  <select id="city-origin-inter" onchange="onCityChange()">
+                    <option value="">Select city…</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="form-group" style="margin-bottom:0.75rem;">
+                <label for="state-dest-inter">Destination State</label>
+                <div class="select-wrapper">
+                  <select id="state-dest-inter" onchange="populateCities('inter-dest')">
+                    <option value="">Select state…</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="city-dest-inter">Destination Mandi</label>
+                <div class="select-wrapper">
+                  <select id="city-dest-inter" onchange="onCityChange()">
+                    <option value="">Select city…</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Route status line + map preview -->
+        <div class="route-status" id="route-status">Select both cities to preview the route.</div>
+        <div id="route-map"></div>
+
+      </div><!-- /route-panel -->
+
+      <!-- Hidden form fields sent to backend -->
+      <input type="hidden" name="origin"       id="origin">
+      <input type="hidden" name="destination"  id="destination">
+      <input type="hidden" name="distance_km"  id="distance_km">
+      <input type="hidden" name="origin_lat"   id="origin_lat">
+      <input type="hidden" name="origin_lng"   id="origin_lng">
+      <input type="hidden" name="dest_lat"     id="dest_lat">
+      <input type="hidden" name="dest_lng"     id="dest_lng">
+
+      <div style="height:1.25rem;"></div>
+      <hr style="border:none; border-top:1px solid var(--border); margin-bottom:1.25rem;">
+
+      <!-- ══════════════════════════════════════════════════
+           SECTION 2: PRODUCE PHOTO
+      ══════════════════════════════════════════════════════ -->
+      <div class="section-label" style="margin-bottom:0.75rem;">PRODUCE PHOTO</div>
       <div class="form-group">
-        <label for="image">Produce Photo</label>
+        <label for="image">Upload Photo</label>
         <div class="upload-zone" id="upload-zone">
           <input
-            type="file"
-            name="image"
-            id="image"
-            accept=".jpg,.jpeg,.png,.webp"
-            required
+            type="file" name="image" id="image"
+            accept=".jpg,.jpeg,.png,.webp" required
             onchange="previewFile(this)"
           >
           <div class="upload-icon" id="upload-icon">🖼️</div>
-          <div class="upload-label" id="upload-label">Click or drag to upload photo</div>
+          <div class="upload-label" id="upload-label">Click or drag to upload fruit/vegetable photo</div>
           <div class="upload-hint">JPG, PNG, WEBP — max 16 MB</div>
         </div>
       </div>
 
-      <!-- Produce type -->
-      <div class="form-group">
-        <label for="produce">Produce Type</label>
-        <div class="select-wrapper">
-          <select name="produce" id="produce" required>
-            <option value="" disabled selected>Select produce type…</option>
-            <option value="apple">🍎 Apple</option>
-            <option value="banana">🍌 Banana</option>
-            <option value="tomato">🍅 Tomato</option>
-            <option value="mango">🥭 Mango</option>
-          </select>
+      <!-- ══════════════════════════════════════════════════
+           SECTION 3: PRODUCE DETAILS
+      ══════════════════════════════════════════════════════ -->
+      <div class="section-label" style="margin-bottom:0.75rem;">PRODUCE DETAILS</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+        <div class="form-group">
+          <label for="produce">Produce Type</label>
+          <div class="select-wrapper">
+            <select name="produce" id="produce" required>
+              <option value="" disabled selected>Select produce…</option>
+              <option value="apple">🍎 Apple</option>
+              <option value="banana">🍌 Banana</option>
+              <option value="tomato">🍅 Tomato</option>
+              <option value="mango">🥭 Mango</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="days">Days Since Harvest</label>
+          <input type="number" name="days" id="days"
+            min="0" max="60" step="1" placeholder="e.g. 3" required>
         </div>
       </div>
 
-      <!-- Days since harvest -->
+      <!-- ══════════════════════════════════════════════════
+           SECTION 4: STORAGE CONDITIONS (fixed)
+      ══════════════════════════════════════════════════════ -->
+      <div class="section-label" style="margin-bottom:0.75rem;">STORAGE CONDITIONS</div>
       <div class="form-group">
-        <label for="days">Days Since Harvest</label>
-        <input
-          type="number"
-          name="days"
-          id="days"
-          min="0"
-          max="60"
-          step="1"
-          placeholder="e.g. 3"
-          required
-        >
+        <label style="margin-bottom:0.5rem; display:block;">Cold Chain Available?</label>
+        <div class="storage-options">
+          <label class="storage-card selected" id="card-no" for="cold-no">
+            <input type="radio" name="cold_chain" id="cold-no" value="no" checked
+              onchange="toggleStorage(this)">
+            <div>
+              <div class="storage-card-text">🌡️ No Cold Storage</div>
+              <div class="storage-card-sub">Ambient / Room Temp</div>
+            </div>
+          </label>
+          <label class="storage-card" id="card-yes" for="cold-yes">
+            <input type="radio" name="cold_chain" id="cold-yes" value="yes"
+              onchange="toggleStorage(this)">
+            <div>
+              <div class="storage-card-text">❄️ Using Cold Chain</div>
+              <div class="storage-card-sub">Refrigerated storage</div>
+            </div>
+          </label>
+        </div>
       </div>
 
-      <!-- Cold chain -->
+      <!-- ══════════════════════════════════════════════════
+           SECTION 5: SMS ALERT
+      ══════════════════════════════════════════════════════ -->
+      <div class="section-label" style="margin-bottom:0.5rem;">
+        SMS ALERT <span class="badge-optional">optional</span>
+      </div>
       <div class="form-group">
-        <label for="cold_chain">Cold Chain Storage?</label>
-        <div class="select-wrapper">
-          <select name="cold_chain" id="cold_chain" required>
-            <option value="" disabled selected>Select storage condition…</option>
-            <option value="yes">❄️ Yes — Refrigerated</option>
-            <option value="no">🌡️ No — Ambient / Room Temperature</option>
-          </select>
+        <label for="mobile">Mobile Number (for RED risk alerts)</label>
+        <div style="display:flex; align-items:stretch; gap:0;">
+          <span style="
+            font-weight:600; color:var(--text-mid);
+            padding:0.65rem 0.9rem;
+            border:1.5px solid var(--border);
+            border-right:none;
+            border-radius:var(--radius-sm) 0 0 var(--radius-sm);
+            background:#F9FAFB;
+            white-space:nowrap;
+            display:flex; align-items:center;
+          ">+91</span>
+          <input
+            type="tel" name="mobile" id="mobile"
+            maxlength="15" placeholder="9876543210"
+            style="
+              border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+              flex:1; border-left:none;
+            "
+          >
+        </div>
+        <div style="font-size:0.78rem; color:var(--text-light); margin-top:5px;">
+          SMS sent automatically if risk is HIGH. Requires Twilio setup in .env
         </div>
       </div>
 
       <button type="submit" class="btn-primary" id="submit-btn">
-        🔍 &nbsp;Analyse Freshness
+        Analyse Route &amp; Predict Spoilage Risk →
       </button>
 
     </form>
@@ -120,25 +356,25 @@
 
   <!-- Info strip -->
   <div style="display:flex; gap:1rem; margin-top:1.25rem; flex-wrap:wrap;">
-    <div class="card" style="flex:1; min-width:180px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
+    <div class="card" style="flex:1; min-width:160px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
       <span style="font-size:1.5rem;">🤖</span>
       <div>
         <div style="font-size:0.78rem; font-weight:700; color:#0F6E56;">3 AI Models</div>
         <div style="font-size:0.75rem; color:#6B7280;">CNN + LSTM + XGBoost</div>
       </div>
     </div>
-    <div class="card" style="flex:1; min-width:180px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
-      <span style="font-size:1.5rem;">⚡</span>
+    <div class="card" style="flex:1; min-width:160px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:1.5rem;">📊</span>
       <div>
-        <div style="font-size:0.78rem; font-weight:700; color:#0F6E56;">Instant Results</div>
-        <div style="font-size:0.75rem; color:#6B7280;">Under 3 seconds</div>
+        <div style="font-size:0.78rem; font-weight:700; color:#0F6E56;">Live Mandi Prices</div>
+        <div style="font-size:0.75rem; color:#6B7280;">AGMARKNET via data.gov.in</div>
       </div>
     </div>
-    <div class="card" style="flex:1; min-width:180px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
-      <span style="font-size:1.5rem;">🌱</span>
+    <div class="card" style="flex:1; min-width:160px; padding:1rem 1.25rem; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:1.5rem;">🗺️</span>
       <div>
-        <div style="font-size:0.78rem; font-weight:700; color:#0F6E56;">4 Produce Types</div>
-        <div style="font-size:0.75rem; color:#6B7280;">Apple · Banana · Tomato · Mango</div>
+        <div style="font-size:0.78rem; font-weight:700; color:#0F6E56;">Route Map</div>
+        <div style="font-size:0.75rem; color:#6B7280;">Real driving distance</div>
       </div>
     </div>
   </div>
@@ -146,23 +382,363 @@
 </main>
 
 <footer>
-  Post-Harvest Spoilage Predictor &mdash; SY B.Tech AI &amp; Data Science College Project &mdash; 2024
+  Data: Open-Meteo API (weather) · AGMARKNET via data.gov.in · No sensors required
 </footer>
 
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
 <script>
-  /* Preview selected file name in upload zone */
-  function previewFile(input) {
-    const zone  = document.getElementById('upload-zone');
-    const icon  = document.getElementById('upload-icon');
-    const label = document.getElementById('upload-label');
-    if (input.files && input.files[0]) {
-      const name = input.files[0].name;
-      icon.textContent  = '✅';
-      label.textContent = name;
-      zone.style.borderColor = '#0F6E56';
-      zone.style.background  = '#D8EDE8';
-    }
+/* =================================================================
+   AgriRoute — Route Selection Logic
+   ================================================================= */
+
+// ── City data: state → [{name, lat, lng}] ──────────────────────────
+const CITY_DATA = {
+  "Maharashtra":    [
+    {name:"Mumbai",    lat:19.0760, lng:72.8777},
+    {name:"Nashik",    lat:20.0059, lng:73.7898},
+    {name:"Pune",      lat:18.5204, lng:73.8567},
+    {name:"Nagpur",    lat:21.1458, lng:79.0882},
+    {name:"Aurangabad",lat:19.8762, lng:75.3433},
+    {name:"Solapur",   lat:17.6805, lng:75.9064},
+    {name:"Kolhapur",  lat:16.7050, lng:74.2433},
+    {name:"Satara",    lat:17.6868, lng:74.0183},
+    {name:"Amravati",  lat:20.9320, lng:77.7523},
+    {name:"Jalgaon",   lat:21.0077, lng:75.5626},
+  ],
+  "Gujarat": [
+    {name:"Ahmedabad", lat:23.0225, lng:72.5714},
+    {name:"Surat",     lat:21.1702, lng:72.8311},
+    {name:"Vadodara",  lat:22.3072, lng:73.1812},
+    {name:"Rajkot",    lat:22.3039, lng:70.8022},
+    {name:"Anand",     lat:22.5570, lng:72.9342},
+    {name:"Bhavnagar", lat:21.7645, lng:72.1519},
+    {name:"Junagadh",  lat:21.5222, lng:70.4579},
+  ],
+  "Karnataka": [
+    {name:"Bengaluru", lat:12.9716, lng:77.5946},
+    {name:"Mysuru",    lat:12.2958, lng:76.6394},
+    {name:"Hubli",     lat:15.3647, lng:75.1240},
+    {name:"Mangaluru", lat:12.9141, lng:74.8560},
+    {name:"Belagavi",  lat:15.8497, lng:74.4977},
+    {name:"Tumkur",    lat:13.3409, lng:77.1010},
+    {name:"Davangere", lat:14.4644, lng:75.9218},
+  ],
+  "Tamil Nadu": [
+    {name:"Chennai",   lat:13.0827, lng:80.2707},
+    {name:"Coimbatore",lat:11.0168, lng:76.9558},
+    {name:"Madurai",   lat:9.9252,  lng:78.1198},
+    {name:"Salem",     lat:11.6643, lng:78.1460},
+    {name:"Trichy",    lat:10.7905, lng:78.7047},
+    {name:"Erode",     lat:11.3410, lng:77.7172},
+    {name:"Tirunelveli",lat:8.7139, lng:77.7567},
+  ],
+  "Rajasthan": [
+    {name:"Jaipur",    lat:26.9124, lng:75.7873},
+    {name:"Jodhpur",   lat:26.2389, lng:73.0243},
+    {name:"Udaipur",   lat:24.5854, lng:73.7125},
+    {name:"Kota",      lat:25.2138, lng:75.8648},
+    {name:"Bikaner",   lat:28.0229, lng:73.3119},
+    {name:"Ajmer",     lat:26.4499, lng:74.6399},
+  ],
+  "Uttar Pradesh": [
+    {name:"Lucknow",   lat:26.8467, lng:80.9462},
+    {name:"Kanpur",    lat:26.4499, lng:80.3319},
+    {name:"Agra",      lat:27.1767, lng:78.0081},
+    {name:"Varanasi",  lat:25.3176, lng:82.9739},
+    {name:"Meerut",    lat:28.9845, lng:77.7064},
+    {name:"Allahabad", lat:25.4358, lng:81.8463},
+  ],
+  "West Bengal": [
+    {name:"Kolkata",   lat:22.5726, lng:88.3639},
+    {name:"Howrah",    lat:22.5958, lng:88.2636},
+    {name:"Siliguri",  lat:26.7271, lng:88.3953},
+    {name:"Durgapur",  lat:23.5204, lng:87.3119},
+    {name:"Asansol",   lat:23.6888, lng:86.9661},
+  ],
+  "Punjab": [
+    {name:"Chandigarh",lat:30.7333, lng:76.7794},
+    {name:"Ludhiana",  lat:30.9010, lng:75.8573},
+    {name:"Amritsar",  lat:31.6340, lng:74.8723},
+    {name:"Jalandhar", lat:31.3260, lng:75.5762},
+    {name:"Patiala",   lat:30.3398, lng:76.3869},
+  ],
+  "Madhya Pradesh": [
+    {name:"Bhopal",    lat:23.2599, lng:77.4126},
+    {name:"Indore",    lat:22.7196, lng:75.8577},
+    {name:"Jabalpur",  lat:23.1815, lng:79.9864},
+    {name:"Gwalior",   lat:26.2183, lng:78.1828},
+    {name:"Ujjain",    lat:23.1765, lng:75.7885},
+  ],
+  "Telangana": [
+    {name:"Hyderabad", lat:17.3850, lng:78.4867},
+    {name:"Warangal",  lat:18.0000, lng:79.5880},
+    {name:"Nizamabad", lat:18.6725, lng:78.0941},
+    {name:"Karimnagar",lat:18.4386, lng:79.1288},
+    {name:"Khammam",   lat:17.2473, lng:80.1514},
+  ],
+  "Andhra Pradesh": [
+    {name:"Visakhapatnam",lat:17.6868,lng:83.2185},
+    {name:"Vijayawada",lat:16.5062,lng:80.6480},
+    {name:"Guntur",    lat:16.3067,lng:80.4365},
+    {name:"Tirupati",  lat:13.6288,lng:79.4192},
+    {name:"Kurnool",   lat:15.8281,lng:78.0373},
+  ],
+  "Kerala": [
+    {name:"Thiruvananthapuram",lat:8.5241,lng:76.9366},
+    {name:"Kochi",     lat:9.9312, lng:76.2673},
+    {name:"Kozhikode", lat:11.2588,lng:75.7804},
+    {name:"Thrissur",  lat:10.5276,lng:76.2144},
+    {name:"Kollam",    lat:8.8932, lng:76.6141},
+  ],
+  "Delhi": [
+    {name:"New Delhi", lat:28.6139,lng:77.2090},
+    {name:"Dwarka",    lat:28.5921,lng:77.0460},
+    {name:"Rohini",    lat:28.7495,lng:77.0664},
+    {name:"Pitampura", lat:28.7014,lng:77.1313},
+    {name:"Mehrauli",  lat:28.5244,lng:77.1855},
+  ],
+  "Haryana": [
+    {name:"Gurugram",  lat:28.4595,lng:77.0266},
+    {name:"Faridabad", lat:28.4089,lng:77.3178},
+    {name:"Ambala",    lat:30.3782,lng:76.7767},
+    {name:"Hisar",     lat:29.1492,lng:75.7217},
+    {name:"Karnal",    lat:29.6857,lng:76.9905},
+  ],
+};
+
+const ALL_STATES = Object.keys(CITY_DATA).sort();
+
+// ── State variables ─────────────────────────────────────────────────
+let transportMode = null;   // 'within' | 'inter'
+let mapInstance   = null;
+let routePolyline = null;
+let originMarker  = null;
+let destMarker    = null;
+
+// ── Populate state dropdowns on load ────────────────────────────────
+function populateStateDropdowns() {
+  ['state-within','state-origin-inter','state-dest-inter'].forEach(id => {
+    const sel = document.getElementById(id);
+    ALL_STATES.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+// ── Transport type selection ─────────────────────────────────────────
+function setTransport(mode) {
+  transportMode = mode;
+
+  document.getElementById('btn-within').classList.toggle('active', mode === 'within');
+  document.getElementById('btn-inter').classList.toggle('active',  mode === 'inter');
+
+  document.getElementById('route-panel').classList.add('visible');
+  document.getElementById('panel-within').style.display = mode === 'within' ? 'block' : 'none';
+  document.getElementById('panel-inter').style.display  = mode === 'inter'  ? 'block' : 'none';
+
+  // Reset
+  resetRoute();
+}
+
+// ── Populate city dropdown for a given panel ─────────────────────────
+function populateCities(panel) {
+  let state, citySelId;
+  if (panel === 'within') {
+    state     = document.getElementById('state-within').value;
+    // Populate both origin and dest from same state
+    fillCitySel('city-origin-within', state);
+    fillCitySel('city-dest-within',   state);
+  } else if (panel === 'inter-origin') {
+    state     = document.getElementById('state-origin-inter').value;
+    fillCitySel('city-origin-inter', state);
+  } else if (panel === 'inter-dest') {
+    state     = document.getElementById('state-dest-inter').value;
+    fillCitySel('city-dest-inter', state);
   }
+  onCityChange();
+}
+
+function fillCitySel(selId, state) {
+  const sel = document.getElementById(selId);
+  sel.innerHTML = '<option value="">Select city…</option>';
+  (CITY_DATA[state] || []).forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.name;
+    opt.dataset.lat = c.lat;
+    opt.dataset.lng = c.lng;
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  });
+}
+
+// ── Called whenever a city dropdown changes ──────────────────────────
+function onCityChange() {
+  let originCity = null, destCity = null;
+  let oLat, oLng, dLat, dLng;
+
+  if (transportMode === 'within') {
+    const oSel = document.getElementById('city-origin-within');
+    const dSel = document.getElementById('city-dest-within');
+    const oOpt = oSel.options[oSel.selectedIndex];
+    const dOpt = dSel.options[dSel.selectedIndex];
+    if (oSel.value) { originCity = oSel.value; oLat = oOpt.dataset.lat; oLng = oOpt.dataset.lng; }
+    if (dSel.value) { destCity   = dSel.value; dLat = dOpt.dataset.lat; dLng = dOpt.dataset.lng; }
+  } else if (transportMode === 'inter') {
+    const oSel = document.getElementById('city-origin-inter');
+    const dSel = document.getElementById('city-dest-inter');
+    const oOpt = oSel.options[oSel.selectedIndex];
+    const dOpt = dSel.options[dSel.selectedIndex];
+    if (oSel.value) { originCity = oSel.value; oLat = oOpt.dataset.lat; oLng = oOpt.dataset.lng; }
+    if (dSel.value) { destCity   = dSel.value; dLat = dOpt.dataset.lat; dLng = dOpt.dataset.lng; }
+  }
+
+  // Always update hidden fields
+  document.getElementById('origin').value      = originCity || '';
+  document.getElementById('destination').value = destCity   || '';
+  document.getElementById('origin_lat').value  = oLat || '';
+  document.getElementById('origin_lng').value  = oLng || '';
+  document.getElementById('dest_lat').value    = dLat || '';
+  document.getElementById('dest_lng').value    = dLng || '';
+
+  if (originCity && destCity && oLat && dLat) {
+    showRouteOnMap(parseFloat(oLat), parseFloat(oLng), parseFloat(dLat), parseFloat(dLng), originCity, destCity);
+  } else {
+    setRouteStatus('Select both cities to preview the route.', '');
+    hideMap();
+  }
+}
+
+// ── Reset route ──────────────────────────────────────────────────────
+function resetRoute() {
+  document.getElementById('origin').value      = '';
+  document.getElementById('destination').value = '';
+  document.getElementById('distance_km').value = '';
+  document.getElementById('origin_lat').value  = '';
+  document.getElementById('origin_lng').value  = '';
+  document.getElementById('dest_lat').value    = '';
+  document.getElementById('dest_lng').value    = '';
+  setRouteStatus('Select both cities to preview the route.', '');
+  hideMap();
+}
+
+// ── Map helper: show or hide ─────────────────────────────────────────
+function hideMap() {
+  document.getElementById('route-map').classList.remove('visible');
+}
+
+function showMap() {
+  document.getElementById('route-map').classList.add('visible');
+  // Initialise Leaflet if needed
+  if (!mapInstance) {
+    mapInstance = L.map('route-map', { zoomControl: true, attributionControl: true })
+      .setView([20.5937, 78.9629], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18,
+    }).addTo(mapInstance);
+  }
+  // Trigger Leaflet resize after CSS display change
+  setTimeout(() => mapInstance.invalidateSize(), 100);
+}
+
+// ── Draw route on map via OSRM ───────────────────────────────────────
+async function showRouteOnMap(oLat, oLng, dLat, dLng, originName, destName) {
+  setRouteStatus('⏳ Fetching route…', '');
+  showMap();
+
+  // Remove old layers
+  if (routePolyline)  { mapInstance.removeLayer(routePolyline); routePolyline = null; }
+  if (originMarker)   { mapInstance.removeLayer(originMarker);  originMarker  = null; }
+  if (destMarker)     { mapInstance.removeLayer(destMarker);    destMarker    = null; }
+
+  // Always place markers even if OSRM fails
+  const makeIcon = (color) => L.divIcon({
+    className: '',
+    html: `<div style="width:16px;height:16px;border-radius:50%;background:${color};
+            border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>`,
+    iconSize:[16,16], iconAnchor:[8,8],
+  });
+
+  originMarker = L.marker([oLat, oLng], { icon: makeIcon('#0F6E56') })
+    .addTo(mapInstance).bindPopup(`<b>Origin</b><br>${originName}`);
+  destMarker   = L.marker([dLat, dLng], { icon: makeIcon('#D7263D') })
+    .addTo(mapInstance).bindPopup(`<b>Destination</b><br>${destName}`);
+
+  try {
+    const url = `https://router.project-osrm.org/route/v1/driving/${oLng},${oLat};${dLng},${dLat}?overview=full&geometries=geojson`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+
+    if (data.code === 'Ok' && data.routes.length) {
+      const route    = data.routes[0];
+      const distKm   = (route.distance / 1000).toFixed(1);
+      const coords   = route.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+
+      routePolyline = L.polyline(coords, { color:'#0F6E56', weight:4, opacity:0.85 }).addTo(mapInstance);
+      mapInstance.fitBounds(routePolyline.getBounds(), { padding:[30,30] });
+
+      document.getElementById('distance_km').value = distKm;
+      setRouteStatus(`✅ Route: ${originName} → ${destName} — ${distKm} km`, 'ok');
+    } else {
+      throw new Error('No route found');
+    }
+  } catch (e) {
+    // Draw straight line as fallback
+    routePolyline = L.polyline([[oLat,oLng],[dLat,dLng]], {
+      color:'#F59E0B', weight:3, opacity:0.7, dashArray:'8 6'
+    }).addTo(mapInstance);
+    mapInstance.fitBounds([[oLat,oLng],[dLat,dLng]], { padding:[40,40] });
+    setRouteStatus(`⚠️ Route drawn as straight line (OSRM unavailable). ${originName} → ${destName}`, 'err');
+  }
+}
+
+function setRouteStatus(msg, cls) {
+  const el = document.getElementById('route-status');
+  el.textContent = msg;
+  el.className   = 'route-status ' + cls;
+}
+
+// ── Storage card toggle ──────────────────────────────────────────────
+function toggleStorage(radio) {
+  document.getElementById('card-no').classList.remove('selected');
+  document.getElementById('card-yes').classList.remove('selected');
+  if (radio.value === 'no')  document.getElementById('card-no').classList.add('selected');
+  if (radio.value === 'yes') document.getElementById('card-yes').classList.add('selected');
+}
+
+// ── File upload preview ──────────────────────────────────────────────
+function previewFile(input) {
+  if (input.files && input.files[0]) {
+    document.getElementById('upload-icon').textContent  = '✅';
+    document.getElementById('upload-label').textContent = input.files[0].name;
+    document.getElementById('upload-zone').style.borderColor = '#0F6E56';
+    document.getElementById('upload-zone').style.background  = '#D8EDE8';
+  }
+}
+
+// ── Form submit validation ───────────────────────────────────────────
+function handleSubmit(e) {
+  // Validate route selected
+  const origin = document.getElementById('origin').value.trim();
+  const dest   = document.getElementById('destination').value.trim();
+  if (!origin || !dest) {
+    e.preventDefault();
+    alert('Please select both Origin and Destination cities before analysing.');
+    return false;
+  }
+  document.getElementById('loading-overlay').classList.add('active');
+}
+
+// ── Init ─────────────────────────────────────────────────────────────
+populateStateDropdowns();
+
+// Also make storage cards clickable via the label itself (belt-and-suspenders)
+document.getElementById('card-no').addEventListener('click',  () => { document.getElementById('cold-no').checked  = true; toggleStorage(document.getElementById('cold-no')); });
+document.getElementById('card-yes').addEventListener('click', () => { document.getElementById('cold-yes').checked = true; toggleStorage(document.getElementById('cold-yes')); });
 </script>
 
 </body>

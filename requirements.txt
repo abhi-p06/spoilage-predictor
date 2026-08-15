@@ -25,6 +25,8 @@ opencv-python-headless==4.9.0.80
 # --- Flask web app ---
 Flask==3.0.3
 Werkzeug==3.0.3
+twilio>=9.0.0          # Feature 2: SMS alerts
+requests>=2.31.0       # Feature 1: AGMARKNET API calls
 
 # --- Notebook environment ---
 jupyter==1.0.0

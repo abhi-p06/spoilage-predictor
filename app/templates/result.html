@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spoilage Analysis — {{ r.produce }} Results</title>
+  <title>AgriRoute — {{ r.produce }} Analysis Results</title>
   <meta name="description" content="AI spoilage analysis for {{ r.produce }}: {{ r.spoilage_pct }}% spoilage probability, {{ r.days_to_spoilage }} days remaining.">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
@@ -26,8 +26,8 @@
   <div class="navbar-brand">
     <span class="logo-icon">🌿</span>
     <div>
-      <span>Spoilage Predictor</span>
-      <div class="navbar-subtitle">Post-Harvest AI System</div>
+      <span>AgriRoute</span>
+      <div class="navbar-subtitle">Prediction Result — {{ r.produce }}</div>
     </div>
   </div>
   <a href="/" style="color:white; font-size:0.85rem; text-decoration:none; opacity:0.85;">
@@ -43,7 +43,26 @@
   <div class="alert-banner {{ r.alert }}" role="alert">
     <h2>{{ r.alert_label }}</h2>
     <p>{{ r.recommendation }}</p>
+    <p style="font-size:0.82rem; margin-top:0.3rem; opacity:0.85;">Sell by: <strong>{{ r.sell_by }}</strong></p>
   </div>
+
+  <!-- SMS status toast -->
+  {% if r.mobile_provided %}
+    {% set sms = r.sms %}
+    {% if r.alert == 'red' %}
+      <div class="sms-status {% if sms.sent == true %}sms-sent{% elif sms.sent == false %}sms-failed{% else %}sms-sending{% endif %}">
+        {% if sms.sent == true %}
+          📱 SMS alert sent successfully.
+        {% elif sms.sent == false %}
+          📱 SMS not sent: {{ sms.reason }}
+        {% else %}
+          📱 SMS alert sending in background…
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="sms-status sms-skipped">📱 SMS not triggered — risk level is not HIGH.</div>
+    {% endif %}
+  {% endif %}
 
   <!-- ══════════════════════════════════════════════════════════════
        COLUMNS — Photo (left) + Metrics 2×2 (right)
@@ -100,6 +119,75 @@
     </div><!-- /metric-grid -->
   </div><!-- /result-columns -->
 
+
+  <!-- ══════════════════════════════════════════════════════════════
+       MANDI PRICE CARD (Feature 1)
+  ══════════════════════════════════════════════════════════════════ -->
+  {% set m = r.mandi %}
+  <div class="card mandi-card" style="margin-top:1.25rem;">
+    <div class="mandi-header">
+      <div>
+        <span class="section-label">Mandi Price</span>
+        <span class="mandi-title">{{ r.produce }} @ {{ m.market }}</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <!-- Live / Estimated badge -->
+        {% if m.source == 'live' %}
+          <span class="price-badge live">🟢 Live</span>
+        {% else %}
+          <span class="price-badge estimated">📊 Estimated</span>
+        {% endif %}
+        <!-- Sell timing recommendation -->
+        {% if m.trend == 'Rising' %}
+          <span class="sell-tag good">✅ GOOD TIME TO SELL</span>
+        {% elif m.trend == 'Falling' %}
+          <span class="sell-tag bad">⚠️ SELL NOW</span>
+        {% else %}
+          <span class="sell-tag neutral">✅ GOOD TIME TO SELL</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="mandi-price-row">
+      <span class="mandi-price-big">₹{{ m.modal_price | int }}</span>
+      <span class="mandi-price-unit">/quintal</span>
+      <span class="mandi-trend {{ 'trend-up' if m.trend == 'Rising' else ('trend-down' if m.trend == 'Falling' else 'trend-flat') }}">
+        → {{ m.trend }}
+      </span>
+    </div>
+    <p style="font-size:0.82rem; color:var(--text-light); margin-top:0.25rem;">{{ m.sell_advice }}</p>
+    {% if m.source == 'live' %}
+      <p style="font-size:0.72rem; color:var(--text-light); margin-top:2px;">Last update: {{ m.last_date }} · {{ m.records_used }} records used</p>
+    {% endif %}
+
+    <!-- 3-day forecast mini-cards -->
+    <div class="forecast-row">
+      {% for fc in m.forecast %}
+      <div class="forecast-card">
+        <div class="forecast-date">{{ fc.date }}</div>
+        <div class="forecast-price">₹{{ fc.price }}</div>
+        <div class="forecast-pct {{ 'pct-up' if fc.pct > 0 else ('pct-down' if fc.pct < 0 else 'pct-flat') }}">
+          {{ '↑' if fc.pct > 0 else ('↓' if fc.pct < 0 else '→') }}
+          {{ fc.pct | abs }}%
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       ROUTE SUMMARY CARD
+  ══════════════════════════════════════════════════════════════════ -->
+  {% if r.origin and r.destination %}
+  <div class="card route-summary" style="margin-top:1.25rem;">
+    <span class="section-label">Route Summary</span>
+    <div class="route-cities">
+      <span class="route-city origin-city">{{ r.origin }}</span>
+      <span class="route-arrow">→ {% if r.distance_km %}{{ r.distance_km }} km{% endif %} →</span>
+      <span class="route-city dest-city">{{ r.destination }}</span>
+    </div>
+  </div>
+  {% endif %}
 
   <!-- ══════════════════════════════════════════════════════════════
        MIDDLE — Pure-CSS Semicircular Gauge
@@ -399,7 +487,8 @@
 </main>
 
 <footer>
-  Post-Harvest Spoilage Predictor &mdash; SY B.Tech AI &amp; Data Science College Project &mdash; 2024
+  AgriRoute &mdash; Post-Harvest Spoilage Predictor &mdash; SY B.Tech AI &amp; Data Science &mdash;
+  Data: AGMARKNET via data.gov.in · Open-Meteo API · No sensors required
 </footer>
 
 </body>

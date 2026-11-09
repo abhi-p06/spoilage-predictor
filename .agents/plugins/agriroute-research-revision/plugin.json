@@ -1,0 +1,13 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "agriroute-research-revision",
+  "displayName": "AgriRoute Research Revision",
+  "version": "1.0.0",
+  "description": "Evidence-first workflows to audit, validate, strengthen, and prepare the AgriRoute research manuscript for revision.",
+  "suggestedPrompts": [
+    "Audit this project and manuscript against every reviewer comment. Do not edit files yet.",
+    "Design a leakage-safe validation plan using real, traceable fruit-quality datasets and the available project data.",
+    "Run a final research-integrity and submission-readiness audit before I prepare the revised submission."
+  ],
+  "keywords": ["research", "paper", "academic", "machine-learning", "agriculture", "reviewers", "reproducibility"]
+}

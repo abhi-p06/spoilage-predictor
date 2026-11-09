@@ -24,6 +24,7 @@ models/*.pkl
 
 # Dataset (downloaded separately)
 data/images/
+data/raw/
 
 # Flask uploads
 app/static/uploads/

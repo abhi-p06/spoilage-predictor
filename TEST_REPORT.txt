@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.15, pytest-8.3.4, pluggy-1.6.0 -- /opt/miniconda3/envs/spoilage/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /Users/abby/Desktop/spoilage-predictor
+plugins: anyio-4.14.1
+collecting ... collected 7 items
+
+tests/test_reproducibility_v4.py::test_manifest_integrity PASSED         [ 14%]
+tests/test_reproducibility_v4.py::test_checkpoint_sha256_integrity PASSED [ 28%]
+tests/test_reproducibility_v4.py::test_dataset_exclusion_accounting PASSED [ 42%]
+tests/test_reproducibility_v4.py::test_super_group_partition_separation PASSED [ 57%]
+tests/test_reproducibility_v4.py::test_prediction_schema_compliance PASSED [ 71%]
+tests/test_reproducibility_v4.py::test_registry_metric_concordance PASSED [ 85%]
+tests/test_reproducibility_v4.py::test_portable_paths_validity PASSED    [100%]
+
+============================== 7 passed in 1.19s ===============================

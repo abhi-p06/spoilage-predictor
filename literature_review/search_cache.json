@@ -1,0 +1,1217 @@
+{
+  "RQ1_vision_approaches": [
+    {
+      "id": "https://openalex.org/W3120697286",
+      "title": "Machine Learning Applications for Precision Agriculture: A Comprehensive Review",
+      "doi": "https://doi.org/10.1109/access.2020.3048415",
+      "year": 2020,
+      "cited_by_count": 1261,
+      "venue": "IEEE Access",
+      "authors": [
+        "Abhinav Sharma",
+        "Arpit Jain",
+        "Prateek Gupta",
+        "Vinay Chowdary"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4402994936",
+      "title": "A systematic review of deep learning techniques for plant diseases",
+      "doi": "https://doi.org/10.1007/s10462-024-10944-7",
+      "year": 2024,
+      "cited_by_count": 353,
+      "venue": "Artificial Intelligence Review",
+      "authors": [
+        "\u0130shak Pa\u00e7al",
+        "\u0130smail Kundurac\u0131o\u011flu",
+        "Mehmet Hakk\u0131 Alma",
+        "Muhammet Deveci",
+        "Seifedine Kadry",
+        "Jan Nedoma",
+        "Vlastimil Slan\u00fd",
+        "Radek Mart\u00ednek"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4392131983",
+      "title": "Revolutionizing crop disease detection with computational deep learning: a comprehensive review",
+      "doi": "https://doi.org/10.1007/s10661-024-12454-z",
+      "year": 2024,
+      "cited_by_count": 214,
+      "venue": "Environmental Monitoring and Assessment",
+      "authors": [
+        "Habiba Njeri Ngugi",
+        "Absalom El-Shamir Ezugwu",
+        "Andronicus A. Akinyelu",
+        "Laith Abualigah"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4402903746",
+      "title": "Image\u2010based crop disease detection using machine learning",
+      "doi": "https://doi.org/10.1111/ppa.14006",
+      "year": 2024,
+      "cited_by_count": 204,
+      "venue": "Plant Pathology",
+      "authors": [
+        "Aria Dolatabadian",
+        "Ting Xiang Neik",
+        "Monica F. Danilevicz",
+        "Shriprabha R. Upadhyaya",
+        "Jacqueline Batley",
+        "David Edwards"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4390534238",
+      "title": "A Comprehensive Review on Deep Learning Assisted Computer Vision Techniques for Smart Greenhouse Agriculture",
+      "doi": "https://doi.org/10.1109/access.2024.3349418",
+      "year": 2024,
+      "cited_by_count": 133,
+      "venue": "IEEE Access",
+      "authors": [
+        "Jalal Uddin Md Akbar",
+        "Syafiq Fauzi Kamarulzaman",
+        "Abu Jafar Md Muzahid",
+        "Md. Arafatur Rahman",
+        "Mueen Uddin"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4292825375",
+      "title": "A Performance-Optimized Deep Learning-Based Plant Disease Detection Approach for Horticultural Crops of New Zealand",
+      "doi": "https://doi.org/10.1109/access.2022.3201104",
+      "year": 2022,
+      "cited_by_count": 133,
+      "venue": "IEEE Access",
+      "authors": [
+        "Muhammad Hammad Saleem",
+        "Johan Potgieter",
+        "Khalid Mahmood Arif"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4388672898",
+      "title": "Transforming weed management in sustainable agriculture with artificial intelligence: A systematic literature review towards weed identification and deep learning",
+      "doi": "https://doi.org/10.1016/j.cropro.2023.106522",
+      "year": 2023,
+      "cited_by_count": 120,
+      "venue": "Crop Protection",
+      "authors": [
+        "Marios Vasileiou",
+        "Leonidas Sotirios Kyrgiakos",
+        "Christina Kleisiari",
+        "Georgios Kleftodimos",
+        "George Vlontzos",
+        "Hatem Belhouchette",
+        "P\u00e3nos M. Pardalos"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4283383380",
+      "title": "Meta Deep Learn Leaf Disease Identification Model for Cotton Crop",
+      "doi": "https://doi.org/10.3390/computers11070102",
+      "year": 2022,
+      "cited_by_count": 115,
+      "venue": "Computers",
+      "authors": [
+        "Muhammad Suleman Memon",
+        "Pardeep Kumar",
+        "Rizwan Iqbal"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4224955530",
+      "title": "A Review of the Challenges of Using Deep Learning Algorithms to Support Decision-Making in Agricultural Activities",
+      "doi": "https://doi.org/10.3390/rs14030638",
+      "year": 2022,
+      "cited_by_count": 107,
+      "venue": "Remote Sensing",
+      "authors": [
+        "Khadijeh Alibabaei",
+        "Pedro Dinis Gaspar",
+        "T\u00e2nia M. Lima",
+        "Rebeca M. Campos",
+        "In\u00eas Gir\u00e3o",
+        "Jorge B. Monteiro",
+        "Carlos Manuel Lopes"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4380080118",
+      "title": "Pathogen-Based Classification of Plant Diseases: A Deep Transfer Learning Approach for Intelligent Support Systems",
+      "doi": "https://doi.org/10.1109/access.2023.3284680",
+      "year": 2023,
+      "cited_by_count": 96,
+      "venue": "IEEE Access",
+      "authors": [
+        "Asha Rani K P",
+        "S Gowrishankar"
+      ],
+      "type": "article",
+      "open_access": true
+    }
+  ],
+  "RQ2_domain_gen": [
+    {
+      "id": "https://openalex.org/W3210165781",
+      "title": "Artificial intelligence: A powerful paradigm for scientific research",
+      "doi": "https://doi.org/10.1016/j.xinn.2021.100179",
+      "year": 2021,
+      "cited_by_count": 2064,
+      "venue": "The Innovation",
+      "authors": [
+        "Yongjun Xu",
+        "Xin Liu",
+        "Xin Cao",
+        "Changping Huang",
+        "Enke Liu",
+        "Sen Qian",
+        "Xingchen Liu",
+        "Yanjun Wu",
+        "Fengliang Dong",
+        "Cheng\u2010Wei Qiu",
+        "Junjun Qiu",
+        "Keqin Hua",
+        "Wentao Su",
+        "Jian Wu",
+        "Huiyu Xu",
+        "Yong Han",
+        "Chenguang Fu",
+        "Zhigang Yin",
+        "Miao Liu",
+        "Ronald Roepman",
+        "Sabine Dietmann",
+        "Marko Virta",
+        "Fredrick Orori Kengara",
+        "Ze Zhang",
+        "Lifu Zhang",
+        "Taolan Zhao",
+        "Ji Dai",
+        "Jialiang Yang",
+        "Liang Lan",
+        "Ming Luo",
+        "Zhaofeng Liu",
+        "Tao An",
+        "Bin Zhang",
+        "Xiao Bing He",
+        "Shan Cong",
+        "Xiaohong Liu",
+        "Wei Zhang",
+        "James P. Lewis",
+        "James M. Tiedje",
+        "Qi Wang",
+        "Zhulin An",
+        "Fei Wang",
+        "Libo Zhang",
+        "Tao Huang",
+        "Chuan L\u00fc",
+        "Zhipeng Cai",
+        "Wang Fang",
+        "Jiabao Zhang"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3109340983",
+      "title": "Empowering Things With Intelligence: A Survey of the Progress, Challenges, and Opportunities in Artificial Intelligence of Things",
+      "doi": "https://doi.org/10.1109/jiot.2020.3039359",
+      "year": 2020,
+      "cited_by_count": 835,
+      "venue": "IEEE Internet of Things Journal",
+      "authors": [
+        "Jing Zhang",
+        "Dacheng Tao"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3164098653",
+      "title": "Concealed Object Detection",
+      "doi": "https://doi.org/10.1109/tpami.2021.3085766",
+      "year": 2021,
+      "cited_by_count": 832,
+      "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "authors": [
+        "Deng-Ping Fan",
+        "Ge-Peng Ji",
+        "Ming\u2010Ming Cheng",
+        "Ling Shao"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4385342469",
+      "title": "Convolutional Neural Networks: A Survey",
+      "doi": "https://doi.org/10.3390/computers12080151",
+      "year": 2023,
+      "cited_by_count": 754,
+      "venue": "Computers",
+      "authors": [
+        "Moez Krichen"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4390650730",
+      "title": "Deep learning models for digital image processing: a review",
+      "doi": "https://doi.org/10.1007/s10462-023-10631-z",
+      "year": 2024,
+      "cited_by_count": 735,
+      "venue": "Artificial Intelligence Review",
+      "authors": [
+        "R. Archana",
+        "P. S. Eliahim Jeevaraj"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4405446156",
+      "title": "The YOLO Framework: A Comprehensive Review of Evolution, Applications, and Benchmarks in Object Detection",
+      "doi": "https://doi.org/10.3390/computers13120336",
+      "year": 2024,
+      "cited_by_count": 677,
+      "venue": "Computers",
+      "authors": [
+        "Momina Liaqat Ali",
+        "Zhou Zhang"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4404599563",
+      "title": "A Comprehensive Overview and Comparative Analysis on Deep Learning Models",
+      "doi": "https://doi.org/10.32604/jai.2024.054314",
+      "year": 2024,
+      "cited_by_count": 629,
+      "venue": "Journal on artificial intelligence",
+      "authors": [
+        "Thinagaran Perumal",
+        "Norwati Mustapha",
+        "Raihani Mohamed",
+        "Farhad Mortezapour Shiri"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3128013506",
+      "title": "Machine learning techniques for analysis of hyperspectral images to determine quality of food products: A review",
+      "doi": "https://doi.org/10.1016/j.crfs.2021.01.002",
+      "year": 2021,
+      "cited_by_count": 528,
+      "venue": "Current Research in Food Science",
+      "authors": [
+        "Dhritiman Saha",
+        "Annamalai Manickavasagan"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4400266963",
+      "title": "YOLO advances to its genesis: a decadal and comprehensive review of the You Only Look Once (YOLO) series",
+      "doi": "https://doi.org/10.1007/s10462-025-11253-3",
+      "year": 2025,
+      "cited_by_count": 507,
+      "venue": "Artificial Intelligence Review",
+      "authors": [
+        "Ranjan Sapkota",
+        "Marco Flores-Calero",
+        "Rizwan Qureshi",
+        "Chetan Badjugar",
+        "Upesh Nepal",
+        "Alwin Poulose",
+        "Peter J. Zeno",
+        "Uday Bhanu Prakash Vaddevolu",
+        "Sheheryar Khan",
+        "Maged Shoman",
+        "Hong Yan",
+        "Manoj Karkee"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4404756614",
+      "title": "A Comprehensive Review of Deep Learning: Architectures, Recent Advances, and Applications",
+      "doi": "https://doi.org/10.3390/info15120755",
+      "year": 2024,
+      "cited_by_count": 459,
+      "venue": "Information",
+      "authors": [
+        "Ibomoiye Domor Mienye",
+        "Theo G. Swart"
+      ],
+      "type": "article",
+      "open_access": true
+    }
+  ],
+  "RQ3_cnn_limitations": [
+    {
+      "id": "https://openalex.org/W4379793626",
+      "title": "Machine Learning for Precision Agriculture Using Imagery from Unmanned Aerial Vehicles (UAVs): A Survey",
+      "doi": "https://doi.org/10.3390/drones7060382",
+      "year": 2023,
+      "cited_by_count": 84,
+      "venue": "Drones",
+      "authors": [
+        "Imran Ahmed Zualkernan",
+        "Diaa Addeen Abuhani",
+        "Maya Haj Hussain",
+        "Jowaria Khan",
+        "Mohamed ElMohandes"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7117460478",
+      "title": "An optimized YOLOv8n based model for real time defect detection in taro strip production",
+      "doi": "https://doi.org/10.1038/s41598-025-28216-x",
+      "year": 2025,
+      "cited_by_count": 6,
+      "venue": "Scientific Reports",
+      "authors": [
+        "Kan Luo",
+        "Chuanshuai Jia",
+        "Yu  Ng Chen",
+        "Lu You",
+        "Baoshan Pu",
+        "Chaobing Liang",
+        "Wu Wang",
+        "Huiyong Zheng"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4412007954",
+      "title": "An Efficient Fine-Grained Recognition Method Enhanced by Res2Net Based on Dynamic Sparse Attention",
+      "doi": "https://doi.org/10.3390/s25134147",
+      "year": 2025,
+      "cited_by_count": 3,
+      "venue": "Sensors",
+      "authors": [
+        "Qifeng Niu",
+        "Hui Wang",
+        "Feng Xu"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7164935581",
+      "title": "Deep Learning-Based Fruit Tree Pest and Disease Recognition Technology: Model Evolution, Challenges, and Edge Intelligence Deployment",
+      "doi": "https://doi.org/10.3390/agriculture16121329",
+      "year": 2026,
+      "cited_by_count": 2,
+      "venue": "Agriculture",
+      "authors": [
+        "Yuxin Wang",
+        "YJ Li",
+        "Wei Zhang",
+        "Z K Zhang",
+        "C Y Wang",
+        "Shuo Li",
+        "K Wang",
+        "Xiangzuo Huo",
+        "Xiaoju Yin"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7161387632",
+      "title": "A sustainable approach to plant disease detection using deep learning framework for energy-efficient agricultural consumer electronics",
+      "doi": "https://doi.org/10.1016/j.inpa.2026.05.003",
+      "year": 2026,
+      "cited_by_count": 2,
+      "venue": "Information Processing in Agriculture",
+      "authors": [
+        "Tallha Akram",
+        "Omer Chughtai",
+        "Ayman Qahmash",
+        "Ghada Emam Atteia",
+        "Marwa Zulfiqar",
+        "Youssef N. Altherwy",
+        "Shabbab Ali Algamdi",
+        "Nadia Nawaz Qadri"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4416595989",
+      "title": "Grape Leaf Cultivar Identification in Complex Backgrounds with an Improved MobileNetV3-Small Model",
+      "doi": "https://doi.org/10.3390/plants14233581",
+      "year": 2025,
+      "cited_by_count": 2,
+      "venue": "Plants",
+      "authors": [
+        "Liuyun Deng",
+        "Zhiguo Du",
+        "Xiaoyong Liu",
+        "Zhihui Wu",
+        "Xudong Lin",
+        "Bin Wen"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4416231843",
+      "title": "Sustainable Computing for Digital Livestock: Reconciling Artificial Intelligence with Planetary Boundaries",
+      "doi": "https://doi.org/10.20944/preprints202511.0846.v1",
+      "year": 2025,
+      "cited_by_count": 1,
+      "venue": "Preprints.org",
+      "authors": [
+        "Suresh Raja Neethirajan"
+      ],
+      "type": "preprint",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7223950992",
+      "title": "Lightweight CNN and transformer detectors for real-time single-fruit date-variety recognition on edge GPU hardware",
+      "doi": "https://doi.org/10.1371/journal.pone.0349608",
+      "year": 2026,
+      "cited_by_count": 0,
+      "venue": "PLoS ONE",
+      "authors": [
+        "Adnan Miski",
+        "Moayad Alshangiti"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7214746472",
+      "title": "The 6th International Conference on \u201cRecent Advances in Computing and Communication\u201d (ICRACC\u201926)",
+      "doi": "https://doi.org/10.65725/rchub/9788118014652",
+      "year": 2026,
+      "cited_by_count": 0,
+      "venue": null,
+      "authors": [
+        "Ms.S.Rajameenakshi",
+        "Ms.S.Sudha",
+        "Dr.S.Jayasri"
+      ],
+      "type": "book",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7203939856",
+      "title": "A hybrid feature fusion framework integrating HSM-CNN and GLCM-SVM for real-time mango grading",
+      "doi": "https://doi.org/10.1038/s41598-026-61228-9",
+      "year": 2026,
+      "cited_by_count": 0,
+      "venue": "Scientific Reports",
+      "authors": [
+        "S Srijah",
+        "Sridevi S."
+      ],
+      "type": "article",
+      "open_access": true
+    }
+  ],
+  "RQ4_RQ5_calibration": [
+    {
+      "id": "https://openalex.org/W4385759708",
+      "title": "The Path to Smart Farming: Innovations and Opportunities in Precision Agriculture",
+      "doi": "https://doi.org/10.3390/agriculture13081593",
+      "year": 2023,
+      "cited_by_count": 911,
+      "venue": "Agriculture",
+      "authors": [
+        "E. M. B. M. Karunathilake",
+        "Anh Tuan Le",
+        "Seong Heo",
+        "Yong Suk Chung",
+        "Sheikh Mansoor"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4309484364",
+      "title": "Artificial intelligence for the metaverse: A survey",
+      "doi": "https://doi.org/10.1016/j.engappai.2022.105581",
+      "year": 2022,
+      "cited_by_count": 832,
+      "venue": "Engineering Applications of Artificial Intelligence",
+      "authors": [
+        "Thien Huynh\u2010The",
+        "Quoc\u2010Viet Pham",
+        "Xuan\u2010Qui Pham",
+        "Thanh Thi Nguyen",
+        "Zhu Han",
+        "Dong\u2010Seong Kim"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4414827381",
+      "title": "The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search",
+      "doi": "https://doi.org/10.48550/arxiv.2504.08066",
+      "year": 2025,
+      "cited_by_count": 629,
+      "venue": "arXiv (Cornell University)",
+      "authors": [
+        "Yutaro Yamada",
+        "Robert Tjarko Lange",
+        "Cong Lu",
+        "Shengran Hu",
+        "Chris J. J. Lu",
+        "Jakob Foerster",
+        "Jeff Clune",
+        "David Ha"
+      ],
+      "type": "preprint",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4310155374",
+      "title": "A comprehensive review of digital twin \u2014 part 1: modeling and twinning enabling technologies",
+      "doi": "https://doi.org/10.1007/s00158-022-03425-4",
+      "year": 2022,
+      "cited_by_count": 510,
+      "venue": "Structural and Multidisciplinary Optimization",
+      "authors": [
+        "Adam Thelen",
+        "Xiaoge Zhang",
+        "Olga Fink",
+        "Yan Lu",
+        "Sayan Ghosh",
+        "Byeng Dong Youn",
+        "Michael D. Todd",
+        "Sankaran Mahadevan",
+        "Chao Kun Hu",
+        "Zhen Yu Hu"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4402066757",
+      "title": "Advances on the Global Human Settlement Layer by joint assessment of Earth Observation and population survey data",
+      "doi": "https://doi.org/10.1080/17538947.2024.2390454",
+      "year": 2024,
+      "cited_by_count": 377,
+      "venue": "International Journal of Digital Earth",
+      "authors": [
+        "Martino Pesaresi",
+        "Marcello Schiavina",
+        "Panagiotis Politis",
+        "S\u00e9rgio Freire",
+        "Katarzyna Krasnod\u0119bska",
+        "Johannes Uhl",
+        "Alessandra Carioli",
+        "Christina Corbane",
+        "Lewis Dijkstra",
+        "Pietro Florio",
+        "Hannah K. Friedrich",
+        "Jing Gao",
+        "Stefan Leyk",
+        "Linlin Lu",
+        "Luca Maffenini",
+        "Mari Rivero Ines",
+        "Michele Melchiorri",
+        "Vasileios Syrris",
+        "Jamon Van Den Hoek",
+        "Thomas Kemper"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4414192430",
+      "title": "How People Use ChatGPT",
+      "doi": "https://doi.org/10.3386/w34255",
+      "year": 2025,
+      "cited_by_count": 364,
+      "venue": "National Bureau of Economic Research",
+      "authors": [
+        "Aaron Chatterji",
+        "Thomas Cunningham",
+        "David Deming",
+        "Zo\u00eb Hitzig",
+        "Christopher Ong",
+        "Carl Yan Shan",
+        "Kevin Wadman"
+      ],
+      "type": "report",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3091816019",
+      "title": "Motion Capture Technology in Industrial Applications: A Systematic Review",
+      "doi": "https://doi.org/10.3390/s20195687",
+      "year": 2020,
+      "cited_by_count": 340,
+      "venue": "Sensors",
+      "authors": [
+        "Matteo Menolotto",
+        "Dimitrios-Sokratis Komaris",
+        "Salvatore Antonio Tedesco",
+        "Brendan O\u2019Flynn",
+        "Michael J. Walsh"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4390535614",
+      "title": "Satellite mapping reveals extensive industrial activity at sea",
+      "doi": "https://doi.org/10.1038/s41586-023-06825-8",
+      "year": 2024,
+      "cited_by_count": 307,
+      "venue": "Nature",
+      "authors": [
+        "Fernando S. Paolo",
+        "David A. Kroodsma",
+        "Jennifer L. Raynor",
+        "Timothy Hochberg",
+        "Pete Davis",
+        "Jesse Cleary",
+        "Luca Marsaglia",
+        "Sara Orofino",
+        "Christian J. Thomas",
+        "Patrick N. Halpin"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4389088330",
+      "title": "Multi-decadal trends and variability in burned area from the fifth version of the Global Fire Emissions Database (GFED5)",
+      "doi": "https://doi.org/10.5194/essd-15-5227-2023",
+      "year": 2023,
+      "cited_by_count": 306,
+      "venue": "Earth system science data",
+      "authors": [
+        "Yang Chen",
+        "Joanne Hall",
+        "Dave van Wees",
+        "Niels Andela",
+        "Stijn Hantson",
+        "Louis Giglio",
+        "Guido R. van der Werf",
+        "Douglas C. Morton",
+        "James T. Randerson"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4200514762",
+      "title": "Advanced Applications of Industrial Robotics: New Trends and Possibilities",
+      "doi": "https://doi.org/10.3390/app12010135",
+      "year": 2021,
+      "cited_by_count": 266,
+      "venue": "Applied Sciences",
+      "authors": [
+        "Andrius Dzedzickis",
+        "Jurga Suba\u010di\u016bt\u0117-\u017demaitien\u0117",
+        "Ernestas \u0160utinys",
+        "Urt\u0117 Samukait\u0117-Bubnien\u0117",
+        "Vytautas Bu\u010dinskas"
+      ],
+      "type": "article",
+      "open_access": true
+    }
+  ],
+  "RQ6_cold_chain_kinetics": [
+    {
+      "id": "https://openalex.org/W7129266634",
+      "title": "Enhancing Food Safety in the Cold Chain Through Internet of Things and Artificial Intelligence",
+      "doi": "https://doi.org/10.1111/1750-3841.70871",
+      "year": 2026,
+      "cited_by_count": 26,
+      "venue": "Journal of Food Science",
+      "authors": [
+        "Wagner Augusto M\u00fcller",
+        "Sandro Binsfeld Ferreira",
+        "Suse Botelho da Silva"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3047615539",
+      "title": "A Multi-Objective Model for Sustainable Perishable Food Distribution Considering the Impact of Temperature on Vehicle Emissions and Product Shelf Life",
+      "doi": "https://doi.org/10.3390/su12166668",
+      "year": 2020,
+      "cited_by_count": 24,
+      "venue": "Sustainability",
+      "authors": [
+        "Amin Gharehyakheh",
+        "Caroline C. Krejci",
+        "Jaime Cantu",
+        "Kevin J. Rogers"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4319993331",
+      "title": "Remaining Shelf-Life Estimation of Fresh Fruits and Vegetables During Transportation",
+      "doi": "https://doi.org/10.1109/access.2023.3239584",
+      "year": 2023,
+      "cited_by_count": 20,
+      "venue": "IEEE Access",
+      "authors": [
+        "Arwa Abougharib",
+        "Mahmoud Awad",
+        "Malick Ndiaye"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4416156944",
+      "title": "IoT-based Fresh Produce Supply Chain Under Uncertainty: An Adaptive Optimization Framework",
+      "doi": "https://doi.org/10.48550/arxiv.2511.05920",
+      "year": 2025,
+      "cited_by_count": 1,
+      "venue": "arXiv (Cornell University)",
+      "authors": [
+        "Chirag Seth",
+        "Mehrdad Pirnia",
+        "James H. Bookbinder"
+      ],
+      "type": "preprint",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7214624635",
+      "title": "Extreme-Climate-Driven Agricultural Trade Risk Sensing with Multimodal Consistency Learning and Edge Intelligence",
+      "doi": "https://doi.org/10.3390/s26196125",
+      "year": 2026,
+      "cited_by_count": 0,
+      "venue": "Sensors",
+      "authors": [
+        "Zijian Zhou",
+        "Ruijia Liu",
+        "Xiangchen Long",
+        "Yongbiao Hu",
+        "Fei Xia",
+        "Xi He",
+        "Yihong Song"
+      ],
+      "type": "article",
+      "open_access": true
+    }
+  ],
+  "RQ7_real_datasets": [
+    {
+      "id": "https://openalex.org/W4294612069",
+      "title": "Application of hyperspectral imaging systems and artificial intelligence for quality assessment of fruit, vegetables and mushrooms: A review",
+      "doi": "https://doi.org/10.1016/j.biosystemseng.2022.07.013",
+      "year": 2022,
+      "cited_by_count": 228,
+      "venue": "Biosystems Engineering",
+      "authors": [
+        "Jana Wieme",
+        "Kaveh Mollazade",
+        "Ioannis Malounas",
+        "Manuela Zude-Sasse",
+        "Ming Lei Zhao",
+        "Aoife Gowen",
+        "Dimitrios Argyropoulos",
+        "Spyros Fountas",
+        "Jonathan Van Beek"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4403307823",
+      "title": "A dominance hypothesis argument for historical genetic gains and the fixation of heterosis in octoploid strawberry",
+      "doi": "https://doi.org/10.1093/genetics/iyae159",
+      "year": 2024,
+      "cited_by_count": 8,
+      "venue": "Genetics",
+      "authors": [
+        "Mitchell J. Feldmann",
+        "Dominique D. A. Pincot",
+        "Danelle K. Seymour",
+        "Randi A. Famula",
+        "Nicol\u00e1s P Jim\u00e9nez",
+        "Cindy M. L\u00f2pez",
+        "Glenn S. Cole",
+        "Steven J. Knapp"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7164016256",
+      "title": "Toward accurate prediction of apple firmness and brix across countries, seasons and cultivars with hyperspectral imaging",
+      "doi": "https://doi.org/10.1007/s44187-026-01072-y",
+      "year": 2026,
+      "cited_by_count": 1,
+      "venue": "Discover Food",
+      "authors": [
+        "Haidee Tang",
+        "Yuan Liu",
+        "Issam Boukhennoufa",
+        "Wangyang Yu",
+        "Xiangming Xu",
+        "Xiaojun Zhai"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W7216748776",
+      "title": "Cryogenic freezing to kill anisakis in fish fillet and near infrared spectroscpy to verify its appliance: preliminary data",
+      "doi": null,
+      "year": 2025,
+      "cited_by_count": 0,
+      "venue": "Institutional Research Information System University of Turin (University of Turin)",
+      "authors": [
+        "Marzia Pezzolato",
+        "Riccardo Provera",
+        "Francesco Pennisi",
+        "Alberto Brugiapaglia",
+        "Emanuele Osella",
+        "Guido Bruatto",
+        "Elena Maria Bozzetta",
+        "Giovanna ESPOSITO"
+      ],
+      "type": "conference-paper",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4243110937",
+      "title": "Postharvest Disease Development",
+      "doi": "https://doi.org/10.3390/books978-3-0365-0303-5",
+      "year": 2021,
+      "cited_by_count": 0,
+      "venue": "MDPI eBooks",
+      "authors": [
+        "Elazar Fallik"
+      ],
+      "type": "book",
+      "open_access": true
+    }
+  ],
+  "RQ8_RQ9_adss_gaps": [
+    {
+      "id": "https://openalex.org/W4280504305",
+      "title": "Global maize production, consumption and trade: trends and R&D implications",
+      "doi": "https://doi.org/10.1007/s12571-022-01288-7",
+      "year": 2022,
+      "cited_by_count": 1621,
+      "venue": "Food Security",
+      "authors": [
+        "Olaf Erenstein",
+        "Moti Jaleta",
+        "Kai Sonder",
+        "Khondoker Abdul Mottaleb",
+        "Boddupalli Maruthi Prasanna"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4388673199",
+      "title": "The 2023 report of the Lancet Countdown on health and climate change: the imperative for a health-centred response in a world facing irreversible harms",
+      "doi": "https://doi.org/10.1016/s0140-6736(23)01859-7",
+      "year": 2023,
+      "cited_by_count": 1432,
+      "venue": "The Lancet",
+      "authors": [
+        "Marina B Romanello",
+        "Claudia Di Napoli",
+        "Carole Green",
+        "Harry Kennard",
+        "Pete Lampard",
+        "Daniel P. Scamman",
+        "Maria Walawender",
+        "Zakari Ali",
+        "Nadia Ameli",
+        "Sonja Ayeb\u2010Karlsson",
+        "Paul J. Beggs",
+        "Kristine Belesova",
+        "Lea Berrang\u2010Ford",
+        "Kathryn Bowen",
+        "Wenjia Cai",
+        "Max Callaghan",
+        "Diarmid H. Campbell-Lendrum",
+        "Jonathan Chambers",
+        "Troy James Cross",
+        "Kim Robin van Daalen",
+        "Carole Dalin",
+        "Niheer Dasandi",
+        "Shouro Dasgupta",
+        "Michael Davies",
+        "Paula Dom\u00ednguez-Salas",
+        "Robert Dubrow",
+        "Kristie L. Ebi",
+        "Matthew J. Eckelman",
+        "Paul Ekins",
+        "Chris Freyberg",
+        "Olga Gasparyan",
+        "Georgiana Marie Gordon-Strachan",
+        "Hilary M. Graham",
+        "Samuel H Gunther",
+        "Ian Hamilton",
+        "Yun Hang",
+        "Risto H\u00e4nninen",
+        "Stella M. Hartinger",
+        "Kehan He",
+        "Julian Heidecke",
+        "Jeremy J Hess",
+        "Shih-Che Hsu",
+        "Louis Jamart",
+        "Slava Mikhaylov",
+        "Ollie Jay",
+        "Ilan Kelman",
+        "Gregor Kiesewetter",
+        "Patrick L. Kinney",
+        "Dominic R. Kniveton",
+        "Rostislav D. Kouznetsov",
+        "Francesca Larosa",
+        "JASON KAI WEI LEE",
+        "Bruno Lemke",
+        "Yang Liu",
+        "Zhao Liu",
+        "Melissa C Lott",
+        "Mart\u00edn Lotto Batista",
+        "Rachel Lowe",
+        "Maquins Odhiambo Sewe",
+        "Jaime Mart\u00ednez-Urtaza",
+        "Mark Andrew Maslin",
+        "Lucy McAllister",
+        "Celia McMichael",
+        "Zhifu Mi",
+        "James Milner",
+        "Kelton Minor",
+        "Jan Christoph Minx",
+        "Nahid Mohajeri",
+        "Natalie C. Momen",
+        "Maziar Moradi\u2010Lakeh",
+        "Karyn Morrissey",
+        "Simon Munzert",
+        "Kris A. Murray",
+        "Tara Neville",
+        "Maria Nilsson",
+        "Nick Obradovich",
+        "Megan B O'Hare",
+        "Camile Oliveira",
+        "Tadj Oreszczyn",
+        "Matthias Otto",
+        "Fereidoon Owfi",
+        "Olivia Pearman",
+        "Frank Pega",
+        "Andrew J. Pershing",
+        "Mahnaz Rabbaniha",
+        "Jamie Rickman",
+        "ELIZABETH J. Z. ROBINSON",
+        "Joacim Rockl\u00f6v",
+        "Renee N. Salas",
+        "Jan C. Semenza",
+        "Jodi D. Sherman",
+        "Joy Shumake-Guillemot",
+        "Grant Silbert",
+        "Mikhail A. Sofiev",
+        "Marco Springmann",
+        "Jennifer Stowell",
+        "Meisam Tabatabaei",
+        "Jonathon Taylor",
+        "Ross Thompson",
+        "Cathryn C. Tonne"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3041340349",
+      "title": "Resilience of local food systems and links to food security \u2013 A review of some important concepts in the context of COVID-19 and other shocks",
+      "doi": "https://doi.org/10.1007/s12571-020-01076-1",
+      "year": 2020,
+      "cited_by_count": 1143,
+      "venue": "Food Security",
+      "authors": [
+        "Christophe B\u00e9n\u00e9"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3096753723",
+      "title": "Impact of COVID-19 on the food supply chain",
+      "doi": "https://doi.org/10.1093/fqsafe/fyaa024",
+      "year": 2020,
+      "cited_by_count": 1090,
+      "venue": "Food Quality and Safety",
+      "authors": [
+        "Serpil Aday",
+        "Mehmet Se\u00e7kin Aday"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3173271464",
+      "title": "Digitalization to achieve sustainable development goals: Steps towards a Smart Green Planet",
+      "doi": "https://doi.org/10.1016/j.scitotenv.2021.148539",
+      "year": 2021,
+      "cited_by_count": 1054,
+      "venue": "The Science of The Total Environment",
+      "authors": [
+        "Mar\u00eda E. Mond\u00e9jar",
+        "Ram Avtar",
+        "Heyker L. Ba\u00f1os D\u00edaz",
+        "Rama Kant Dubey",
+        "Jes\u00fas Esteban",
+        "Abigail G\u00f3mez\u2010Morales",
+        "Brett Jason Hallam",
+        "Nsilulu T. Mbungu",
+        "Chukwuebuka Christopher Okolo",
+        "Kumar Arun Prasad",
+        "Qianhong She",
+        "Sergi Garcia\u2010Segura"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3120805833",
+      "title": "Impacts of climate change on the livestock food supply chain; a review of the evidence",
+      "doi": "https://doi.org/10.1016/j.gfs.2020.100488",
+      "year": 2021,
+      "cited_by_count": 912,
+      "venue": "Global Food Security",
+      "authors": [
+        "C\u00e9cile Godde",
+        "Daniel Mason-D\u2019Croz",
+        "Dianne Mayberry",
+        "Philip K. Thornton",
+        "Mario Herrero"
+      ],
+      "type": "review",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4284990601",
+      "title": "The role of wastewater treatment in achieving sustainable development goals (SDGs) and sustainability guideline",
+      "doi": "https://doi.org/10.1016/j.nexus.2022.100112",
+      "year": 2022,
+      "cited_by_count": 847,
+      "venue": "Energy Nexus",
+      "authors": [
+        "Khaled Obaideen",
+        "Nabila Shehata",
+        "Enas Taha Sayed",
+        "Mohammad Ali Abdelkareem",
+        "Mohamed Salah Mahmoud",
+        "Abdul Ghani Olabi"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3123183652",
+      "title": "Ten golden rules for reforestation to optimize carbon sequestration, biodiversity recovery and livelihood benefits",
+      "doi": "https://doi.org/10.1111/gcb.15498",
+      "year": 2021,
+      "cited_by_count": 809,
+      "venue": "Global Change Biology",
+      "authors": [
+        "Alice Di Sacco",
+        "Kate A. Hardwick",
+        "David Blakesley",
+        "Pedro H. S. Brancalion",
+        "Elinor Breman",
+        "Lo\u00efc Cecilio Rebola",
+        "Susan Chomba",
+        "Kingsley Wayne Dixon",
+        "Stephen Elliott",
+        "Godfrey Ruyonga",
+        "Kirsty Shaw",
+        "Paul P. Smith",
+        "Rhian J. Smith",
+        "Alexandre Antonelli"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W3196375261",
+      "title": "The future of farming: Who will produce our food?",
+      "doi": "https://doi.org/10.1007/s12571-021-01184-6",
+      "year": 2021,
+      "cited_by_count": 774,
+      "venue": "Food Security",
+      "authors": [
+        "K.E. Giller",
+        "Thomas Delaune",
+        "\u202aJo\u00e3o Vasco Silva",
+        "Katrien Descheemaeker",
+        "G.W.J. van de Ven",
+        "Antonius G. T. SCHUT",
+        "Mark T. van Wijk",
+        "James Hammond",
+        "Zvi Hochman",
+        "G. Taulya",
+        "R\u00e9gis Chikowo",
+        "Sudha Narayanan",
+        "Avinash Kishore",
+        "Fabrizio Bresciani",
+        "Heitor Mancini Teixeira",
+        "Jens Andersson",
+        "M.K. van Ittersum"
+      ],
+      "type": "article",
+      "open_access": true
+    },
+    {
+      "id": "https://openalex.org/W4361189739",
+      "title": "Role of organic farming for achieving sustainability in agriculture",
+      "doi": "https://doi.org/10.1016/j.farsys.2023.100005",
+      "year": 2023,
+      "cited_by_count": 756,
+      "venue": "Farming System",
+      "authors": [
+        "Ashoka Gamage",
+        "Ruchira Gangahagedara",
+        "Jeewan Gamage",
+        "Nepali Jayasinghe",
+        "Nathasha Kodikara",
+        "Piumali Suraweera",
+        "Othmane Merah"
+      ],
+      "type": "article",
+      "open_access": true
+    }
+  ]
+}

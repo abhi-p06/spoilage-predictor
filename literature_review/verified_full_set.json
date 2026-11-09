@@ -1,0 +1,193 @@
+[
+  {
+    "title": "FruitQ: a new dataset of multiple fruit images for freshness evaluation",
+    "authors": [
+      "Olusola Abayomi\u2010Alli",
+      "Robertas Dama\u0161evi\u010dius",
+      "Sanjay Misra",
+      "Adebayo Adewumi Abayomi-Alli"
+    ],
+    "year": 2023,
+    "venue": "Multimedia Tools and Applications",
+    "doi": "https://doi.org/10.1007/s11042-023-16058-6",
+    "cites": 42
+  },
+  {
+    "title": "Fruit ripeness classification: A survey",
+    "authors": [
+      "Matteo Rizzo",
+      "Matteo Marcuzzo",
+      "Alessandro Zangari",
+      "Andrea Gasparetto",
+      "Andrea Albarelli"
+    ],
+    "year": 2023,
+    "venue": "Artificial Intelligence in Agriculture",
+    "doi": "https://doi.org/10.1016/j.aiia.2023.02.004",
+    "cites": 198
+  },
+  {
+    "title": "Classification and identification of agricultural products based on improved MobileNetV2",
+    "authors": [
+      "Haiwei Chen",
+      "Guohui Zhou",
+      "Wei He",
+      "Xiping Duan",
+      "Huixin Jiang"
+    ],
+    "year": 2024,
+    "venue": "Scientific Reports",
+    "doi": "https://doi.org/10.1038/s41598-024-53349-w",
+    "cites": 47
+  },
+  {
+    "title": "Fruit Image Classification Model Based on MobileNetV2 with Deep Transfer Learning Technique",
+    "authors": [
+      "Yonis Gulzar"
+    ],
+    "year": 2023,
+    "venue": "Sustainability",
+    "doi": "https://doi.org/10.3390/su15031906",
+    "cites": 448
+  },
+  {
+    "title": "Fruit freshness detection based on multi-task convolutional neural network",
+    "authors": [
+      "Yinsheng Zhang",
+      "Xudong Yang",
+      "Yongbo Cheng",
+      "Xiao\u2010Jun Wu",
+      "Xiulan Sun",
+      "Ruiqi Hou",
+      "Haiyan Wang"
+    ],
+    "year": 2024,
+    "venue": "Current Research in Food Science",
+    "doi": "https://doi.org/10.1016/j.crfs.2024.100733",
+    "cites": 44
+  },
+  {
+    "title": "Dynamic risk-aware ant colony optimization for low-carbon routing in perishable food supply chains",
+    "authors": [
+      "Jiqiang Li",
+      "Cun-He Cheng",
+      "Byung Chul Choi",
+      "Jeong-Tae Kwon",
+      "Yiming Dai"
+    ],
+    "year": 2026,
+    "venue": "Results in Engineering",
+    "doi": "https://doi.org/10.1016/j.rineng.2026.109776",
+    "cites": 0
+  },
+  {
+    "title": "Remaining Shelf-Life Estimation of Fresh Fruits and Vegetables During Transportation",
+    "authors": [
+      "Arwa Abougharib",
+      "Mahmoud Awad",
+      "Malick Ndiaye"
+    ],
+    "year": 2023,
+    "venue": "IEEE Access",
+    "doi": "https://doi.org/10.1109/access.2023.3239584",
+    "cites": 20
+  },
+  {
+    "title": "Impact of product perishability on agri-food supply chains design",
+    "authors": [
+      "Ana Esteso",
+      "M. M. E. Alemany",
+      "\u00c1ngel Ort\u00edz"
+    ],
+    "year": 2021,
+    "venue": "Applied Mathematical Modelling",
+    "doi": "https://doi.org/10.1016/j.apm.2021.02.027",
+    "cites": 99
+  },
+  {
+    "title": "A fine tuned EfficientNet-B0 convolutional neural network for accurate and efficient classification of apple leaf diseases",
+    "authors": [
+      "Ali Hassan",
+      "Noora Shifa",
+      "Rachid Benlamri",
+      "Aitazaz A. Farooque",
+      "Raziq Yaqub"
+    ],
+    "year": 2025,
+    "venue": "Scientific Reports",
+    "doi": "https://doi.org/10.1038/s41598-025-04479-2",
+    "cites": 65
+  },
+  {
+    "title": "Application of Convolutional Neural Networks and Recurrent Neural Networks in Food Safety",
+    "authors": [
+      "Haohan Ding",
+      "Haoke Hou",
+      "Long Wang",
+      "Xiaohui Cui",
+      "Wei Yu",
+      "David I. Wilson"
+    ],
+    "year": 2025,
+    "venue": "Foods",
+    "doi": "https://doi.org/10.3390/foods14020247",
+    "cites": 106
+  },
+  {
+    "title": "Neural network-based UAV thermal calibration and crop water stress assessment in an apple orchard",
+    "authors": [
+      "Sungjay Kim",
+      "Daeyoung Kim",
+      "Sang-Yeon Kim",
+      "Ghiseok Kim"
+    ],
+    "year": 2026,
+    "venue": "Smart Agricultural Technology",
+    "doi": "https://doi.org/10.1016/j.atech.2026.102710",
+    "cites": 0
+  },
+  {
+    "title": "A shelf life prediction model of Actinidia arguta \u2018Chang Jiang No.1\u2019 based on postharvest quality evaluation combined with fuzzy mathematics",
+    "authors": [
+      "Xiaoman Liang",
+      "Guanlin Qian",
+      "Song Pan",
+      "Jiabao Wang",
+      "Xina Cong",
+      "Tiancheng Ye",
+      "Miao Yan",
+      "Heran Xu",
+      "Guang Xin"
+    ],
+    "year": 2024,
+    "venue": "Journal of Stored Products Research",
+    "doi": "https://doi.org/10.1016/j.jspr.2024.102396",
+    "cites": 5
+  },
+  {
+    "title": "Comparative Study of CNN and Vision Transformer (ViT) Models for Image Classification on the Fruits-360 Dataset",
+    "authors": [
+      "Janet Jomy",
+      "Tushar Khadangle",
+      "R.V. Siva Balan"
+    ],
+    "year": 2026,
+    "venue": "Lecture notes in electrical engineering",
+    "doi": "https://doi.org/10.1007/978-981-95-7449-0_39",
+    "cites": 0
+  },
+  {
+    "title": "Adaptability of deep learning: datasets and strategies in fruit classification",
+    "authors": [
+      "Yonis Gulzar",
+      "Zeynep \u00dcnal",
+      "Shahnawaz Ayoub",
+      "Faheem Ahmad Reegu",
+      "Alhanouf Altulihan"
+    ],
+    "year": 2024,
+    "venue": "BIO Web of Conferences",
+    "doi": "https://doi.org/10.1051/bioconf/20248501020",
+    "cites": 30
+  }
+]

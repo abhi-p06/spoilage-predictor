@@ -1,0 +1,120 @@
+[
+  {
+    "title": "On Calibration of Modern Neural Networks",
+    "authors": [
+      "Chuan Guo",
+      "Geoff Pleiss",
+      "Yu Sun",
+      "Kilian Q. Weinberger"
+    ],
+    "year": 2017,
+    "venue": "arXiv (Cornell University)",
+    "publisher": "Cornell University",
+    "doi": "https://doi.org/10.48550/arxiv.1706.04599",
+    "cited_by_count": 4098,
+    "type": "preprint"
+  },
+  {
+    "title": "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks",
+    "authors": [
+      "Mingxing Tan",
+      "Quoc Viet Le"
+    ],
+    "year": 2019,
+    "venue": "arXiv (Cornell University)",
+    "publisher": "Cornell University",
+    "doi": "https://doi.org/10.48550/arxiv.1905.11946",
+    "cited_by_count": 19313,
+    "type": "preprint"
+  },
+  {
+    "title": "Grad-CAM: Visual Explanations from Deep Networks via Gradient-Based Localization",
+    "authors": [
+      "Ramprasaath R. Selvaraju",
+      "Michael Cogswell",
+      "Abhishek Das",
+      "Ramakrishna Vedantam",
+      "Devi Parikh",
+      "Dhruv Batra"
+    ],
+    "year": 2017,
+    "venue": "IEEE/CVF International Conference on Computer Vision (ICCV)",
+    "publisher": null,
+    "doi": "https://doi.org/10.1109/iccv.2017.74",
+    "cited_by_count": 25582,
+    "type": "conference-paper"
+  },
+  {
+    "title": "Acoustics applied in the development of equipment for precision agriculture: Coffee handling and harvesting",
+    "authors": [
+      "Geovanne P. Furriel",
+      "Brunna Carolinne Rocha Silva",
+      "A. Paulo Coimbra",
+      "Wesley Pacheco Calixto"
+    ],
+    "year": 2022,
+    "venue": "Computers and Electronics in Agriculture",
+    "publisher": "Elsevier BV",
+    "doi": "https://doi.org/10.1016/j.compag.2022.106981",
+    "cited_by_count": 3,
+    "type": "article"
+  },
+  {
+    "title": "Postharvest quality and metabolism changes of daylily flower buds treated with hydrogen sulfide during storage",
+    "authors": [
+      "Hongrui Lv",
+      "Shang Guo",
+      "Zhenzhen Wu",
+      "Xiaojie Nan",
+      "Min Zhu",
+      "Kai Mao"
+    ],
+    "year": 2024,
+    "venue": "Postharvest Biology and Technology",
+    "publisher": "Elsevier BV",
+    "doi": "https://doi.org/10.1016/j.postharvbio.2024.112890",
+    "cited_by_count": 18,
+    "type": "article"
+  },
+  {
+    "title": "European Union Proficiency Tests for pesticide residues in cereals and feedstuff, from 2007 to 2022- Data collection experience",
+    "authors": [
+      "Elena Hakme",
+      "Susan Strange Herrmann",
+      "Mette Erecius Poulsen"
+    ],
+    "year": 2023,
+    "venue": "Food Control",
+    "publisher": "Elsevier BV",
+    "doi": "https://doi.org/10.1016/j.foodcont.2023.109867",
+    "cited_by_count": 6,
+    "type": "article"
+  },
+  {
+    "title": "Machine learning imputation of missing Mesonet temperature observations",
+    "authors": [
+      "Joseph P. Zagrodnik",
+      "David J. Brown"
+    ],
+    "year": 2021,
+    "venue": "Computers and Electronics in Agriculture",
+    "publisher": "Elsevier BV",
+    "doi": "https://doi.org/10.1016/j.compag.2021.106580",
+    "cited_by_count": 28,
+    "type": "article"
+  },
+  {
+    "title": "Comparative analysis of VM consolidation algorithms for cloud computing",
+    "authors": [
+      "Nagma",
+      "Jaiteg Singh",
+      "Jagpreet Sidhu"
+    ],
+    "year": 2020,
+    "venue": "Procedia Computer Science",
+    "publisher": "Elsevier BV",
+    "doi": "https://doi.org/10.1016/j.procs.2020.03.350",
+    "cited_by_count": 10,
+    "type": "conference-paper"
+  }
+]

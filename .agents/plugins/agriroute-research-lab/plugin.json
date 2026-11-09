@@ -1,0 +1,382 @@
+
+You are the Principal Research Engineer for AgriRoute.
+
+An independent auditor has identified a critical inconsistency
+in AGRIRoute_REMEDIATION_V4.
+
+DO NOT REWRITE THE PAPER.
+
+The existing Model B predictions are not aligned with
+GROUP_SPLIT_MANIFEST_MERGED_V4.csv.
+
+All 227 base-image groups in the current
+PREDICTIONS_GROUP_TEST_V4.csv belong to the
+legacy_unmerged_partition = test.
+
+However, under merged_split_partition_v4:
+- 137 groups are assigned to test.
+- 76 groups are assigned to train.
+- 14 groups are assigned to validation.
+
+Thus 810/2043 existing prediction rows are not part
+of the final merged test partition.
+
+This invalidates the claim that the existing Model B
+results were evaluated on the final post-pHash-merge test split.
+
+Your task is to produce a genuinely new experiment.
+
+==================================================
+PHASE 1 — FREEZE THE FINAL DATA PARTITION
+==================================================
+
+Treat GROUP_SPLIT_MANIFEST_MERGED_V4.csv as the
+authoritative final dataset partition.
+
+Create:
+
+FINAL_GROUP_TRAIN_V4.csv
+FINAL_GROUP_VAL_V4.csv
+FINAL_GROUP_TEST_V4.csv
+
+Use the column:
+merged_split_partition_v4
+
+Verify:
+- Train, validation and test use the same final partition.
+- No super_group_id appears in more than one partition.
+- Every image row belongs to exactly one partition.
+- All MD5 duplicates remain together.
+- All manually confirmed same-capture groups remain together.
+- Filename-derived group counts are documented.
+- Supergroup counts are documented.
+
+The final manifests must be included in the output package.
+
+Do not use legacy_unmerged_partition for model training.
+
+==================================================
+PHASE 2 — RETRAIN MODEL B FROM A FRESH INITIALIZATION
+==================================================
+
+IMPORTANT:
+
+The existing Model B checkpoint must NOT be reused as
+the initialization for this experiment.
+
+It can be preserved as a legacy historical artifact.
+
+Instantiate a fresh MobileNetV2 using ImageNet pretrained
+weights and a newly initialized six-class classification head.
+
+Train on FINAL_GROUP_TRAIN_V4.csv.
+
+Use FINAL_GROUP_VAL_V4.csv for:
+- Early stopping.
+- Model checkpoint selection.
+- Hyperparameter decisions.
+
+Use the documented training configuration from V4,
+unless a scientifically necessary correction is explained.
+
+Use a fixed random seed.
+
+Record:
+- ImageNet initialization.
+- Frozen backbone phase.
+- Fine-tuning layer.
+- Optimizer.
+- Learning rate.
+- Label smoothing.
+- Batch size.
+- Epochs.
+- Early stopping.
+- Training duration.
+- Software versions.
+
+Do not say trained from scratch.
+
+Save:
+
+group_aware_mobilenet_v2_v4_1.keras
+
+Calculate SHA-256.
+
+Save the full training history.
+
+==================================================
+PHASE 3 — EVALUATE ON THE EXACT FINAL TEST SET
+==================================================
+
+Generate inference ONLY from FINAL_GROUP_TEST_V4.csv.
+
+Create two results:
+
+A. Primary analysis:
+Original unaugmented images only.
+
+B. Secondary analysis:
+All available transformed variants of the final test groups.
+
+Every sample in the prediction CSV must be verified
+against the exact corresponding final test manifest.
+
+Add mandatory automated assertion:
+
+Every predicted sample must have
+merged_split_partition_v4 == "test".
+
+No exceptions.
+
+Record:
+- Raw screenshot count.
+- Filename-derived base groups.
+- Merged supergroups.
+- Transformed image count.
+
+Do not describe variants as independent physical specimens.
+
+Generate full classification metrics.
+
+==================================================
+PHASE 4 — CALIBRATION
+==================================================
+
+Fit temperature scaling exclusively on FINAL_GROUP_VAL_V4.
+
+Save validation:
+- Sample identifiers.
+- Raw logits.
+- Ground truth.
+- Softmax probabilities.
+
+Optimize temperature using validation NLL only.
+
+Apply the fitted temperature to the sealed final test logits.
+
+Calculate:
+- ECE.
+- MCE.
+- NLL.
+- Multiclass Brier score.
+- Reliability bin counts.
+- Reliability diagram.
+
+Generate reliability tables directly from the
+same prediction CSVs.
+
+Verify:
+- Every bin count.
+- Every bin accuracy.
+- Every mean confidence.
+- Every weighted ECE contribution.
+
+Do not copy old reliability tables.
+
+==================================================
+PHASE 5 — SELECTIVE PREDICTION
+==================================================
+
+Document explicitly whether the abstention decision
+uses raw or calibrated probabilities.
+
+Do not silently mix them.
+
+Preserve tau = 0.90 only as a pre-specified
+exploratory operating point, unless an independently
+justified validation-selected threshold is available.
+
+Report:
+- Coverage.
+- Accepted samples.
+- Abstained samples.
+- Accepted accuracy.
+- Accepted error.
+- Class-wise selective performance.
+
+==================================================
+PHASE 6 — EXTERNAL DATASETS
+==================================================
+
+Re-evaluate the freshly trained Model B on:
+
+1. FruitVision six-class clean subset.
+2. Sultana six-class clean subset.
+
+Use the same preprocessing and class ordering.
+
+Never tune on external test labels.
+
+Separate:
+- Raw external predictions.
+- Internally temperature-transformed external scores.
+
+Do not call external predictions calibrated
+merely because an internal temperature was applied.
+
+Regenerate the Sultana selective prediction summary.
+
+Correct its previous incorrect README values.
+
+==================================================
+PHASE 7 — CORRECT ALL V4 REPORT ERRORS
+==================================================
+
+Update:
+
+- V4_REMEDIATION_REPORT.md.
+- CALIBRATION_AUDIT_V4.md.
+- AUTHORITATIVE_EXPERIMENT_REGISTRY_V4.csv.
+- MODEL_COMPARISON_V4.md.
+- README_FOR_CHATGPT.md.
+- UPDATED_REVIEWER_GAP_MATRIX_V4.md.
+
+Remove all claims that rely on old Model B results
+being post-pHash-merge evaluation.
+
+The old results may be retained as historical
+pre-merge group split experiments, clearly labelled.
+
+Reassess:
+- Research novelty.
+- Leakage conclusions.
+- Calibration.
+- External generalisation.
+- Selective prediction.
+- Field-study power.
+
+Do not mark every reviewer objection as fully addressed.
+
+==================================================
+PHASE 8 — REPAIR REPRODUCIBILITY
+==================================================
+
+The current test suite fails when run from
+the packaged folder because its relative paths
+expect a different directory structure.
+
+Correct all paths.
+
+Make the scripts and tests run from:
+
+AGRIRoute_REMEDIATION_V4_1/
+
+Include:
+- Source code.
+- Final group manifests.
+- Training configs.
+- Validation outputs.
+- Test outputs.
+- Checkpoints.
+- Dependencies.
+- Raw prediction tables.
+- Registry.
+- Tests.
+
+Test the exact extracted ZIP structure.
+
+The test suite must verify row-level manifest
+membership, not merely sample counts.
+
+==================================================
+PHASE 9 — OTHER SCIENTIFIC CORRECTIONS
+==================================================
+
+Reference audit:
+
+Correct the Chen 2024 reference to its actual title,
+authors and article number.
+
+Correct the FruitQ title.
+
+Complete the Li 2026 author list.
+
+Reverify every other reference against the publisher.
+
+Field study:
+
+The K=40, OR=2.2 calculation currently reports
+58.23% power.
+
+Do not claim it achieves 80% power.
+
+The current script does not simulate the proposed
+mixed-effects model.
+
+Either:
+A. Conduct defensible simulation-based power analysis
+for the specified mixed-effects model, or
+B. Describe the study as an exploratory pilot.
+
+Do not invent an ICC or effect size.
+
+==================================================
+PHASE 10 — FINAL OUTPUT
+==================================================
+
+Create:
+
+AGRIRoute_REMEDIATION_V4_1/
+
+Include:
+
+FINAL_GROUP_TRAIN_V4.csv
+FINAL_GROUP_VAL_V4.csv
+FINAL_GROUP_TEST_V4.csv
+
+MODEL_B_V4_1_TRAINING_REPORT.md
+MODEL_B_V4_1_CHECKPOINT_SHA256.txt
+MODEL_B_V4_1_METRICS.json
+MODEL_B_V4_1_PREDICTIONS.csv
+MODEL_B_V4_1_CALIBRATION.json
+MODEL_B_V4_1_RELIABILITY_TABLE.csv
+MODEL_B_V4_1_EXTERNAL_RESULTS.json
+MODEL_B_V4_1_SELECTIVE_RESULTS.json
+
+UPDATED_EXPERIMENT_REGISTRY.csv
+UPDATED_REVIEWER_GAP_MATRIX.md
+UPDATED_REFERENCE_VERIFICATION.csv
+UPDATED_REPRODUCIBILITY_GUIDE.md
+TEST_REPORT.txt
+
+Run all tests from the extracted final package.
+
+Create:
+
+AGRIRoute_REMEDIATION_V4_1.zip
+
+Preserve all legacy results.
+
+Do not modify the original research manuscript.
+
+Report any experiment that could not be completed.
+
+The single highest priority is ensuring that
+Model B was genuinely trained, calibrated and
+evaluated using the exact same final merged
+supergroup partition.
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "agriroute-research-lab",
+  "displayName": "AgriRoute Research Lab",
+  "version": "1.0.0",
+  "description": "Comprehensive scientific research workflow plugin for AgriRoute paper revision, empirical auditing, and peer-review rigor.",
+  "author": "AgriRoute Research Team",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Audit data integrity and leakage across all fruit datasets.",
+    "Perform a systematic literature search for 2024-2026 post-harvest vision and sensor spoilage systems.",
+    "Run an adversarial peer review simulation challenging the paper's novelty and empirical claims."
+  ],
+  "keywords": [
+    "research",
+    "agriculture",
+    "computer-vision",
+    "machine-learning",
+    "audit",
+    "reviewers",
+    "reproducibility",
+    "evaluation",
+    "calibration"
+  ]
+}

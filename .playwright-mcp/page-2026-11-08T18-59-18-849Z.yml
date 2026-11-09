@@ -1,0 +1,141 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - link "Skip to main content" [ref=e5] [cursor=pointer]:
+        - /url: /datasets/bdd69gyhv8/1#main
+      - generic [ref=e6]:
+        - link "Mendeley Data homepage" [ref=e7] [cursor=pointer]:
+          - /url: /
+        - navigation "utilities" [ref=e24]:
+          - list [ref=e25]:
+            - listitem [ref=e26]:
+              - link [ref=e27] [cursor=pointer]:
+                - /url: /faq
+                - img "FAQ" [ref=e28]
+        - button "Sign In / Register" [ref=e32]
+    - main [ref=e33]:
+      - generic [ref=e34]:
+        - article [ref=e35]:
+          - generic [ref=e36]:
+            - heading "Fresh and Rotten Fruits Dataset for Machine-Based Evaluation of Fruit Quality" [level=1] [ref=e37]
+            - generic [ref=e38]:
+              - generic [ref=e39]: "Published: 8 April 2022"
+              - generic [ref=e40]: "|"
+              - generic [ref=e41]: Version 1
+              - generic [ref=e42]: "|"
+              - generic [ref=e43]: "DOI:"
+              - generic [ref=e44]: 10.17632/bdd69gyhv8.1
+          - generic [ref=e45]:
+            - generic [ref=e46]: "Contributors:"
+            - generic [ref=e47]: Nusrat Sultana
+            - text: ","
+            - generic [ref=e48]: Musfika Jahan
+            - text: ","
+            - button "Mohammad Shorif Uddin" [ref=e50] [cursor=pointer]
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - heading "Description" [level=2] [ref=e58]
+              - paragraph [ref=e59]: (1) Everyone is interested to get fresh and quality fruits. As fruits are going to be rotten after the passing of time. Hence, fruit quality has substantial economic consequences. It is estimated that roughly one-third of the fruits are rotten causing huge financial loss. Furthermore, the sale of fruits will be impacted because consumers believe that spoiled fruits are harmful to their health. Classification of fresh and rotten fruits is usually carried out by people, which is ineffective for fruit farmers, sellers as well as fruit processing industries. (2) In the recent era, computer vision techniques are very promising in performing such types of classification and detection tasks. (3) With a view to developing computer vision-based algorithms, an extensive fruit dataset is presented containing sixteen types of fruit classes, namely fresh apple, rotten apple, fresh banana, rotten banana, fresh orange, rotten orange, fresh grape, rotten grape, fresh guava, rotten guava, fresh jujube, rotten jujube, fresh pomegranate, rotten pomegranate, fresh strawberry and rotten strawberry. Fresh and rotten classifications are done with the help of a domain expert from an agricultural institute. (4) A total of 3200 images of fresh and rotten fruits are collected from different fruit shops and real fields. Then from these original images, a total of 12335 augmented images are produced by using rotation, flipping, zooming, and shearing techniques to increase the data number.
+            - button "Download All" [disabled] [ref=e61]
+            - heading "Files" [level=2] [ref=e62]
+            - img "Loading" [ref=e64]
+            - generic [ref=e69]:
+              - heading "Institutions" [level=2] [ref=e70]
+              - list [ref=e71]:
+                - listitem [ref=e72]:
+                  - generic [ref=e73]: Jahangirnagar University
+            - generic [ref=e75]:
+              - heading "Categories" [level=2] [ref=e76]
+              - generic [ref=e77]: Computer Vision, Image Processing, Image Classification, Recognition, Deep Learning
+            - generic [ref=e78]:
+              - heading "Licence" [level=2] [ref=e79]
+              - button "Learn more" [ref=e80]:
+                - generic: CC BY 4.0
+        - complementary [ref=e81]:
+          - generic [ref=e82]:
+            - img "Loading"
+            - generic:
+              - link:
+                - /url: https://plu.mx/plum/a/?doi=10.17632/bdd69gyhv8
+          - img "Loading"
+          - img "Loading"
+          - img "Loading"
+          - img "Loading"
+    - contentinfo [ref=e103]:
+      - generic [ref=e105]:
+        - img "Digital Commons Data" [ref=e106]
+        - generic [ref=e126]:
+          - list [ref=e127]:
+            - listitem [ref=e128]:
+              - link "Home" [ref=e129] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e130]:
+              - generic [ref=e131]: "|"
+            - listitem [ref=e132]:
+              - link "About" [ref=e133] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e134]:
+              - generic [ref=e135]: "|"
+            - listitem [ref=e136]:
+              - link "Accessibility Statement" [ref=e137] [cursor=pointer]:
+                - /url: /accessibility
+            - listitem [ref=e138]:
+              - generic [ref=e139]: "|"
+            - listitem [ref=e140]:
+              - link "Archive Policy" [ref=e141] [cursor=pointer]:
+                - /url: /archive-process
+            - listitem [ref=e142]:
+              - generic [ref=e143]: "|"
+            - listitem [ref=e144]:
+              - link "File Formats" [ref=e145] [cursor=pointer]:
+                - /url: /file-formats
+            - listitem [ref=e146]:
+              - generic [ref=e147]: "|"
+            - listitem [ref=e148]:
+              - link "API Docs" [ref=e149] [cursor=pointer]:
+                - /url: /api/docs
+            - listitem [ref=e150]:
+              - generic [ref=e151]: "|"
+            - listitem [ref=e152]:
+              - link "OAI" [ref=e153] [cursor=pointer]:
+                - /url: /oai?verb=Identify
+            - listitem [ref=e154]:
+              - generic [ref=e155]: "|"
+            - listitem [ref=e156]:
+              - link "Mission" [ref=e157] [cursor=pointer]:
+                - /url: /mission
+            - listitem [ref=e158]:
+              - generic [ref=e159]: "|"
+            - listitem [ref=e160]:
+              - link "Status Updates" [ref=e161] [cursor=pointer]:
+                - /url: https://digitalcommons.elsevier.com/status
+          - list [ref=e162]:
+            - listitem [ref=e163]:
+              - link "Terms of Use" [ref=e164] [cursor=pointer]:
+                - /url: https://www.mendeley.com/terms/
+            - listitem [ref=e165]:
+              - generic [ref=e166]: "|"
+            - listitem [ref=e167]:
+              - link "Privacy Policy" [ref=e168] [cursor=pointer]:
+                - /url: https://www.elsevier.com/legal/privacy-policy
+            - listitem [ref=e169]:
+              - generic [ref=e170]: "|"
+            - listitem [ref=e171]:
+              - button "Cookie settings" [ref=e172] [cursor=pointer]
+          - list [ref=e173]:
+            - listitem [ref=e174]: "All content on this site: Copyright © 2026 Elsevier inc, its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training and similar technologies. For all open access content, the Creative Commons licensing terms apply."
+  - region "Cookie banner" [ref=e176]:
+    - dialog "Privacy" [ref=e177]:
+      - generic [ref=e179]:
+        - generic [ref=e181]:
+          - text: We use cookies that are necessary to make our site work. We may also use additional cookies to analyze, improve, and personalize our content and your digital experience. You can manage your cookie preferences using the
+          - link "Cookie settings" [ref=e182] [cursor=pointer]:
+            - /url: "#"
+          - text: link. For more information, see our
+          - link "Cookie Policy, opens in a new tab" [ref=e183] [cursor=pointer]:
+            - /url: https://www.elsevier.com/legal/cookienotice
+            - text: Cookie Policy
+        - generic [ref=e185]:
+          - button "Cookie settings, Opens the preference center dialog" [ref=e186] [cursor=pointer]: Cookie settings
+          - button "Accept only necessary cookies" [ref=e187] [cursor=pointer]
+          - button "Accept all cookies" [ref=e188] [cursor=pointer]

@@ -35,18 +35,22 @@ NUM_CLASSES = 6
 def get_package_root() -> Path:
     """Dynamically resolve root directory whether running from repo, package, or tests dir."""
     cwd = Path.cwd()
-    if (cwd / "FINAL_GROUP_TEST_V4.csv").exists():
+    if (cwd / "FINAL_GROUP_TEST_V4_1.csv").exists() or (cwd / "FINAL_GROUP_TEST_V4.csv").exists():
         return cwd
-    if (cwd / "AGRIRoute_REMEDIATION_V4_1" / "FINAL_GROUP_TEST_V4.csv").exists():
+    if (cwd / "AGRIRoute_REMEDIATION_V4_1" / "FINAL_GROUP_TEST_V4_1.csv").exists() or (cwd / "AGRIRoute_REMEDIATION_V4_1" / "FINAL_GROUP_TEST_V4.csv").exists():
         return cwd / "AGRIRoute_REMEDIATION_V4_1"
+    if (cwd / "AGRIRoute_FINAL_EXPERIMENT_V4_1" / "FINAL_GROUP_TEST_V4_1.csv").exists() or (cwd / "AGRIRoute_FINAL_EXPERIMENT_V4_1" / "FINAL_GROUP_TEST_V4.csv").exists():
+        return cwd / "AGRIRoute_FINAL_EXPERIMENT_V4_1"
     
     file_parent = Path(__file__).resolve().parent
-    if (file_parent / "FINAL_GROUP_TEST_V4.csv").exists():
+    if (file_parent / "FINAL_GROUP_TEST_V4_1.csv").exists() or (file_parent / "FINAL_GROUP_TEST_V4.csv").exists():
         return file_parent
-    if (file_parent.parent / "FINAL_GROUP_TEST_V4.csv").exists():
+    if (file_parent.parent / "FINAL_GROUP_TEST_V4_1.csv").exists() or (file_parent.parent / "FINAL_GROUP_TEST_V4.csv").exists():
         return file_parent.parent
-    if (file_parent.parent / "AGRIRoute_REMEDIATION_V4_1" / "FINAL_GROUP_TEST_V4.csv").exists():
+    if (file_parent.parent / "AGRIRoute_REMEDIATION_V4_1" / "FINAL_GROUP_TEST_V4_1.csv").exists() or (file_parent.parent / "AGRIRoute_REMEDIATION_V4_1" / "FINAL_GROUP_TEST_V4.csv").exists():
         return file_parent.parent / "AGRIRoute_REMEDIATION_V4_1"
+    if (file_parent.parent / "AGRIRoute_FINAL_EXPERIMENT_V4_1" / "FINAL_GROUP_TEST_V4_1.csv").exists() or (file_parent.parent / "AGRIRoute_FINAL_EXPERIMENT_V4_1" / "FINAL_GROUP_TEST_V4.csv").exists():
+        return file_parent.parent / "AGRIRoute_FINAL_EXPERIMENT_V4_1"
     
     return cwd
 
@@ -62,9 +66,9 @@ def compute_file_sha256(filepath: Path) -> str:
 # -------------------------------------------------------------
 def test_final_partition_integrity_and_disjointness():
     root = get_package_root()
-    train_p = root / "FINAL_GROUP_TRAIN_V4.csv"
-    val_p = root / "FINAL_GROUP_VAL_V4.csv"
-    test_p = root / "FINAL_GROUP_TEST_V4.csv"
+    train_p = root / "FINAL_GROUP_TRAIN_V4_1.csv" if (root / "FINAL_GROUP_TRAIN_V4_1.csv").exists() else root / "FINAL_GROUP_TRAIN_V4.csv"
+    val_p = root / "FINAL_GROUP_VAL_V4_1.csv" if (root / "FINAL_GROUP_VAL_V4_1.csv").exists() else root / "FINAL_GROUP_VAL_V4.csv"
+    test_p = root / "FINAL_GROUP_TEST_V4_1.csv" if (root / "FINAL_GROUP_TEST_V4_1.csv").exists() else root / "FINAL_GROUP_TEST_V4.csv"
 
     assert train_p.exists(), f"Missing train manifest: {train_p}"
     assert val_p.exists(), f"Missing val manifest: {val_p}"
@@ -106,7 +110,7 @@ def test_final_partition_integrity_and_disjointness():
 # -------------------------------------------------------------
 def test_row_level_test_membership():
     root = get_package_root()
-    test_p = root / "FINAL_GROUP_TEST_V4.csv"
+    test_p = root / "FINAL_GROUP_TEST_V4_1.csv" if (root / "FINAL_GROUP_TEST_V4_1.csv").exists() else root / "FINAL_GROUP_TEST_V4.csv"
     pred_p = root / "MODEL_B_V4_1_PREDICTIONS.csv"
 
     assert test_p.exists() and pred_p.exists()
@@ -142,6 +146,7 @@ def test_model_b_v4_1_checkpoint_sha256():
 
     # Locate checkpoint
     ckpt_candidates = [
+        root / "MODEL_B_V4_1_CHECKPOINT.keras",
         root / "CHECKPOINTS" / "group_aware_mobilenet_v2_v4_1.keras",
         root / "group_aware_mobilenet_v2_v4_1.keras",
         root / "experiments" / "group_leakage_study" / "CHECKPOINTS" / "group_aware_mobilenet_v2_v4_1.keras"

@@ -3,9 +3,9 @@ scripts/train_model_b_v4_1.py
 =============================
 Phase 2: Retrains Model B (group_aware_mobilenet_v2_v4_1.keras) from a fresh ImageNet initialization.
 
-Trained strictly on: FINAL_GROUP_TRAIN_V4.csv (9,513 images, 1,052 super-groups)
-Validated strictly on: FINAL_GROUP_VAL_V4.csv (2,043 images, 226 super-groups)
-Never observes test partition: FINAL_GROUP_TEST_V4.csv (2,043 images, 226 super-groups)
+Trained strictly on: FINAL_GROUP_TRAIN_V4_1.csv (9,513 images, 1,052 super-groups)
+Validated strictly on: FINAL_GROUP_VAL_V4_1.csv (2,043 images, 226 super-groups)
+Never observes test partition: FINAL_GROUP_TEST_V4_1.csv (2,043 images, 226 super-groups)
 
 Protocol:
 - Base architecture: MobileNetV2 pretrained on ImageNet
@@ -84,11 +84,9 @@ def build_dataset(manifest_path: Path, is_training: bool = False):
     ds = tf.data.Dataset.from_tensor_slices((file_paths, labels))
     if is_training:
         ds = ds.shuffle(buffer_size=min(len(file_paths), 2000), seed=SEED, reshuffle_each_iteration=True)
-    ds = ds.map(process_image, num_parallel_calls=tf.data.AUTOTUNE)
+    ds = ds.map(process_image, num_parallel_calls=4)
     ds = ds.batch(BATCH_SIZE)
-    if not is_training:
-        ds = ds.cache()
-    ds = ds.prefetch(tf.data.AUTOTUNE)
+    ds = ds.prefetch(1)
     return ds, len(df)
 
 def compute_sha256(filepath: Path) -> str:
@@ -104,8 +102,8 @@ def main():
     print("==================================================================")
     set_seed(SEED)
 
-    train_manifest = PROJECT_ROOT / "FINAL_GROUP_TRAIN_V4.csv"
-    val_manifest = PROJECT_ROOT / "FINAL_GROUP_VAL_V4.csv"
+    train_manifest = PROJECT_ROOT / "FINAL_GROUP_TRAIN_V4_1.csv"
+    val_manifest = PROJECT_ROOT / "FINAL_GROUP_VAL_V4_1.csv"
     assert train_manifest.exists() and val_manifest.exists()
 
     print(f"Loading data from frozen manifests...")
@@ -214,6 +212,37 @@ def main():
         f.write(f"TRAIN_SAMPLES: {n_train}\n")
         f.write(f"VAL_SAMPLES: {n_val}\n")
 
+    # Write Model Configuration JSON
+    config_dict = {
+        "model_name": "agriroute_mobilenet_v2_v4_1",
+        "architecture": "MobileNetV2",
+        "weights_init": "imagenet",
+        "num_classes": 6,
+        "classes": CLASSES,
+        "input_shape": list(INPUT_SHAPE),
+        "seed": SEED,
+        "batch_size": BATCH_SIZE,
+        "phase1_epochs": 5,
+        "phase1_lr": 0.001,
+        "phase2_epochs": 10,
+        "phase2_lr": 0.0001,
+        "fine_tune_start_layer": 100,
+        "label_smoothing": 0.05,
+        "weight_decay": 1e-4,
+        "train_manifest": "FINAL_GROUP_TRAIN_V4_1.csv",
+        "val_manifest": "FINAL_GROUP_VAL_V4_1.csv",
+        "test_manifest": "FINAL_GROUP_TEST_V4_1.csv",
+        "checkpoint_filename": "group_aware_mobilenet_v2_v4_1.keras",
+        "checkpoint_sha256": sha256_hash,
+        "checkpoint_size_bytes": file_size,
+        "training_timestamp": time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())
+    }
+    with open(CKPT_DIR / "model_b_v4_1_config.json", "w") as f:
+        json.dump(config_dict, f, indent=2)
+    with open(PROJECT_ROOT / "model_b_v4_1_config.json", "w") as f:
+        json.dump(config_dict, f, indent=2)
+    print(f"✅ Generated model configuration JSON at {CKPT_DIR / 'model_b_v4_1_config.json'}")
+
     # Load and inspect history
     df_hist = pd.read_csv(HISTORY_PATH)
     best_epoch = df_hist.loc[df_hist["val_loss"].idxmin()]
@@ -235,7 +264,7 @@ def main():
 - **Pretrained Weights:** ImageNet (`mobilenet_v2.MobileNetV2(weights="imagenet", include_top=False, pooling="avg")`).
 - **Classification Head:** Global Average Pooling (1280-d) $\\to$ `Dropout(p=0.3)` $\\to$ `Dense(6, activation="softmax", dtype="float32")`.
 - **Initialization Rule Compliance:** Genuinely retrained from ImageNet initialization; legacy Model B weights were **not** reused.
-- **Dataset Partition:** Strictly trained on `FINAL_GROUP_TRAIN_V4.csv` ($N=9,513$ images, 1,052 super-groups). Model selection and early stopping conducted strictly on `FINAL_GROUP_VAL_V4.csv` ($N=2,043$ images, 226 super-groups). The final test partition `FINAL_GROUP_TEST_V4.csv` remained completely unobserved.
+- **Dataset Partition:** Strictly trained on `FINAL_GROUP_TRAIN_V4_1.csv` ($N=9,513$ images, 1,052 super-groups). Model selection and early stopping conducted strictly on `FINAL_GROUP_VAL_V4_1.csv` ($N=2,043$ images, 226 super-groups). The final test partition `FINAL_GROUP_TEST_V4_1.csv` remained completely unobserved.
 
 ---
 

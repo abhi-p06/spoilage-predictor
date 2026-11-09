@@ -1,0 +1,96 @@
+# Storage Audit Report (Before Cleanup)
+**Project:** AgriRoute (spoilage-predictor)  
+**Execution Date:** 2026-11-10  
+**Audit Purpose:** Comprehensive storage and duplicate file inventory prior to safe remediation.
+
+---
+
+## 1. Executive Summary
+
+- **Total Repository Footprint:** 33.64 GB (36,115,697,639 bytes)
+- **Git Object Storage (`.git/`):** 19.41 GB
+- **Workspace Data Directory (`data/`):** 14.17 GB
+- **Nested Duplicate Extraction (`data/raw/kaggle/extracted/dataset/dataset/`):** 13,599 identical files (1.82 GB)
+- **Total Duplicate File Instances Identified:** 13,726 files
+- **Temporary Files Identified:** 23 files (225.46 KB)
+- **Standalone ZIP Archives:** 4 archives (7.02 GB)
+
+---
+
+## 2. Top-Level Directory Breakdown
+
+| Directory / Item | Size | Size (Bytes) | Category / Purpose |
+| :--- | :--- | :--- | :--- |
+| `.git` | 19.41 GB | 20,845,777,861 | Git metadata (protected) |
+| `data` | 14.17 GB | 15,216,950,717 | Dataset storage |
+| `[root files]` | 43.17 MB | 45,271,733 | Source/Documentation |
+| `PHASH_COLLISION_CONTACT_SHEET` | 2.12 MB | 2,221,597 | Source/Documentation |
+| `PHASH_REVIEW` | 2.01 MB | 2,107,020 | Source/Documentation |
+| `DATASET_EXCLUSION_MANIFESTS` | 1.21 MB | 1,267,739 | Source/Documentation |
+| `notebooks` | 628.28 KB | 643,358 | Source/Documentation |
+| `scripts` | 572.04 KB | 585,764 | Source/Documentation |
+| `tests` | 134.28 KB | 137,502 | Source/Documentation |
+| `logs` | 132.09 KB | 135,264 | Source/Documentation |
+| `literature_review` | 129.78 KB | 132,892 | Source/Documentation |
+| `.agents` | 129.62 KB | 132,732 | Source/Documentation |
+| `app` | 112.32 KB | 115,014 | Source/Documentation |
+| `research_audit` | 69.20 KB | 70,864 | Source/Documentation |
+| `reports` | 56.34 KB | 57,689 | Source/Documentation |
+| `revision_audit` | 56.21 KB | 57,559 | Source/Documentation |
+| `.playwright-mcp` | 26.10 KB | 26,727 | Source/Documentation |
+| `.github` | 4.04 KB | 4,132 | Source/Documentation |
+| `.pytest_cache` | 1.44 KB | 1,475 | Source/Documentation |
+
+---
+
+## 3. Dataset Breakdown (`data/`)
+
+| Dataset | Relative Path | Size | Description |
+| :--- | :--- | :--- | :--- |
+| **sultana** | `data/raw/sultana` | 5.26 GB | Downloaded external or raw benchmark dataset |
+| **fruitvision** | `data/raw/fruitvision` | 1.70 GB | Downloaded external or raw benchmark dataset |
+| **kaggle** | `data/raw/kaggle` | 7.21 GB | Downloaded external or raw benchmark dataset |
+| **sensors** | `data/sensors` | 668.00 B | Downloaded external or raw benchmark dataset |
+
+### Specific Nested Redundant Extraction Findings:
+- `data/raw/kaggle/extracted/dataset/dataset/`: **13,599 duplicate images** totaling **1.82 GB**.
+- Every single image in this nested subfolder has an identical byte-for-byte counterpart in the parent folder `data/raw/kaggle/extracted/dataset/`.
+- Removing this redundant nested extraction recovers **1.82 GB** without losing a single unique image.
+
+---
+
+## 4. Large Archives Inventory
+
+| Archive File | Size | SHA-256 Checksum | Purpose / Recommendation |
+| :--- | :--- | :--- | :--- |
+| `AGRIRoute_REMEDIATION_V3.zip` | 3.71 MB | `780a2808dc5d6b2dea34cc3cdffccb881d086010dfa0cf9ecdf611fcd5528d2f` | Historical V3 code/report bundle (Preserve / 3.7MB) |
+| `data/raw/sultana/Sultana_Original.zip` | 2.60 GB | `f89d67d4c4b24810bcd8406db877db6b1ac9834cea0b0cb56d65acebe59e66ff` | Raw upstream source ZIP (Preserve / Review in MANUAL_REVIEW_REQUIRED.md) |
+| `data/raw/fruitvision/FruitVision_Original.zip` | 857.19 MB | `c72a8d8d9b1f44f8f4a7f31e1420da7f356de5eb4f18e698bbe692ca4d1a18fc` | Raw upstream source ZIP (Preserve / Review in MANUAL_REVIEW_REQUIRED.md) |
+| `data/raw/kaggle/fruits-fresh-and-rotten-for-classification.zip` | 3.58 GB | `5ccfb8624b7a279f22d3508f2ff1e2148c902c1fd755001e1a4b9b52a011abfb` | Raw upstream source ZIP (Preserve / Review in MANUAL_REVIEW_REQUIRED.md) |
+
+---
+
+## 5. Model Checkpoint Inventory
+
+- **Active Model Checkpoint Files (`.keras`, `.h5`, `.pt`, `.pth`):** 0
+> [!NOTE]
+> Training histories (`experiments/group_leakage_study/TRAINING_LOGS/group_aware_training_history_v4_1.csv` and `logs/`) and prediction arrays (`PREDICTIONS_*.csv`) are preserved as authoritative numerical evidence.
+
+---
+
+## 6. Temporary & Cache Files Inventory
+
+- **Total Temporary / Cache Files:** 23
+- Includes: `.DS_Store` macOS index files, `__pycache__/*.pyc`, `.pytest_cache/`
+- **Total Space Recoverable from Caches/Temp:** 225.46 KB
+
+---
+
+## 7. Immediate Safe Space Recovery Plan
+
+1. **Remove Nested Kaggle Duplicates:** Delete `data/raw/kaggle/extracted/dataset/dataset/` after updating any references -> **Recovers 1.82 GB**.
+2. **Purge Disposable Caches & Temp Files:** Remove `.DS_Store`, `__pycache__`, `.pytest_cache` -> **Recovers 225.46 KB**.
+3. **Preserve All Research Evidence:** All manuscripts, audit reports, CSV manifests, predictions, source scripts, and raw archives remain 100% intact.
+
+---
+*Generated by AgriRoute Senior Repository Maintenance & Storage Optimization Suite.*

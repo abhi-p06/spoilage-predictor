@@ -1,0 +1,34 @@
+item_path,type,size_bytes,size_human,sha256,description,protection_category
+FINAL_GROUP_TRAIN_V4.csv,file,4466790,4.26 MB,112c83cfd0ed433094afe5b234396c1d6569d856284632e37bdc65f8bb9b6124,"Frozen V4/V4.1 group-aware training manifest (9,513 rows)",Phase 2 Absolute Protection List
+FINAL_GROUP_VAL_V4.csv,file,951052,928.76 KB,11740b9cbf237cfa21d70980ddace6e8ed7178ed64c95cb5df85dc0ca2f837d0,"Frozen V4/V4.1 group-aware validation manifest (2,043 rows)",Phase 2 Absolute Protection List
+FINAL_GROUP_TEST_V4.csv,file,954749,932.37 KB,e5e7d1a476346bb19a0ee4d2339ae7e7d45b089fad2d134926c1a7eea9563dfe,"Frozen V4/V4.1 group-aware test manifest (2,043 rows)",Phase 2 Absolute Protection List
+GROUP_SPLIT_MANIFEST_MERGED_V4.csv,file,6372225,6.08 MB,0e7d7d4522c0cfb65ae98735ed63842c2e6da21c2b94cafba119d0a08d8c83d8,Master pHash-merged group split manifest,Phase 2 Absolute Protection List
+GROUP_SPLIT_MANIFEST.csv,file,5919386,5.65 MB,38dd3986214c08b3c78608663a8441cc8ae11d62574d4f9d66b7a39d039d9c7d,Initial base group split manifest,Phase 2 Absolute Protection List
+BASE_IMAGE_GROUP_AUDIT.csv,file,182552,178.27 KB,a934c10297d2850c5256919d0f5db2baa1a1bfde5a35172519cce05610509b8b,Audit of base image groupings,Phase 2 Absolute Protection List
+GROUP_PHASH_COLLISION_REVIEW.csv,file,4179,4.08 KB,806d861153c6b61f0ee747b9330d884906cca66d8c9726d849a2bcfa517fedf9,Forensic visual audit of 8 pHash collision pairs,Phase 2 Absolute Protection List
+PREDICTIONS_GROUP_TEST_V4.csv,file,1618289,1.54 MB,3962d5a8942d53a9c5ada351bb4e8294c0d6195dba34c5c8efdca3945d7424f2,"Model B V4 evaluation predictions across all 2,043 test images",Phase 2 Absolute Protection List
+PREDICTIONS_GROUP_TEST_RAW_ONLY_V4.csv,file,175651,171.53 KB,d54f28b3d5f6be7e3ff12cf645f4c539589228ce62149c7598079287d0dba762,Model B V4 evaluation on 227 primary raw screenshots,Phase 2 Absolute Protection List
+PREDICTIONS_RANDOM_V4.csv,file,3147605,3.00 MB,f27f60d653b81b743df8de9f5b6a8c9c8af75f52360f0904b70d4222f6773d06,Model A historical random split benchmark predictions,Phase 2 Absolute Protection List
+PREDICTIONS_FRUITVISION_V4.csv,file,2885131,2.75 MB,8c88f33859a7df6d905a6efb34d47d857ed4f651df86e59d8ef99587ae2ee7f9,"Model B external generalization predictions on FruitVision (4,157 images)",Phase 2 Absolute Protection List
+PREDICTIONS_SULTANA_V4.csv,file,808868,789.91 KB,0d27f32698a46c0d55519b1dc13cc7d378824a2e89d1562456bf6c5ea2f6a1fd,"Model B external generalization predictions on Sultana (1,193 images)",Phase 2 Absolute Protection List
+PREDICTIONS_FRUITVISION_MODEL_A_V4.csv,file,2911859,2.78 MB,08a8f0e732d6e9fb505b52679876686a8a2c99b3a1c184677481c22137922fb9,Model A external benchmark predictions on FruitVision,Phase 2 Absolute Protection List
+PREDICTIONS_SULTANA_MODEL_A_V4.csv,file,817063,797.91 KB,d31b52b36280d110bcc4c9d7eaba1a2afa95201f980c45b128033525d660b5f5,Model A external benchmark predictions on Sultana,Phase 2 Absolute Protection List
+data/raw/kaggle/extracted/dataset/,directory,1949616736,1.82 GB,DIRECTORY,"Authoritative Kaggle Fresh & Rotten dataset (13,599 images)",Phase 2 Absolute Protection List
+data/raw/fruitvision/extracted/,directory,922995635,880.24 MB,DIRECTORY,"External generalization dataset FruitVision (4,157 images)",Phase 2 Absolute Protection List
+data/raw/sultana/extracted/,directory,2856177884,2.66 GB,DIRECTORY,"External generalization dataset Sultana (1,193 images)",Phase 2 Absolute Protection List
+data/sensors/sample_input.csv,file,668,668.00 B,ab1e763652d15ce36d8e1cc6416233e268cb816e5dcf41adff464dc4b80764a9,Sample sensor transport telemetry dataset,Phase 2 Absolute Protection List
+data/raw/kaggle/fruits-fresh-and-rotten-for-classification.zip,file,3845474308,3.58 GB,5ccfb8624b7a279f22d3508f2ff1e2148c902c1fd755001e1a4b9b52a011abfb,Immutable source Kaggle archive (3.58 GB),Phase 2 Absolute Protection List
+data/raw/sultana/Sultana_Original.zip,file,2794170228,2.60 GB,f89d67d4c4b24810bcd8406db877db6b1ac9834cea0b0cb56d65acebe59e66ff,Immutable source Sultana archive (2.60 GB),Phase 2 Absolute Protection List
+data/raw/fruitvision/FruitVision_Original.zip,file,898826798,857.19 MB,c72a8d8d9b1f44f8f4a7f31e1420da7f356de5eb4f18e698bbe692ca4d1a18fc,Immutable source FruitVision archive (857.19 MB),Phase 2 Absolute Protection List
+logs/fusion_training.log,file,2538,2.48 KB,fc69262a1fc93b041e471e7c6147a5ca0632479efe31efec387c865b316c1c54,Fusion layer empirical training logs,Phase 2 Absolute Protection List
+logs/lstm_training.log,file,132726,129.62 KB,249f6694318c0d4d09ee5881471296242cd39488946ead369ba1b0d9fb9a397e,BiLSTM time-series training execution logs,Phase 2 Absolute Protection List
+V4_REMEDIATION_REPORT.md,file,13373,13.06 KB,f44f75e67fdf041495b65db900c51a32f7a58d20aba584e91fac8d8585d5f51d,Executive V4 remediation audit report,Phase 2 Absolute Protection List
+CALIBRATION_AUDIT_V4.md,file,7858,7.67 KB,314534ed199087ce82e10a25e545f28480c1e27b15f5374967cb0618f4adbe4f,Mathematical temperature scaling audit,Phase 2 Absolute Protection List
+LEAKAGE_EFFECT_ANALYSIS_V4.md,file,5681,5.55 KB,68a65672f3e802e472d37e247f9042c36ce4184195e3df6c6c2d2b8f052d25ea,Empirical study of data leakage impact,Phase 2 Absolute Protection List
+MODEL_COMPARISON_V4.md,file,6779,6.62 KB,787dd33c2bfef88b03c0eb7718d73cf2460c07b6a561ffcf721609610dffb6b7,Authoritative model benchmark comparison table,Phase 2 Absolute Protection List
+REPRODUCIBILITY_GUIDE_V4.md,file,10762,10.51 KB,dc80def1a6c3806948ec7447535ad00c977522d64088353075128096a315f12f,Step-by-step reproduction instructions,Phase 2 Absolute Protection List
+UPDATED_REVIEWER_GAP_MATRIX.md,file,8793,8.59 KB,ace63ff50d6d8b09c2a0e28154d052f29d752fc914b34b604d5ecadc49722816,Traceable matrix addressing all Reviewer 1-3 comments,Phase 2 Absolute Protection List
+UPDATED_REFERENCE_VERIFICATION.csv,file,8000,7.81 KB,fe2bb51500154ca94ea42d6408dac1a22d174eadfc967e6da809718ccb53f6a7,Crossref publisher-verified citation registry (25 references),Phase 2 Absolute Protection List
+FIELD_STUDY_SIMULATION_POWER.json,file,923,923.00 B,093ff045120ee6623b8abc8c10a734c16bac63f8e274ac2b2d5a6f4b7068c505,"2,000 Monte Carlo run statistical power analysis for pilot field study",Phase 2 Absolute Protection List
+REFERENCES.bib,file,10053,9.82 KB,af2c09eb5d5461a44efe3f0a271f582f8def82821731f6949354d11eaf35d93a,Corrected BibTeX reference file,Phase 2 Absolute Protection List
+AGRIRoute_REMEDIATION_V3.zip,file,3891429,3.71 MB,780a2808dc5d6b2dea34cc3cdffccb881d086010dfa0cf9ecdf611fcd5528d2f,Historical remediation bundle (3.71 MB),Phase 2 Absolute Protection List

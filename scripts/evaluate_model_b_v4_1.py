@@ -6,7 +6,7 @@ Comprehensive evaluation pipeline for freshly retrained Model B (group_aware_mob
 Executes:
 - Phase 3: Exact final test set evaluation (Primary: N=227 raw; Secondary: N=2,043 all variants).
   Mandatory assertion: every predicted row has merged_split_partition_v4 == 'test'.
-- Phase 4: Temperature scaling calibration fitted strictly on FINAL_GROUP_VAL_V4.csv.
+- Phase 4: Temperature scaling calibration fitted strictly on FINAL_GROUP_VAL_V4_1.csv.
   Calculates ECE, MCE, NLL, Brier score, and builds 10-bin reliability table.
 - Phase 5: Selective prediction at tau = 0.90 (documenting raw vs calibrated probabilities).
 - Phase 6: External dataset benchmarking on FruitVision (N=4,157) and Sultana (N=1,193).
@@ -206,22 +206,28 @@ def main():
     print(f"Loading checkpoint: {CKPT_PATH}")
     model = tf.keras.models.load_model(CKPT_PATH)
 
-    val_manifest = PROJECT_ROOT / "FINAL_GROUP_VAL_V4.csv"
-    test_manifest = PROJECT_ROOT / "FINAL_GROUP_TEST_V4.csv"
+    val_manifest = PROJECT_ROOT / "FINAL_GROUP_VAL_V4_1.csv"
+    test_manifest = PROJECT_ROOT / "FINAL_GROUP_TEST_V4_1.csv"
     assert val_manifest.exists() and test_manifest.exists()
 
-    # 1. Validation Inference & Temperature Fitting (Phase 4)
-    print("\n--- Phase 4: Validation Set Inference & Temperature Scaling ---")
+    # 1. Validation Inference & Temperature Fitting (Phase 4: Raw Unaugmented Only, N=227)
+    print("\n--- Phase 4: Validation Set Inference & Temperature Scaling (Raw Only, N=227) ---")
     df_val, logits_val, probs_val, y_val = evaluate_manifest_extract_logits(model, val_manifest)
-    T_star = fit_temperature(logits_val, y_val)
-    probs_cal_val = tf.nn.softmax(logits_val / T_star).numpy()
-    val_ece_raw, _, _ = compute_ece_and_bins(y_val, probs_val)
-    val_ece_cal, _, _ = compute_ece_and_bins(y_val, probs_cal_val)
-    print(f"Validation N={len(y_val)}: Optimal Temperature T* = {T_star:.4f}")
-    print(f"Validation ECE: {val_ece_raw:.5f} (raw) -> {val_ece_cal:.5f} (calibrated)")
+    val_raw_mask = (df_val["is_raw"] == 1).values
+    logits_val_raw = logits_val[val_raw_mask]
+    probs_val_raw = probs_val[val_raw_mask]
+    y_val_raw = y_val[val_raw_mask]
+    assert len(y_val_raw) == 227, f"Expected 227 raw validation samples, got {len(y_val_raw)}"
+
+    T_star = fit_temperature(logits_val_raw, y_val_raw)
+    probs_cal_val_raw = tf.nn.softmax(logits_val_raw / T_star).numpy()
+    val_ece_raw, _, _ = compute_ece_and_bins(y_val_raw, probs_val_raw)
+    val_ece_cal, _, _ = compute_ece_and_bins(y_val_raw, probs_cal_val_raw)
+    print(f"Validation Raw N={len(y_val_raw)}: Optimal Temperature T* = {T_star:.4f}")
+    print(f"Validation Raw ECE: {val_ece_raw:.5f} (raw) -> {val_ece_cal:.5f} (calibrated)")
 
     # 2. Final Test Set Evaluation (Phase 3)
-    print("\n--- Phase 3: Final Test Set Evaluation (FINAL_GROUP_TEST_V4.csv) ---")
+    print("\n--- Phase 3: Final Test Set Evaluation (FINAL_GROUP_TEST_V4_1.csv) ---")
     df_test, logits_test, probs_test, y_test = evaluate_manifest_extract_logits(model, test_manifest)
 
     # MANDATORY ASSERTION: Every predicted row must have merged_split_partition_v4 == 'test'
@@ -281,7 +287,7 @@ def main():
         row_dict = {
             "sample_id": f"TEST_V4_1_{i:04d}",
             "dataset_name": "Kaggle_FreshRotten",
-            "split_name": "final_group_test_v4",
+            "split_name": "final_group_test_v4_1",
             "model_name": "Model_B_V4_1_Group_Aware",
             "relative_path": rel_p,
             "filename": r["filename"],
@@ -452,7 +458,7 @@ def main():
         "metadata": {
             "model_identifier": "Model_B_V4_1_Group_Aware",
             "checkpoint_sha256": hashlib.sha256(open(CKPT_PATH, "rb").read()).hexdigest(),
-            "manifest_verified": "FINAL_GROUP_TEST_V4.csv",
+            "manifest_verified": "FINAL_GROUP_TEST_V4_1.csv",
             "merged_supergroups": 226,
             "filename_derived_groups": 227,
             "total_test_samples": len(df_test),
@@ -473,8 +479,10 @@ def main():
     # Save calibration JSON
     cal_data = {
         "validation_temperature_T": float(T_star),
-        "validation_samples": len(y_val),
+        "validation_samples": len(y_val_raw),
+        "validation_samples_raw_only": len(y_val_raw),
         "test_samples": len(y_test),
+        "test_samples_raw_only": len(y_test_raw),
         "uncalibrated_ece": ece_all_raw,
         "uncalibrated_mce": mce_all_raw,
         "uncalibrated_nll": metrics_all_raw["nll"],
@@ -482,6 +490,13 @@ def main():
         "calibrated_mce": mce_all_cal,
         "calibrated_nll": metrics_all_cal["nll"],
         "multiclass_brier_score": metrics_all_cal["brier_score"],
+        "primary_raw_only": {
+            "uncalibrated_ece": ece_raw_only,
+            "calibrated_ece": ece_raw_cal,
+            "uncalibrated_nll": metrics_raw_only["nll"],
+            "calibrated_nll": metrics_raw_cal["nll"],
+            "multiclass_brier_score": metrics_raw_cal["brier_score"]
+        },
         "reliability_bins": bins_all_cal
     }
     cal_path = PROJECT_ROOT / "MODEL_B_V4_1_CALIBRATION.json"

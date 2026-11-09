@@ -1,0 +1,109 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.15, pytest-8.3.4, pluggy-1.6.0 -- /opt/miniconda3/envs/spoilage/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /Users/abby/Desktop/spoilage-predictor
+plugins: anyio-4.14.1
+collecting ... collected 15 items
+
+tests/test_reproducibility_v4.py::test_manifest_integrity PASSED         [  6%]
+tests/test_reproducibility_v4.py::test_checkpoint_sha256_integrity FAILED [ 13%]
+tests/test_reproducibility_v4.py::test_dataset_exclusion_accounting PASSED [ 20%]
+tests/test_reproducibility_v4.py::test_super_group_partition_separation PASSED [ 26%]
+tests/test_reproducibility_v4.py::test_prediction_schema_compliance PASSED [ 33%]
+tests/test_reproducibility_v4.py::test_registry_metric_concordance PASSED [ 40%]
+tests/test_reproducibility_v4.py::test_portable_paths_validity PASSED    [ 46%]
+tests/test_reproducibility_v4_1.py::test_final_partition_integrity_and_disjointness PASSED [ 53%]
+tests/test_reproducibility_v4_1.py::test_row_level_test_membership FAILED [ 60%]
+tests/test_reproducibility_v4_1.py::test_model_b_v4_1_checkpoint_sha256 FAILED [ 66%]
+tests/test_reproducibility_v4_1.py::test_metrics_concordance FAILED      [ 73%]
+tests/test_reproducibility_v4_1.py::test_calibration_reliability_census FAILED [ 80%]
+tests/test_reproducibility_v4_1.py::test_selective_prediction_consistency FAILED [ 86%]
+tests/test_reproducibility_v4_1.py::test_publisher_reference_verification PASSED [ 93%]
+tests/test_reproducibility_v4_1.py::test_field_study_pilot_characterization PASSED [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_checkpoint_sha256_integrity _______________________
+
+    def test_checkpoint_sha256_integrity():
+        model_a_path = PROJECT_ROOT / "experiments" / "checkpoints" / "mobilenet_v2" / "best_model.keras"
+        model_b_path = PROJECT_ROOT / "experiments" / "group_leakage_study" / "CHECKPOINTS" / "group_aware_mobilenet_v2.keras"
+    
+>       assert model_a_path.exists(), f"Model A checkpoint missing: {model_a_path}"
+E       AssertionError: Model A checkpoint missing: /Users/abby/Desktop/spoilage-predictor/experiments/checkpoints/mobilenet_v2/best_model.keras
+E       assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/Users/abby/Desktop/spoilage-predictor/experiments/checkpoints/mobilenet_v2/best_model.keras').exists
+
+tests/test_reproducibility_v4.py:65: AssertionError
+________________________ test_row_level_test_membership ________________________
+
+    def test_row_level_test_membership():
+        root = get_package_root()
+        test_p = root / "FINAL_GROUP_TEST_V4.csv"
+        pred_p = root / "MODEL_B_V4_1_PREDICTIONS.csv"
+    
+>       assert test_p.exists() and pred_p.exists()
+E       AssertionError: assert (True and False)
+E        +  where True = exists()
+E        +    where exists = PosixPath('/Users/abby/Desktop/spoilage-predictor/FINAL_GROUP_TEST_V4.csv').exists
+E        +  and   False = exists()
+E        +    where exists = PosixPath('/Users/abby/Desktop/spoilage-predictor/MODEL_B_V4_1_PREDICTIONS.csv').exists
+
+tests/test_reproducibility_v4_1.py:112: AssertionError
+_____________________ test_model_b_v4_1_checkpoint_sha256 ______________________
+
+    def test_model_b_v4_1_checkpoint_sha256():
+        root = get_package_root()
+        sha_file = root / "MODEL_B_V4_1_CHECKPOINT_SHA256.txt"
+>       assert sha_file.exists(), f"Missing SHA report: {sha_file}"
+E       AssertionError: Missing SHA report: /Users/abby/Desktop/spoilage-predictor/MODEL_B_V4_1_CHECKPOINT_SHA256.txt
+E       assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/Users/abby/Desktop/spoilage-predictor/MODEL_B_V4_1_CHECKPOINT_SHA256.txt').exists
+
+tests/test_reproducibility_v4_1.py:131: AssertionError
+___________________________ test_metrics_concordance ___________________________
+
+    def test_metrics_concordance():
+        root = get_package_root()
+        pred_p = root / "MODEL_B_V4_1_PREDICTIONS.csv"
+        metrics_p = root / "MODEL_B_V4_1_METRICS.json"
+    
+>       assert pred_p.exists() and metrics_p.exists()
+E       AssertionError: assert (False)
+E        +  where False = exists()
+E        +    where exists = PosixPath('/Users/abby/Desktop/spoilage-predictor/MODEL_B_V4_1_PREDICTIONS.csv').exists
+
+tests/test_reproducibility_v4_1.py:168: AssertionError
+_____________________ test_calibration_reliability_census ______________________
+
+    def test_calibration_reliability_census():
+        root = get_package_root()
+        rel_p = root / "MODEL_B_V4_1_RELIABILITY_TABLE.csv"
+        cal_p = root / "MODEL_B_V4_1_CALIBRATION.json"
+    
+>       assert rel_p.exists() and cal_p.exists()
+E       AssertionError: assert (False)
+E        +  where False = exists()
+E        +    where exists = PosixPath('/Users/abby/Desktop/spoilage-predictor/MODEL_B_V4_1_RELIABILITY_TABLE.csv').exists
+
+tests/test_reproducibility_v4_1.py:197: AssertionError
+____________________ test_selective_prediction_consistency _____________________
+
+    def test_selective_prediction_consistency():
+        root = get_package_root()
+        sel_p = root / "MODEL_B_V4_1_SELECTIVE_RESULTS.json"
+>       assert sel_p.exists()
+E       AssertionError: assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/Users/abby/Desktop/spoilage-predictor/MODEL_B_V4_1_SELECTIVE_RESULTS.json').exists
+
+tests/test_reproducibility_v4_1.py:215: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_reproducibility_v4.py::test_checkpoint_sha256_integrity - A...
+FAILED tests/test_reproducibility_v4_1.py::test_row_level_test_membership - A...
+FAILED tests/test_reproducibility_v4_1.py::test_model_b_v4_1_checkpoint_sha256
+FAILED tests/test_reproducibility_v4_1.py::test_metrics_concordance - Asserti...
+FAILED tests/test_reproducibility_v4_1.py::test_calibration_reliability_census
+FAILED tests/test_reproducibility_v4_1.py::test_selective_prediction_consistency
+========================= 6 failed, 9 passed in 1.33s ==========================

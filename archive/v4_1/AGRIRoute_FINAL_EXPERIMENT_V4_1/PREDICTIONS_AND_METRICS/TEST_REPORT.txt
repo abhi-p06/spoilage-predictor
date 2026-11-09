@@ -1,0 +1,65 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.15, pytest-8.3.4, pluggy-1.6.0 -- /opt/miniconda3/envs/spoilage/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /Users/abby/Desktop/spoilage-predictor
+plugins: anyio-4.14.1
+collecting ... collected 8 items
+
+tests/test_reproducibility_v4_1.py::test_final_partition_integrity_and_disjointness PASSED [ 12%]
+tests/test_reproducibility_v4_1.py::test_row_level_test_membership PASSED [ 25%]
+tests/test_reproducibility_v4_1.py::test_model_b_v4_1_checkpoint_sha256 PASSED [ 37%]
+tests/test_reproducibility_v4_1.py::test_metrics_concordance PASSED      [ 50%]
+tests/test_reproducibility_v4_1.py::test_calibration_reliability_census PASSED [ 62%]
+tests/test_reproducibility_v4_1.py::test_selective_prediction_consistency PASSED [ 75%]
+tests/test_reproducibility_v4_1.py::test_publisher_reference_verification PASSED [ 87%]
+tests/test_reproducibility_v4_1.py::test_field_study_pilot_characterization PASSED [100%]
+
+============================== 8 passed in 1.07s ===============================
+
+================================================================================
+AGRIRoute V4.1 Reproducibility and Audit Verification Ledger
+================================================================================
+Verification Timestamp: 2026-11-10T02:04:16 UTC
+Operating System: macOS Darwin (Apple Silicon M4, 16 GB unified memory)
+Python Interpreter: Python 3.11.15 (/opt/miniconda3/envs/spoilage/bin/python)
+TensorFlow Version: 2.16.2 (PluggableDevice: Metal GPU)
+
+Verified Primary Metrics (N=227 raw base screenshots, is_raw == 1):
+- Accuracy:            96.92% (220 / 227)
+- Balanced Accuracy:   97.09%
+- Macro Precision:     96.79%
+- Macro Recall:        97.09%
+- Macro F1:            96.87%
+- Macro ROC-AUC (OvR): 0.9979
+- Macro PR-AUC:        0.9903
+- ECE (Uncalibrated):  0.05247
+- ECE (Calibrated):    0.05247 (T* = 1.0000 fitted on 227 raw validation samples)
+- NLL:                 0.1065
+- Multiclass Brier:    0.0456
+
+Verified Secondary Robustness Metrics (N=2,043 all variants, FINAL_GROUP_TEST_V4_1.csv):
+- Accuracy:            95.30% (1,947 / 2,043)
+- Balanced Accuracy:   95.26%
+- Macro F1:            95.19%
+- Macro ROC-AUC (OvR): 0.9965
+- Macro PR-AUC:        0.9841
+- ECE (Calibrated):    0.05204
+- NLL:                 0.1789
+- Multiclass Brier:    0.0813
+
+Zero-Shot External Generalization Benchmarks:
+- FruitVision (N=4,157 clean images): 69.14% Accuracy, 0.6675 Macro F1, 0.9522 ROC-AUC
+  Selective Prediction (tau=0.90):    24.90% Coverage (1,035 accepted), 97.20% Accuracy
+- Sultana (N=1,193 clean images):     65.63% Accuracy, 0.6577 Macro F1, 0.9032 ROC-AUC
+  Selective Prediction (tau=0.90):    23.47% Coverage (280 accepted), 81.43% Accuracy
+
+Cryptographic Checkpoint Verification:
+- Model Identifier: agriroute_mobilenet_v2_v4_1_primary
+- Filename:         group_aware_mobilenet_v2_v4_1.keras (and MODEL_B_V4_1_CHECKPOINT.keras)
+- File Size:        9,715,984 bytes
+- SHA-256 Checksum: 4a12f354a4157d2b04ed9606df7112c663fe000d924c5264b5f2fa1b3932b6b4
+
+Audit Verdict:
+All 8 automated reproducibility tests passed without warnings or discrepancies.
+Partition separation, row-level membership, mathematical concordance, and calibration
+census are certified 100% compliant with AgriRoute Research Integrity Rules.

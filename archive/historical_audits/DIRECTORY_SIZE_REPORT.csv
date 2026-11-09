@@ -1,0 +1,20 @@
+item,type,size_bytes,size_human
+.git,directory,20845777861,19.41 GB
+data,directory,15216950717,14.17 GB
+[root files],files_in_root,45271733,43.17 MB
+PHASH_COLLISION_CONTACT_SHEET,directory,2221597,2.12 MB
+PHASH_REVIEW,directory,2107020,2.01 MB
+DATASET_EXCLUSION_MANIFESTS,directory,1267739,1.21 MB
+notebooks,directory,643358,628.28 KB
+scripts,directory,585764,572.04 KB
+tests,directory,137502,134.28 KB
+logs,directory,135264,132.09 KB
+literature_review,directory,132892,129.78 KB
+.agents,directory,132732,129.62 KB
+app,directory,115014,112.32 KB
+research_audit,directory,70864,69.20 KB
+reports,directory,57689,56.34 KB
+revision_audit,directory,57559,56.21 KB
+.playwright-mcp,directory,26727,26.10 KB
+.github,directory,4132,4.04 KB
+.pytest_cache,directory,1475,1.44 KB

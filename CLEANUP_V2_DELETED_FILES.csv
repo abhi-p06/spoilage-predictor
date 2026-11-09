@@ -1,0 +1,12 @@
+filename,relative_path,size_bytes,size_human,reason
+.pytest_cache,.pytest_cache,2241,2.19 KB,Ephemeral pytest test runner cache directory
+__pycache__,archive/v4_1/AGRIRoute_FINAL_EXPERIMENT_V4_1/tests/__pycache__,61223,59.79 KB,Disposable Python bytecode cache directory
+__pycache__,tests/__pycache__,167024,163.11 KB,Disposable Python bytecode cache directory
+.DS_Store,.DS_Store,6148,6.00 KB,macOS Finder metadata file
+.DS_Store,experiments/.DS_Store,6148,6.00 KB,macOS Finder metadata file
+.DS_Store,.git/.DS_Store,6148,6.00 KB,macOS Finder metadata file
+.DS_Store,.git/objects/.DS_Store,34820,34.00 KB,macOS Finder metadata file
+console-2026-11-08T18-59-16-816Z.log,.playwright-mcp/console-2026-11-08T18-59-16-816Z.log,5239,5.12 KB,Ephemeral playwright session log
+page-2026-11-08T18-59-18-849Z.yml,.playwright-mcp/page-2026-11-08T18-59-18-849Z.yml,8045,7.86 KB,Ephemeral playwright session log
+console-2026-11-08T18-59-31-735Z.log,.playwright-mcp/console-2026-11-08T18-59-31-735Z.log,2575,2.51 KB,Ephemeral playwright session log
+page-2026-11-08T18-59-33-680Z.yml,.playwright-mcp/page-2026-11-08T18-59-33-680Z.yml,10868,10.61 KB,Ephemeral playwright session log

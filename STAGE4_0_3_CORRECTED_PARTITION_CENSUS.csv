@@ -1,0 +1,55 @@
+partition_group,dataset,fruit_species,condition,inclusion_status,image_count
+A_PRIMARY_IN_DISTRIBUTION,Kaggle_Fresh_Rotten_V4_1,Apple (Malus domestica),Fresh,INCLUDED,34
+A_PRIMARY_IN_DISTRIBUTION,Kaggle_Fresh_Rotten_V4_1,Apple (Malus domestica),Rotten,INCLUDED,49
+A_PRIMARY_IN_DISTRIBUTION,Kaggle_Fresh_Rotten_V4_1,Banana (Musa acuminata),Fresh,INCLUDED,33
+A_PRIMARY_IN_DISTRIBUTION,Kaggle_Fresh_Rotten_V4_1,Banana (Musa acuminata),Rotten,INCLUDED,47
+A_PRIMARY_IN_DISTRIBUTION,Kaggle_Fresh_Rotten_V4_1,Orange (Citrus sinensis),Fresh,INCLUDED,31
+A_PRIMARY_IN_DISTRIBUTION,Kaggle_Fresh_Rotten_V4_1,Orange (Citrus sinensis),Rotten,INCLUDED,33
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Apple (Malus domestica),Fresh,INCLUDED,765
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Apple (Malus domestica),Rotten,INCLUDED,630
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Banana (Musa acuminata),Fresh,EXCLUDED,1
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Banana (Musa acuminata),Fresh,INCLUDED,748
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Banana (Musa acuminata),Rotten,EXCLUDED,1
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Banana (Musa acuminata),Rotten,INCLUDED,631
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Orange (Citrus sinensis),Fresh,INCLUDED,753
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Orange (Citrus sinensis),Rotten,EXCLUDED,26
+B_EXTERNAL_KNOWN_SHIFT,FruitVision_2025,Orange (Citrus sinensis),Rotten,INCLUDED,630
+B_EXTERNAL_KNOWN_SHIFT,Sultana_2022,Apple (Malus domestica),Fresh,INCLUDED,200
+B_EXTERNAL_KNOWN_SHIFT,Sultana_2022,Apple (Malus domestica),Rotten,INCLUDED,200
+B_EXTERNAL_KNOWN_SHIFT,Sultana_2022,Banana (Musa acuminata),Fresh,INCLUDED,200
+B_EXTERNAL_KNOWN_SHIFT,Sultana_2022,Banana (Musa acuminata),Rotten,INCLUDED,200
+B_EXTERNAL_KNOWN_SHIFT,Sultana_2022,Orange (Citrus sinensis),Fresh,EXCLUDED,7
+B_EXTERNAL_KNOWN_SHIFT,Sultana_2022,Orange (Citrus sinensis),Fresh,INCLUDED,193
+B_EXTERNAL_KNOWN_SHIFT,Sultana_2022,Orange (Citrus sinensis),Rotten,INCLUDED,200
+B_EXTERNAL_KNOWN_SHIFT,ToxiFruit_2026,Apple (Malus domestica),Fresh,PLANNED,900
+B_EXTERNAL_KNOWN_SHIFT,ToxiFruit_2026,Banana (Musa acuminata),Fresh,PLANNED,900
+C_CONDITION_SHIFT_UNKNOWN,FruitVision_2025,Apple (Malus domestica),Formalin-mixed,EXCLUDED,2
+C_CONDITION_SHIFT_UNKNOWN,FruitVision_2025,Apple (Malus domestica),Formalin-mixed,INCLUDED,641
+C_CONDITION_SHIFT_UNKNOWN,FruitVision_2025,Banana (Musa acuminata),Formalin-mixed,INCLUDED,660
+C_CONDITION_SHIFT_UNKNOWN,FruitVision_2025,Orange (Citrus sinensis),Formalin-mixed,EXCLUDED,31
+C_CONDITION_SHIFT_UNKNOWN,FruitVision_2025,Orange (Citrus sinensis),Formalin-mixed,INCLUDED,616
+C_CONDITION_SHIFT_UNKNOWN,ToxiFruit_2026,Apple (Malus domestica),Formalin-treated,PLANNED,900
+C_CONDITION_SHIFT_UNKNOWN,ToxiFruit_2026,Banana (Musa acuminata),Formalin-treated,PLANNED,900
+D1_PURE_SEMANTIC_SHIFT,FruitVision_2025,Grape (Vitis vinifera),Fresh,EXCLUDED,17
+D1_PURE_SEMANTIC_SHIFT,FruitVision_2025,Grape (Vitis vinifera),Fresh,INCLUDED,753
+D1_PURE_SEMANTIC_SHIFT,FruitVision_2025,Grape (Vitis vinifera),Rotten,INCLUDED,630
+D1_PURE_SEMANTIC_SHIFT,FruitVision_2025,Mango (Mangifera indica),Fresh,INCLUDED,763
+D1_PURE_SEMANTIC_SHIFT,FruitVision_2025,Mango (Mangifera indica),Rotten,INCLUDED,630
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Grape (Vitis vinifera),Fresh,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Grape (Vitis vinifera),Rotten,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Guava (Psidium guajava),Fresh,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Guava (Psidium guajava),Rotten,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Jujube (Ziziphus jujuba),Fresh,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Jujube (Ziziphus jujuba),Rotten,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Pomegranate (Punica granatum),Fresh,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Pomegranate (Punica granatum),Rotten,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Strawberry (Fragaria x ananassa),Fresh,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,Sultana_2022,Strawberry (Fragaria x ananassa),Rotten,INCLUDED,200
+D1_PURE_SEMANTIC_SHIFT,ToxiFruit_2026,Mango (Mangifera indica),Fresh,PLANNED,900
+D2_COMBINED_SEMANTIC_TREATMENT_SHIFT,FruitVision_2025,Grape (Vitis vinifera),Formalin-mixed,EXCLUDED,23
+D2_COMBINED_SEMANTIC_TREATMENT_SHIFT,FruitVision_2025,Grape (Vitis vinifera),Formalin-mixed,INCLUDED,587
+D2_COMBINED_SEMANTIC_TREATMENT_SHIFT,FruitVision_2025,Mango (Mangifera indica),Formalin-mixed,EXCLUDED,8
+D2_COMBINED_SEMANTIC_TREATMENT_SHIFT,FruitVision_2025,Mango (Mangifera indica),Formalin-mixed,INCLUDED,608
+D2_COMBINED_SEMANTIC_TREATMENT_SHIFT,ToxiFruit_2026,Mango (Mangifera indica),Formalin-treated,PLANNED,900
+M1_CULTIVAR_TRANSFER,ToxiFruit_2026,Malta (Citrus sinensis cv. Malta),Fresh,PLANNED,900
+M2_CULTIVAR_CONDITION_SHIFT,ToxiFruit_2026,Malta (Citrus sinensis cv. Malta),Formalin-treated,PLANNED,900

@@ -1,0 +1,16 @@
+scorer_id,scorer_name,operating_point,order_statistic_rank,threshold_value,accepted_samples,rejected_samples,empirical_coverage_pct,ties_at_threshold,calibration_notes
+1,MSP (Maximum Softmax Probability),tau_95,12th smallest (index 11),0.700580,216,11,95.1542,1,Rejects scores < 0.700580; accepts scores >= 0.700580
+2,MSP (Maximum Softmax Probability),tau_90,23rd smallest (index 22),0.792790,205,22,90.3084,1,Rejects scores < 0.792790; accepts scores >= 0.792790
+3,Energy (ID Free Energy T=1.0),tau_95,12th smallest (index 11),1.054579,216,11,95.1542,1,Rejects scores < 1.054579; accepts scores >= 1.054579
+4,Energy (ID Free Energy T=1.0),tau_90,23rd smallest (index 22),1.309243,205,22,90.3084,1,Rejects scores < 1.309243; accepts scores >= 1.309243
+5,ODIN (T=1000.0; eps=0.0014),tau_95,12th smallest (index 11),0.167164,216,11,95.1542,1,Rejects scores < 0.167164; accepts scores >= 0.167164
+6,ODIN (T=1000.0; eps=0.0014),tau_90,23rd smallest (index 22),0.167207,205,22,90.3084,1,Rejects scores < 0.167207; accepts scores >= 0.167207
+7,Ledoit-Wolf Mahalanobis,tau_95,12th smallest (index 11),-65.133230,216,11,95.1542,1,Negative distance; rejects scores < -65.133230
+8,Ledoit-Wolf Mahalanobis,tau_90,23rd smallest (index 22),-58.251335,205,22,90.3084,1,Negative distance; rejects scores < -58.251335
+9,OpenMax (eta=20; alpha=2),tau_95,12th smallest (index 11),0.778938,216,11,95.1542,1,1 - p(Unknown); rejects scores < 0.778938
+10,OpenMax (eta=20; alpha=2),tau_90,23rd smallest (index 22),0.837232,205,22,90.3084,1,1 - p(Unknown); rejects scores < 0.837232
+11,Calibrated Confidence (Scalar T=1.0000),tau_95,12th smallest (index 11),0.700580,216,11,95.1542,1,Identical to MSP (T=1.0000); 0.00e+00 diff
+12,Calibrated Confidence (Scalar T=1.0000),tau_90,23rd smallest (index 22),0.792790,205,22,90.3084,1,Identical to MSP (T=1.0000); 0.00e+00 diff
+13,Dual-Gate Cascade (Energy AND MSP),tau_cascade_95,Joint equal-quantile rank 6,tau1=0.918497; tau2=0.582613,216,11,95.1542,1,Jointly calibrated to achieve exactly 216 accepted ID samples
+14,Dual-Gate Cascade (Energy AND MSP),tau_cascade_90,Joint equal-quantile rank 13,tau1=1.133139; tau2=0.722049,205,22,90.3084,1,Jointly calibrated to achieve exactly 205 accepted ID samples
+

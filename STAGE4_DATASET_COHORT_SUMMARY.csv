@@ -1,0 +1,43 @@
+partition_id,dataset_name,doi_or_url,licence,botanical_species,condition_label,evaluation_group,upstream_image_count,excluded_duplicate_count,net_usable_count,local_relative_path,notes
+A1,Kaggle Fresh/Rotten V4.1,Kaggle Public Benchmark,CC0: Public Domain,Apple (Malus domestica),Fresh,A_PRIMARY_IN_DISTRIBUTION,34,0,34,FINAL_GROUP_TEST_V4_1.csv (is_raw==1),Primary untouched test partition
+A2,Kaggle Fresh/Rotten V4.1,Kaggle Public Benchmark,CC0: Public Domain,Banana (Musa acuminata),Fresh,A_PRIMARY_IN_DISTRIBUTION,33,0,33,FINAL_GROUP_TEST_V4_1.csv (is_raw==1),Primary untouched test partition
+A3,Kaggle Fresh/Rotten V4.1,Kaggle Public Benchmark,CC0: Public Domain,Orange (Citrus sinensis),Fresh,A_PRIMARY_IN_DISTRIBUTION,31,0,31,FINAL_GROUP_TEST_V4_1.csv (is_raw==1),Primary untouched test partition
+A4,Kaggle Fresh/Rotten V4.1,Kaggle Public Benchmark,CC0: Public Domain,Apple (Malus domestica),Rotten,A_PRIMARY_IN_DISTRIBUTION,49,0,49,FINAL_GROUP_TEST_V4_1.csv (is_raw==1),Primary untouched test partition
+A5,Kaggle Fresh/Rotten V4.1,Kaggle Public Benchmark,CC0: Public Domain,Banana (Musa acuminata),Rotten,A_PRIMARY_IN_DISTRIBUTION,47,0,47,FINAL_GROUP_TEST_V4_1.csv (is_raw==1),Primary untouched test partition
+A6,Kaggle Fresh/Rotten V4.1,Kaggle Public Benchmark,CC0: Public Domain,Orange (Citrus sinensis),Rotten,A_PRIMARY_IN_DISTRIBUTION,33,0,33,FINAL_GROUP_TEST_V4_1.csv (is_raw==1),Primary untouched test partition
+B1,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Apple (Malus domestica),Fresh,B_EXTERNAL_KNOWN_SHIFT,765,0,765,data/raw/fruitvision/extracted/Fruits Original/Apple/Fresh,Natural ambient retail/lab controls
+B2,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Apple (Malus domestica),Rotten,B_EXTERNAL_KNOWN_SHIFT,630,0,630,data/raw/fruitvision/extracted/Fruits Original/Apple/Rotten,Natural decomposition
+B3,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Banana (Musa acuminata),Fresh,B_EXTERNAL_KNOWN_SHIFT,749,1,748,data/raw/fruitvision/extracted/Fruits Original/Banana/Fresh,1 exact duplicate excluded in manifest
+B4,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Banana (Musa acuminata),Rotten,B_EXTERNAL_KNOWN_SHIFT,632,1,631,data/raw/fruitvision/extracted/Fruits Original/Banana/Rotten,1 exact duplicate excluded in manifest
+B5,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Orange (Citrus sinensis),Fresh,B_EXTERNAL_KNOWN_SHIFT,753,0,753,data/raw/fruitvision/extracted/Fruits Original/Orange/Fresh,Natural ambient controls
+B6,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Orange (Citrus sinensis),Rotten,B_EXTERNAL_KNOWN_SHIFT,656,26,630,data/raw/fruitvision/extracted/Fruits Original/Orange/Rotten,26 exact duplicates excluded in manifest
+B7,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Apple (Malus domestica),Fresh,B_EXTERNAL_KNOWN_SHIFT,200,0,200,data/raw/sultana/extracted/Original Image/FreshApple,Laboratory white backdrop
+B8,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Apple (Malus domestica),Rotten,B_EXTERNAL_KNOWN_SHIFT,200,0,200,data/raw/sultana/extracted/Original Image/RottenApple,Laboratory natural decay
+B9,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Banana (Musa acuminata),Fresh,B_EXTERNAL_KNOWN_SHIFT,200,0,200,data/raw/sultana/extracted/Original Image/FreshBanana,Laboratory white backdrop
+B10,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Banana (Musa acuminata),Rotten,B_EXTERNAL_KNOWN_SHIFT,200,0,200,data/raw/sultana/extracted/Original Image/RottenBanana,Laboratory natural decay
+B11,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Orange (Citrus sinensis),Fresh,B_EXTERNAL_KNOWN_SHIFT,200,7,193,data/raw/sultana/extracted/Original Image/FreshOrange,7 exact duplicates excluded in manifest
+B12,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Orange (Citrus sinensis),Rotten,B_EXTERNAL_KNOWN_SHIFT,200,0,200,data/raw/sultana/extracted/Original Image/RottenOrange,Laboratory natural decay
+C1,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Apple (Malus domestica),Formalin-treated,C_CONDITION_SHIFT_UNKNOWN,643,0,643,data/raw/fruitvision/extracted/Fruits Original/Apple/Formalin-mixed,30-min 10% formalin immersion + 48h
+C2,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Banana (Musa acuminata),Formalin-treated,C_CONDITION_SHIFT_UNKNOWN,660,0,660,data/raw/fruitvision/extracted/Fruits Original/Banana/Formalin-mixed,30-min 10% formalin immersion + 48h
+C3,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Orange (Citrus sinensis),Formalin-treated,C_CONDITION_SHIFT_UNKNOWN,647,0,647,data/raw/fruitvision/extracted/Fruits Original/Orange/Formalin-mixed,30-min 10% formalin immersion + 48h
+C4,ToxiFruit 2026,10.5281/zenodo.21480141,CC BY 4.0,Apple (Malus domestica),Formalin-treated,C_CONDITION_SHIFT_UNKNOWN,900,0,900,Zenodo: Original Dataset/mixed_apple,Formalin chamber treatment (Remote archive)
+C5,ToxiFruit 2026,10.5281/zenodo.21480141,CC BY 4.0,Banana (Musa acuminata),Formalin-treated,C_CONDITION_SHIFT_UNKNOWN,900,0,900,Zenodo: Original Dataset/mixed_banana,Formalin chamber treatment (Remote archive)
+D1,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Mango (Mangifera indica),Fresh,D_SEMANTIC_SHIFT_UNKNOWN,763,0,763,data/raw/fruitvision/extracted/Fruits Original/Mango/Fresh,Unseen fruit species
+D2,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Mango (Mangifera indica),Rotten,D_SEMANTIC_SHIFT_UNKNOWN,630,0,630,data/raw/fruitvision/extracted/Fruits Original/Mango/Rotten,Unseen fruit species
+D3,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Mango (Mangifera indica),Formalin-treated,D_SEMANTIC_SHIFT_UNKNOWN,616,0,616,data/raw/fruitvision/extracted/Fruits Original/Mango/Formalin-mixed,Unseen fruit species + treatment
+D4,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Grape (Vitis vinifera),Fresh,D_SEMANTIC_SHIFT_UNKNOWN,770,0,770,data/raw/fruitvision/extracted/Fruits Original/Grape/Fresh,Unseen fruit species
+D5,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Grape (Vitis vinifera),Rotten,D_SEMANTIC_SHIFT_UNKNOWN,630,0,630,data/raw/fruitvision/extracted/Fruits Original/Grape/Rotten,Unseen fruit species
+D6,FruitVision 2025,10.17632/xkbjx8959c.2,CC BY-NC-ND 4.0,Grape (Vitis vinifera),Formalin-treated,D_SEMANTIC_SHIFT_UNKNOWN,610,0,610,data/raw/fruitvision/extracted/Fruits Original/Grape/Formalin-mixed,Unseen fruit species + treatment
+D7,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Grape (Vitis vinifera),Fresh,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/FreshGrape,Unseen fruit species
+D8,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Grape (Vitis vinifera),Rotten,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/RottenGrape,Unseen fruit species
+D9,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Guava (Psidium guajava),Fresh,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/FreshGuava,Unseen fruit species
+D10,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Guava (Psidium guajava),Rotten,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/RottenGuava,Unseen fruit species
+D11,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Jujube (Ziziphus jujuba),Fresh,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/FreshJujube,Unseen fruit species
+D12,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Jujube (Ziziphus jujuba),Rotten,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/RottenJujube,Unseen fruit species
+D13,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Pomegranate (Punica granatum),Fresh,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/FreshPomegranate,Unseen fruit species
+D14,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Pomegranate (Punica granatum),Rotten,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/RottenPomegranate,Unseen fruit species
+D15,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Strawberry (Fragaria x ananassa),Fresh,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/FreshStrawberry,Unseen fruit species
+D16,Sultana 2022,10.17632/bdd69gyhv8.1,CC BY 4.0,Strawberry (Fragaria x ananassa),Rotten,D_SEMANTIC_SHIFT_UNKNOWN,200,0,200,data/raw/sultana/extracted/Original Image/RottenStrawberry,Unseen fruit species
+M1,ToxiFruit 2026,10.5281/zenodo.21480141,CC BY 4.0,Malta (Citrus sinensis cv. Malta),Fresh,SPECIAL_CULTIVAR_TRANSFER,900,0,900,Zenodo: Original Dataset/fresh_malta,Intra-species sweet orange cultivar (Reported separately)
+M2,ToxiFruit 2026,10.5281/zenodo.21480141,CC BY 4.0,Malta (Citrus sinensis cv. Malta),Formalin-treated,SPECIAL_CULTIVAR_CONDITION,900,0,900,Zenodo: Original Dataset/mixed_malta,Cultivar-specific condition shift (Reported separately)
+

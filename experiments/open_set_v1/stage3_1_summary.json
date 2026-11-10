@@ -1,0 +1,36 @@
+{
+  "checkpoint_sha256": "4a12f354a4157d2b04ed9606df7112c663fe000d924c5264b5f2fa1b3932b6b4",
+  "n_train_raw": 1057,
+  "n_val_raw": 227,
+  "mahalanobis_covariance": {
+    "dimension": [
+      1280,
+      1280
+    ],
+    "shrinkage_lambda": 0.09783696867698395,
+    "min_eigenvalue": 0.01787149350684663,
+    "max_eigenvalue": 9.397056998140206,
+    "condition_number": 525.8126297357387,
+    "is_positive_definite": true
+  },
+  "odin_parameters": {
+    "temperature": 1000.0,
+    "epsilon_normalized": 0.0014,
+    "epsilon_pixels": 0.1785,
+    "validation_gain": 1.8328428552649711e-07
+  },
+  "openmax_parameters": {
+    "tail_size_eta": 20,
+    "alpha": 2,
+    "num_weibull_models": 6
+  },
+  "calibration_scalar": {
+    "optimal_temperature": 1.0,
+    "pre_nll": 0.1215813085436821,
+    "post_nll": 0.1215813085436821,
+    "pre_ece_pct": 6.020058803096216,
+    "post_ece_pct": 6.020058803096216,
+    "pre_brier": 0.05450831603835641,
+    "post_brier": 0.05450831603835641
+  }
+}

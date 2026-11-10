@@ -1,0 +1,27 @@
+{
+  "checkpoint_sha256": "4a12f354a4157d2b04ed9606df7112c663fe000d924c5264b5f2fa1b3932b6b4",
+  "checkpoint_size_bytes": 9715984,
+  "input_shape": [
+    null,
+    224,
+    224,
+    3
+  ],
+  "penultimate_layer_name": "top_dropout",
+  "penultimate_dim": 1280,
+  "num_classes": 6,
+  "val_raw_count": 227,
+  "val_class_distribution": {
+    "rotten_apple": 49,
+    "rotten_banana": 46,
+    "fresh_apple": 35,
+    "fresh_banana": 33,
+    "rotten_orange": 33,
+    "fresh_orange": 31
+  },
+  "closed_set_val_accuracy": 0.9691629955947136,
+  "max_logit_diff_repeat": 0.0,
+  "max_prob_diff_repeat": 0.0,
+  "max_feat_diff_repeat": 0.0,
+  "post_inference_sha256_match": true
+}

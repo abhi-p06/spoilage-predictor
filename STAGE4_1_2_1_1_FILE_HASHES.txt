@@ -1,0 +1,16 @@
+========================================================================================================================
+STAGE 4.1.2.1.1 — COMPLETE ARTIFACT AND DELIVERABLE CRYPTOGRAPHIC VERIFICATION MANIFEST
+========================================================================================================================
+File Path                                               | Size (Bytes) | SHA-256 Hash
+----------------------------------------------------------------------------------------------------------------------------------------
+STAGE4_1_2_1_1_FINAL_RESULTS_REPORT.md                  |        19530 | 235c1168aae2a8b9ee4a5c833bc7f0eb8b7d21fe944d8b73c0d4600fb92ef7b2
+STAGE4_1_2_1_1_FINAL_CLAIMS_LEDGER.csv                  |         7468 | 1b19934e4cf23b722aea2f15f156cb37fd842db4eb6b2cd4341707ebd21e9dd3
+STAGE4_1_2_1_1_FINAL_CORRECTION_LOG.md                  |         5110 | 147222bbe95a8b34540fcc97374b4259a6a78d5acea3d86078a0d306ebce7a86
+STAGE4_1_2_1_SOURCE_STRATIFIED_CONFIDENCE_INTERVALS.csv |        14930 | eaf87a0553c8f9016188277551a5347f7c2b9466dc9a16454bab6059794d246a
+STAGE4_1_2_1_SOURCE_STRATIFIED_PHASH_SENSITIVITY.csv    |        19864 | 9e05b95dc71b15be63ef8192c433125207e63707a4a0a40491be32067464d6d1
+STAGE4_1_2_SOURCE_STRATIFIED_METRICS.csv                |        17487 | 8d18864f045f9d0d4b6b926e58df43787a6f816f7f9511e2ecbd16e05b72b349
+STAGE4_1_IMAGE_LEVEL_PREDICTIONS.csv                    |      6344926 | d74777bf0c0f787d309f6c9142f0b2850e67486738cf9777e282b271c97b19b4
+STAGE4_0_3_CORRECTED_THRESHOLD_TABLE.csv                |         4004 | 9e3a3b3e0aab3e23919780e4e551a001d592252109f39fc469140c89b5a47c00
+STAGE4_0_3_PHASH_ROW_LEVEL_REVIEW.csv                   |        76621 | 732721bd90a7d130432ff977bbf7bada2a88b29da2f6df72999bbdf042e7e820
+MODEL_B_V4_1_CHECKPOINT.keras                           |      9715984 | 4a12f354a4157d2b04ed9606df7112c663fe000d924c5264b5f2fa1b3932b6b4
+========================================================================================================================

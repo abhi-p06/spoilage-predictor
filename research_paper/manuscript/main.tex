@@ -1,0 +1,73 @@
+% Template for Elsevier CRC journal article
+% Procedia Computer Science - ICMLDE 2026
+
+\documentclass[3p,times,procedia]{elsarticle}
+\flushbottom
+
+%% The `ecrc' package must be called to make the CRC functionality available
+\usepackage{ecrc}
+\usepackage[bookmarks=false]{hyperref}
+\hypersetup{colorlinks,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+%% ecrc package configurations
+\volume{00}
+\firstpage{1}
+\journalname{Procedia Computer Science}
+\runauth{[Author surname(s) to be confirmed]}
+\jid{procs}
+
+%% natbib options for numbered citations compliant with Procedia Vancouver style
+\biboptions{sort&compress}
+
+\begin{document}
+\begin{frontmatter}
+
+\dochead{5th International Conference on Machine Learning and Data Engineering}
+
+\title{Source-Stratified Evaluation of Out-of-Distribution Detection in Fruit-Quality Classification Under Species and Treatment-Labelled Shifts}
+
+\author[a]{Author Names Redacted for Peer Review}
+\address[a]{[Department and Institution to be confirmed]}
+
+\begin{abstract}
+Automated fruit-quality classification using computer vision can achieve strong performance on familiar image distributions but may become unreliable under changes in data sources, fruit species, and post-harvest treatment conditions. This study presents a source-stratified empirical evaluation of a frozen MobileNetV2-based six-class fruit-quality classifier and multiple out-of-distribution (OOD) detection approaches. The evaluation uses 13,465 image records from three image repositories, organized into primary in-distribution, external known-class, unseen-species, treatment-labelled, and combined-shift cohorts.
+
+Five established OOD scoring approaches---Maximum Softmax Probability (MSP), Energy, ODIN, Mahalanobis distance, and OpenMax---are compared with an operational Energy--MSP dual-gate cascade. Closed-set accuracy decreases from 96.92\% on the primary test partition to 68.36\% on the pooled external known-class partition, demonstrating substantial performance degradation under external data shifts. Within the FruitVision repository, Energy achieves an AUROC of 81.57\% for the known-versus-unseen-species comparison, while the corresponding operational false acceptance rate is 13.18\%. Performance varies across repositories, with Energy achieving 67.52\% AUROC on the source-matched Sultana unseen-species comparison. More importantly, discrimination between natural known-class images and treatment-labelled known-class images is weak, with Energy achieving 53.13\% AUROC. Under the fixed dual-gate operating thresholds, 42.83\% of the treatment-labelled images are accepted and assigned a Fresh class.
+
+The findings demonstrate that OOD detection performance depends strongly on the evaluated shift and data source. They also show that RGB image classification alone cannot reliably distinguish the evaluated treatment-labelled condition. The study provides an image-level benchmark analysis with source-stratified comparisons, uncertainty estimates, duplicate-sensitivity analysis, and explicit limitations concerning dataset labels, specimen independence, and real-world validation.
+\end{abstract}
+
+\begin{keyword}
+Fruit quality classification \sep Open-set recognition \sep Out-of-distribution detection \sep Domain shift \sep MobileNetV2 \sep Energy-based detection \sep Image classification \sep Food quality assessment
+\end{keyword}
+
+\cortext[cor1]{Corresponding author. E-mail: author@institution.edu}
+
+\end{frontmatter}
+
+\vspace*{-6pt}
+
+%% Main document sections
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_dataset_and_experimental_design}
+\input{sections/04_methodology}
+\input{sections/05_results}
+\input{sections/06_discussion}
+\input{sections/07_limitations}
+\input{sections/08_conclusion}
+
+\section*{Acknowledgements}
+The authors acknowledge the creators and curators of the FruitQ, FruitVision, and Sultana datasets for making their photographic archives available for academic research.
+
+%% References section
+\bibliographystyle{elsarticle-num}
+\bibliography{bibliography/references}
+
+\end{document}
+

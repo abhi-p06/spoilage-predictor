@@ -12,7 +12,7 @@
 | Metric | Target / Constraint | Realized Output | Compliance Status |
 | :--- | :--- | :--- | :--- |
 | **Page Count** | Strict Minimum: 3 pages<br>Strict Maximum: 10 pages | **Exactly 10 pages** | **FULLY COMPLIANT** (0 overlength fee) |
-| **Page 10 Headroom** | Must terminate on or before Page 10 | Content terminates at $y = 561.0\text{ pt}$ / $742.7\text{ pt}$ | **181.7 pt safe margin** (~24.5% remaining blank space) |
+| **Page 10 Headroom** | Must terminate on or before Page 10 | Content terminates at $y = 541.1\text{ pt}$ / $742.7\text{ pt}$ | **201.6 pt safe margin** (~27.1% remaining blank space) |
 | **Template & Typography** | `\documentclass[3p,times,procedia]{elsarticle}` with `ecrc` | Standard Elsevier Procedia 3p single-column geometry | **COMPLIANT** |
 | **Citation Style** | Vancouver numbered format (`elsarticle-num.bst`) | Numbered `[1]--[23]`, sorted and compressed | **COMPLIANT** |
 | **Double-Blind Redaction** | Peer review anonymity required | Author names, affiliations, correspondence redacted | **COMPLIANT** |
@@ -63,25 +63,25 @@ All values in Table 4 were audited against canonical register `STAGE4_1_2_SOURCE
 | | ODIN Variant AUROC / FPR@95 | 72.30 / 83.18 | **72.30 / 87.43** | Reconciled to canonical |
 | | LW-Mahalanobis AUROC / FPR@95 | 81.41 / 79.00 | **81.41 / 79.00** | Verified |
 | | Modified OpenMax AUROC / FPR@95 | 72.46 / 82.53 | **72.46 / 91.28** | Reconciled to canonical |
-| | Dual-Gate Proxy AUROC / FPR@95 | 80.93 / 69.27 | **80.93 [80.13, 81.72] / 69.27** | Verified |
+| | Energy--MSP linear-margin proxy (exploratory) AUROC / FPR@95 | 80.93 / 69.27 | **80.93 [80.13, 81.72] / 69.27** | Verified |
 | **Cohort B** | MSP AUROC / FPR@95 | 58.77 / 91.08 | **58.77 / 92.85** | Reconciled to canonical |
 | | Energy AUROC / FPR@95 | 53.13 / 93.95 | **53.13 [52.16, 54.09] / 94.42** | Reconciled to canonical |
 | | ODIN Variant AUROC / FPR@95 | 56.73 / 91.81 | **56.73 / 91.13** | Reconciled to canonical |
 | | LW-Mahalanobis AUROC / FPR@95 | 47.91 / 98.07 | **47.91 / 98.07** | Verified |
 | | Modified OpenMax AUROC / FPR@95 | 55.35 / 95.20 | **55.35 / 95.20** | Verified |
-| | Dual-Gate Proxy AUROC / FPR@95 | 53.96 / 93.53 | **53.96 [52.96, 54.91] / 94.16** | Reconciled to canonical |
+| | Energy--MSP linear-margin proxy (exploratory) AUROC / FPR@95 | 53.96 / 93.53 | **53.96 [52.96, 54.91] / 94.16** | Reconciled to canonical |
 | **Cohort C** | MSP AUROC / FPR@95 | 76.54 / 76.82 | **76.47 / 76.40** | Reconciled to canonical |
 | | Energy AUROC / FPR@95 | 84.72 / 60.08 | **84.72 [83.85, 85.58] / 64.94** | Reconciled to canonical |
 | | ODIN Variant AUROC / FPR@95 | 76.43 / 77.24 | **78.11 / 83.85** | Reconciled to canonical |
 | | LW-Mahalanobis AUROC / FPR@95 | 84.85 / 69.87 | **80.08 / 78.49** | Reconciled to canonical |
 | | Modified OpenMax AUROC / FPR@95 | 76.44 / 77.07 | **77.22 / 88.12** | Reconciled to canonical |
-| | Dual-Gate Proxy AUROC / FPR@95 | 84.14 / 61.00 | **84.16 [83.28, 85.05] / 63.18** | Reconciled to canonical |
+| | Energy--MSP linear-margin proxy (exploratory) AUROC / FPR@95 | 84.14 / 61.00 | **84.16 [83.28, 85.05] / 63.18** | Reconciled to canonical |
 | **Cohort D** | MSP AUROC / FPR@95 | 59.77 / 94.75 | **59.77 / 94.30** | Reconciled to canonical |
 | | Energy AUROC / FPR@95 | 67.52 / 86.85 | **67.52 [65.67, 69.25] / 83.50** | Reconciled to canonical |
 | | ODIN Variant AUROC / FPR@95 | 59.85 / 94.70 | **60.02 / 94.25** | Reconciled to canonical |
 | | LW-Mahalanobis AUROC / FPR@95 | 68.15 / 81.20 | **68.15 / 81.20** | Verified |
 | | Modified OpenMax AUROC / FPR@95 | 60.10 / 94.50 | **64.38 / 94.75** | Reconciled to canonical |
-| | Dual-Gate Proxy AUROC / FPR@95 | 66.86 / 87.75 | **66.68 [64.98, 68.38] / 84.60** | Reconciled to canonical |
+| | Energy--MSP linear-margin proxy (exploratory) AUROC / FPR@95 | 66.86 / 87.75 | **66.68 [64.98, 68.38] / 84.60** | Reconciled to canonical |
 
 ---
 
@@ -103,8 +103,8 @@ Reconciled against `STAGE4_1_2_1_SOURCE_STRATIFIED_PHASH_SENSITIVITY.csv` and `r
     - 16 Partition D1 records.
 - **Sensitivity Results & Ranking Invariance:**
   - Maximum observed AUROC change across all 24 configurations between Primary and Tier 2: **$0.22\text{ percentage points}$** (Ledoit--Wolf Mahalanobis in Cohort C: $80.08\% \to 79.86\%$).
-  - Cohort A Energy: $81.57\% \to 81.55\% \to 81.46\%$.
-  - Cohort B Energy: $53.13\% \to 53.16\% \to 53.19\%$.
+  - Cohort A Energy: $81.57\% \to 81.53\% \to 81.46\%$ (canonical CSV `STAGE4_1_2_1_SOURCE_STRATIFIED_PHASH_SENSITIVITY.csv` confirms **81.53%** for Tier 1).
+  - Cohort B Energy: $53.13\% \to 53.18\% \to 53.19\%$.
   - Cohort D (Sultana): $0.00\text{ pp}$ change (0 collisions detected at $r \le 8$; completely invariant).
   - Relative detector rankings remain **strictly invariant** across all tiers in all cohorts.
 
@@ -122,8 +122,8 @@ Reconciled against `STAGE4_1_2_1_SOURCE_STRATIFIED_PHASH_SENSITIVITY.csv` and `r
 - **Model Parameter Count:**
   - Base MobileNetV2 feature extractor: 2,257,984 parameters.
   - 6-class Dense classification head: $1,280 \times 6 + 6 = 7,686$ parameters.
-  - Total model parameters: **2,265,670** (approximately **$2.26 \times 10^6$ trainable parameters**).
-  - Manuscript corrected from ImageNet 1,000-class count ($3.4 \times 10^6$) to **$2.26 \times 10^6$**.
+  - Total model parameters: **2,265,670** (approximately **$2.26 \times 10^6$ total parameters**).
+  - Manuscript corrected from ImageNet 1,000-class count ($3.4 \times 10^6$) to **$2.26 \times 10^6$ total parameters**.
 
 ---
 
@@ -151,10 +151,10 @@ All operational thresholds and screening metrics were audited and preserved exac
   - Standalone Energy threshold: $\tau_E = 1.054579$
   - Dual-Gate thresholds: $\tau_E = 0.918451 \land \tau_M = 0.582610$
 - **Operational Metrics (Table 5):**
-  - Pooled Known-Class Rejection Rate (KRR): $42.43\%$ $[41.10, 43.76]$ ($2,270/5,350$ valid knowns rejected).
-  - Retained Automated Sorting Decisions: $57.57\%$ $[56.24, 58.90]$ ($3,080/5,350$).
+  - Pooled Known-Class Rejection Rate (KRR): $42.43\%$ $[41.10, 43.76]$ ($2,270/5,350$ valid known image records rejected).
+  - Retained Automated Image-Level Decisions: $57.57\%$ $[56.24, 58.90]$ ($3,080/5,350$ known-class image records).
   - Cohort B Dual-Gate UFAR: $52.63\%$ $[50.81, 54.25]$ ($1,009/1,917$).
-  - Cohort B Dual-Gate UFAR-Fresh: $42.83\%$ $[41.26, 44.34]$ ($821/1,917$ treatment-labelled produce routed into classifier Fresh-class output labels).
+  - Cohort B Dual-Gate UFAR-Fresh: $42.83\%$ $[41.26, 44.34]$ ($821/1,917$ dataset-reported treatment-labelled image records assigned classifier Fresh-class output labels).
   - Standalone Energy UFAR-Fresh: $44.03\%$ $[42.41, 45.59]$ ($844/1,917$).
   - Cohort A Dual-Gate UFAR: $16.07\%$ ($446/2,776$); UFAR-Fresh: $10.48\%$ ($291/2,776$).
   - Cohort D Dual-Gate UFAR: $34.90\%$ ($698/2,000$); UFAR-Fresh: $22.65\%$ ($453/2,000$).

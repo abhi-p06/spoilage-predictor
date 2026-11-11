@@ -10,14 +10,14 @@ The end-to-end evaluation pipeline is illustrated in Fig.~\ref{fig:methodologica
 \begin{enumerate}
 \item \textbf{Image Ingestion and Preprocessing:} Input photographic image records are decoded, bilinearly resized to $224 \times 224 \times 3$, and mapped to the standardized dynamic range $[-1.0, 1.0]$.
 \item \textbf{Frozen Backbone Inference and Feature Extraction:} Preprocessed images are passed through a frozen MobileNetV2 architecture \cite{sandler2018mobilenetv2}. We extract both the 1280-dimensional penultimate feature representation $h(x) \in \mathbb{R}^{1280}$ (from global average pooling) and the unnormalized logit vector $z(x) \in \mathbb{R}^6$, from which softmax class posterior probabilities $p(x) = \operatorname{softmax}(z(x))$ are generated.
-\item \textbf{Post-hoc OOD Scoring:} Five established scoring functions are computed from the extracted representations: Maximum Softmax Probability (MSP) \cite{hendrycks2017baseline}, Energy-based scoring \cite{liu2020energy}, ODIN with input perturbation \cite{liang2018enhancing}, Ledoit-Wolf Mahalanobis distance \cite{lee2018simple}, and OpenMax with Weibull tail fitting \cite{bendale2016towards}.
-\item \textbf{Operational Decision Gating and Multi-Level Evaluation:} Continuous scores are mapped to discrete acceptance/rejection decisions via fixed prospective operating thresholds calibrated on validation data. Model performance is comprehensively evaluated across: (i) closed-set classification accuracy on knowns, (ii) continuous threshold-free OOD ranking discrimination (AUROC, FPR@95), and (iii) fixed-threshold operational rejection rates (UFAR, UFAR-Fresh, KRR).
+\item \textbf{Post-hoc OOD Scoring:} Five post-hoc scoring functions are computed from the extracted representations: Maximum Softmax Probability (MSP) \cite{hendrycks2017baseline}, Energy-based scoring \cite{liu2020energy}, an ODIN-style perturbation variant \cite{liang2018enhancing}, Ledoit--Wolf Mahalanobis distance \cite{lee2018simple}, and a modified OpenMax-style heuristic \cite{bendale2016towards}.
+\item \textbf{Operational Decision Gating and Multi-Level Evaluation:} Continuous scores are mapped to discrete acceptance/rejection decisions via fixed prospective operating thresholds calibrated on validation data. Model performance is comprehensively evaluated across: (i) closed-set classification accuracy on knowns, (ii) threshold-independent OOD ranking (AUROC), (iii) retrospective operating-point separation (FPR@95), and (iv) fixed validation-threshold operational rejection metrics (UFAR, UFAR-Fresh, KRR).
 \end{enumerate}
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.98\linewidth]{figures/figure_02_pipeline.pdf}
-\caption{End-to-end methodological pipeline of the source-stratified evaluation benchmark. Photographic image records are processed by a frozen MobileNetV2 backbone (checkpoint SHA-256: \texttt{4a12f354...b6b4}) to extract penultimate features $h(x) \in \mathbb{R}^{1280}$ and logits $z(x) \in \mathbb{R}^6$. Five post-hoc scoring functions are evaluated for continuous OOD ranking. Operating thresholds locked a priori on validation knowns ($N_{\text{val}} = 227$) govern discrete acceptance ($\hat{y} \in \{0, \dots, 5\}$) or rejection ($\hat{y} = \text{\textcircled{r}}$) via the Energy--MSP Dual-Gate cascade.}
+\caption{End-to-end methodological pipeline of the source-stratified evaluation benchmark. Photographic image records are processed by a frozen MobileNetV2 backbone (checkpoint SHA-256: \texttt{4a12f354...b6b4}) to extract penultimate features $h(x) \in \mathbb{R}^{1280}$ and logits $z(x) \in \mathbb{R}^6$. Five post-hoc scoring methods (MSP, Energy, an ODIN-style perturbation variant, Ledoit--Wolf Mahalanobis, and a modified OpenMax-style heuristic) are evaluated for OOD ranking and thresholded separation. Operating thresholds locked a priori on validation knowns ($N_{\text{val}} = 227$) govern discrete acceptance ($\hat{y} \in \{0, \dots, 5\}$) or rejection ($\hat{y} = \text{\textcircled{r}}$) via the Energy--MSP Dual-Gate cascade.}
 \label{fig:methodological_pipeline}
 \end{figure*}
 
@@ -56,7 +56,7 @@ x_{\text{norm}} = \frac{x}{127.5} - 1.0 \in [-1.0, 1.0]^3.
 \subsection{Post-Hoc OOD Detection Scoring Functions}
 \label{sec:ood_scoring_functions}
 
-We evaluate five established post-hoc scoring algorithms, covering posterior probabilities, energy modeling, input perturbation, distance-based feature modeling, and extreme value theory. Table~\ref{tab:detector_formulations} summarizes their mathematical definitions, input representations, score orientations, and implementation hyperparameters.
+We evaluate five post-hoc scoring algorithms, covering posterior probabilities, energy modeling, input perturbation, distance-based feature modeling, and extreme value theory, noting that two evaluated methods are specific implementation variants (an ODIN-style perturbation variant and a modified OpenMax-style heuristic). Table~\ref{tab:detector_formulations} summarizes their mathematical definitions, input representations, score orientations, and implementation hyperparameters.
 
 \begin{table*}[!t]
 \caption{Post-hoc out-of-distribution detector formulations and verified implementation configurations. All scores are oriented such that higher values indicate in-distribution confidence, ensuring consistency across continuous AUROC ranking and operational decision gating.}
@@ -72,11 +72,11 @@ We evaluate five established post-hoc scoring algorithms, covering posterior pro
 \addlinespace[3pt]
 \textbf{Energy} \newline Liu et al. \cite{liu2020energy} & $S_{\text{Energy}}(x) = T \cdot \log \sum_{k=1}^K \exp(z_k(x) / T)$ & Logits $z(x) \in \mathbb{R}^6$ & Higher $\implies$ ID \newline Anomaly: $-S_{\text{Energy}}$ & Free-energy score; temperature $T = 1.0$; computed via \texttt{logsumexp}. Post-hoc score, not generative density $p(x)$. \\
 \addlinespace[3pt]
-\textbf{ODIN (Variant)} \newline Liang et al. \cite{liang2018enhancing} & $S_{\text{ODIN}}(x) = \max_{k} \frac{\exp(z_k(\tilde{x}) / T)}{\sum_j \exp(z_j(\tilde{x}) / T)}$ \newline $\tilde{x} = \operatorname{clip}(x + \varepsilon \operatorname{sign}(\nabla_x \max_k z_k / T))$ & Image $x$ and logits $z(x)$ & Higher $\implies$ ID \newline Anomaly: $-S_{\text{ODIN}}$ & ODIN-style perturbation variant; gradient on max temperature-scaled logit; $T = 1000.0$; $\varepsilon = 0.0014$; clipped to $[-1.0, 1.0]$. \\
+\textbf{ODIN-style Variant} \newline Liang et al. \cite{liang2018enhancing} & $S_{\text{ODIN}}(x) = \max_{k} \frac{\exp(z_k(\tilde{x}) / T)}{\sum_j \exp(z_j(\tilde{x}) / T)}$ \newline $\tilde{x} = \operatorname{clip}(x + \varepsilon \operatorname{sign}(\nabla_x \max_k z_k / T))$ & Image $x$ and logits $z(x)$ & Higher $\implies$ ID \newline Anomaly: $-S_{\text{ODIN}}$ & ODIN-style perturbation variant; gradient on max temperature-scaled logit; $T = 1000.0$; $\varepsilon = 0.0014$; clipped to $[-1.0, 1.0]$. \\
 \addlinespace[3pt]
-\textbf{Mahalanobis} \newline Lee et al. \cite{lee2018simple} & $S_{\text{Maha}}(x) = - \min_c d_M(h(x), \mu_c)$ \newline $d_M = \sqrt{(h(x) - \mu_c)^\top \Sigma_{\text{LW}}^{-1} (h(x) - \mu_c)}$ & Features $h(x) \in \mathbb{R}^{1280}$ & Higher $\implies$ ID \newline Anomaly: $d_M(x)$ & Class centroids $\mu_c$; shared covariance with Ledoit-Wolf shrinkage $\Sigma_{\text{LW}}$; negated distance. \\
+\textbf{Ledoit--Wolf Mahalanobis} \newline Lee et al. \cite{lee2018simple} & $S_{\text{Maha}}(x) = - \min_c d_M(h(x), \mu_c)$ \newline $d_M = \sqrt{(h(x) - \mu_c)^\top \Sigma_{\text{LW}}^{-1} (h(x) - \mu_c)}$ & Features $h(x) \in \mathbb{R}^{1280}$ & Higher $\implies$ ID \newline Anomaly: $d_M(x)$ & Class centroids $\mu_c$; shared covariance with Ledoit-Wolf shrinkage $\Sigma_{\text{LW}}$; negated distance. \\
 \addlinespace[3pt]
-\textbf{OpenMax (Mod.)} \newline Bendale \& Boult \cite{bendale2016towards} & $S_{\text{OpenMax}}(x) = 1.0 - p_{\text{OM}}(y = 0)$ \newline $w_{c_r} = 1.0 - \frac{r-1}{\alpha}(1 - \omega_r)$ & Features $h(x)$ and logits $z(x)$ & Higher $\implies$ ID \newline Anomaly: $p_{\text{OM}}(0) - 1$ & Modified OpenMax-style heuristic; 1280-D global pooled features; Weibull tail $\eta = 20$; $\alpha = 2$; rank weighting gives top-1 class zero logit discount. \\
+\textbf{Modified OpenMax-style} \newline Bendale \& Boult \cite{bendale2016towards} & $S_{\text{OpenMax}}(x) = 1.0 - p_{\text{OM}}(y = 0)$ \newline $w_{c_r} = 1.0 - \frac{r-1}{\alpha}(1 - \omega_r)$ & Features $h(x)$ and logits $z(x)$ & Higher $\implies$ ID \newline Anomaly: $p_{\text{OM}}(0) - 1$ & Modified OpenMax-style heuristic; 1280-D global pooled features; Weibull tail $\eta = 20$; $\alpha = 2$; rank weighting gives top-1 class zero logit discount. \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -86,7 +86,7 @@ The baseline detector proposed by Hendrycks and Gimpel \cite{hendrycks2017baseli
 \begin{equation}
 p_k(x) = \frac{\exp(z_k(x))}{\sum_{j=1}^K \exp(z_j(x))}, \quad S_{\text{MSP}}(x) = \max_{k \in \{0, \dots, K-1\}} p_k(x).
 \end{equation}
-Because softmax normalization enforces $\sum_k p_k(x) = 1$, the score $S_{\text{MSP}}(x) \in (1/K, 1]$ directly reflects the classifier's relative confidence. Higher MSP values indicate in-distribution confidence; lower values indicate uncertainty. For AUROC calculations where out-of-distribution instances represent the positive class ($y_{\text{ood}} = 1$), the anomaly ranking score is $-S_{\text{MSP}}(x)$.
+Because softmax normalization enforces $\sum_k p_k(x) = 1$, the score $S_{\text{MSP}}(x) \in [1/K, 1]$ directly reflects the classifier's relative confidence. Higher MSP values indicate in-distribution confidence; lower values indicate uncertainty. For AUROC calculations where out-of-distribution instances represent the positive class ($y_{\text{ood}} = 1$), the anomaly ranking score is $-S_{\text{MSP}}(x)$.
 
 \subsubsection{Energy-Based OOD Detection}
 To overcome softmax probability saturation on anomalous inputs, Liu et al. \cite{liu2020energy} proposed an energy-based scoring function derived from the Helmholtz free energy. In physical systems, the free energy $E(x; f)$ is defined as $E(x; f) = -T \cdot \log \sum_k \exp(z_k(x) / T)$. In this study, to maintain mathematical consistency with the operational Dual-Gate acceptance equation ($S(x) \ge \tau$), we define the in-distribution energy score directly as the negative free energy (the log-sum-exp of logits):
@@ -110,7 +110,7 @@ S_{\text{ODIN}}(x) = \max_{k \in \{0, \dots, K-1\}} \frac{\exp(z_k(x_{\text{pert
 \end{enumerate}
 In our canonical implementation, hyperparameters are locked at $T_{\text{ODIN}} = 1000.0$ and $\varepsilon_{\text{ODIN}} = 0.0014$, verified against {\small\nolinkurl{scripts/run_stage4_1_benchmark.py}}. We explicitly document this implementation as an ODIN-style variant optimizing the top logit directly rather than canonical cross-entropy loss. Higher values denote in-distribution confidence.
 
-\subsubsection{Mahalanobis Distance}
+\subsubsection{Ledoit--Wolf Mahalanobis Distance}
 Following Lee et al. \cite{lee2018simple}, the Mahalanobis detector models penultimate feature representations using class-conditional Gaussian distributions with a tied covariance matrix.
 \begin{enumerate}
 \item \textbf{Centroid Estimation:} Using training features $h(x) \in \mathbb{R}^{1280}$, class mean vectors are computed as:
@@ -126,11 +126,11 @@ where $\rho \in [0, 1]$ is the analytically optimal shrinkage intensity and $\nu
 \begin{equation}
 d_M^2(x) = \min_{c \in \{0, \dots, K-1\}} (h(x) - \mu_c)^\top \Sigma_{\text{LW}}^{-1} (h(x) - \mu_c).
 \end{equation}
-To maintain directional alignment with other detectors, the score is defined as the negated distance:
+To maintain directional alignment with other detectors, the score implemented in the benchmark codebase is the negated square-root distance:
 \begin{equation}
 S_{\text{Maha}}(x) = - \sqrt{\max\left(d_M^2(x), 0\right)}.
 \end{equation}
-Higher values of $S_{\text{Maha}}(x)$ indicate closer proximity to training class clusters (in-distribution), whereas large negative values indicate anomalous outliers.
+While the canonical formulation in Lee et al. \cite{lee2018simple} (reviewed in Section~\ref{sec:osr_ood_detection}) defines the score using the negative quadratic distance $-d_M^2(x)$, the square root is a strictly monotonic transformation on $[0, +\infty)$. Consequently, it preserves identical pairwise sample rankings, AUROC, and FPR@95 operating characteristics while scaling distance linearly with feature deviations. Higher values of $S_{\text{Maha}}(x)$ indicate closer proximity to training class clusters (in-distribution), whereas large negative values indicate anomalous outliers.
 \end{enumerate}
 
 \subsubsection{Modified OpenMax-Style Heuristic}
@@ -182,11 +182,12 @@ When $\operatorname{ACCEPT}(x) = 1$, the model assigns its closed-set predicted 
 When $\operatorname{REJECT}(x) = 1$, the system abstains from classification and routes the image record to manual review ($\hat{y}(x) = \text{\textcircled{r}}$).
 
 \subsubsection{Continuous Margin Proxy for Exploratory AUROC}
+\label{sec:continuous_proxy}
 Because the Dual-Gate rule evaluates a Boolean conjunction ($g_E(x) \land g_M(x)$), it produces a discrete binary decision ($\{0, 1\}$) rather than a continuous ranking score, and therefore cannot directly generate an ROC curve without a continuous ranking proxy. To permit exploratory comparative ROC analysis in benchmark tables, we compute a continuous linear margin proxy:
 \begin{equation}
 S_{\text{proxy}}(x) = (S_{\text{Energy}}(x) - \tau_E) + (S_{\text{MSP}}(x) - \tau_M).
 \end{equation}
-We emphasize that this continuous linear margin proxy is strictly an exploratory metric. Because raw Energy scores (log-sum-exp of logits, typical range $[0, 10]$) and MSP scores (posterior probabilities in $(1/6, 1]$) reside on substantially different numerical scales, this unweighted additive combination is inherently scale-dependent and dominated by Energy variations. The proxy does not constitute a canonical continuous score of the Dual-Gate. All operational routing and acceptance metrics (UFAR, UFAR-Fresh, KRR, Retention) are evaluated strictly using the exact discrete Boolean conjunction in Eq.~\eqref{eq:dualgate_rule}.
+We emphasize that this continuous linear margin proxy is strictly an exploratory metric. Because raw Energy scores ($S_{\text{Energy}}(x) = \operatorname{logsumexp}(z(x))$) are mathematically unbounded on $(-\infty, +\infty)$ with an observed empirical range of $[-1.753, 5.264]$ across the 13,465 evaluation images, whereas MSP scores are strictly bounded in $[1/6, 1]$ (empirically observed $[0.231, 1.000]$), this unweighted additive combination is inherently scale-dependent and dominated by Energy variations. The proxy does not constitute a canonical continuous score of the Dual-Gate. All operational routing and acceptance metrics (UFAR, UFAR-Fresh, KRR, Retention) are evaluated strictly using the exact discrete Boolean conjunction in Eq.~\eqref{eq:dualgate_rule}.
 
 \subsection{Validation-Based Operating-Threshold Calibration}
 \label{sec:threshold_calibration}
@@ -213,11 +214,11 @@ Thresholds were derived using non-parametric empirical order statistics to targe
 \addlinespace[3pt]
 \textbf{Energy (Single Gate)} & $S_{\text{Energy}}$ & 1.054579 & 12th smallest $s_{(12)}$ (index 11) & 11 rejected / 216 accepted & 95.1542\% & $\operatorname{ACCEPT} \iff$ \newline $S_{\text{Energy}} \ge 1.054579$ \\
 \addlinespace[3pt]
-\textbf{ODIN (Single Gate)} & $S_{\text{ODIN}}$ & 0.167164 & 12th smallest $s_{(12)}$ (index 11) & 11 rejected / 216 accepted & 95.1542\% & $\operatorname{ACCEPT} \iff$ \newline $S_{\text{ODIN}} \ge 0.167164$ \\
+\textbf{ODIN-style Variant (Single Gate)} & $S_{\text{ODIN}}$ & 0.167164 & 12th smallest $s_{(12)}$ (index 11) & 11 rejected / 216 accepted & 95.1542\% & $\operatorname{ACCEPT} \iff$ \newline $S_{\text{ODIN}} \ge 0.167164$ \\
 \addlinespace[3pt]
-\textbf{Mahalanobis (Single Gate)} & $S_{\text{Maha}}$ & -65.133230 & 12th smallest $s_{(12)}$ (index 11) & 11 rejected / 216 accepted & 95.1542\% & $\operatorname{ACCEPT} \iff$ \newline $S_{\text{Maha}} \ge -65.133230$ \\
+\textbf{Ledoit--Wolf Mahalanobis (Single Gate)} & $S_{\text{Maha}}$ & -65.133230 & 12th smallest $s_{(12)}$ (index 11) & 11 rejected / 216 accepted & 95.1542\% & $\operatorname{ACCEPT} \iff$ \newline $S_{\text{Maha}} \ge -65.133230$ \\
 \addlinespace[3pt]
-\textbf{OpenMax (Single Gate)} & $S_{\text{OpenMax}}$ & 0.778938 & 12th smallest $s_{(12)}$ (index 11) & 11 rejected / 216 accepted & 95.1542\% & $\operatorname{ACCEPT} \iff$ \newline $S_{\text{OpenMax}} \ge 0.778938$ \\
+\textbf{Modified OpenMax-style (Single Gate)} & $S_{\text{OpenMax}}$ & 0.778938 & 12th smallest $s_{(12)}$ (index 11) & 11 rejected / 216 accepted & 95.1542\% & $\operatorname{ACCEPT} \iff$ \newline $S_{\text{OpenMax}} \ge 0.778938$ \\
 \midrule
 \textbf{Dual-Gate Cascade} \newline (Energy AND MSP) & $\tau_E \text{ and } \tau_M$ & $\tau_E = 0.918451$ \newline $\tau_M = 0.582610$ & 7th smallest $s_{(7)}$ (index 6) on both scores & $|R_1|=6, |R_2|=6$ \newline $|R_1 \cap R_2|=1 \implies$ 11 rejected / 216 accepted & 95.1542\% & $\operatorname{ACCEPT} \iff$ \newline $S_{\text{Energy}} \ge 0.918451 \;\land$ \newline $S_{\text{MSP}} \ge 0.582610$ \\
 \bottomrule
@@ -243,7 +244,7 @@ Under this rule, standalone Energy yields $\tau_{\text{Energy}} = 1.054579$ and 
 \end{itemize}
 \end{enumerate}
 
-We emphasize that the observed $95.1542\%$ validation coverage represents an empirical sample proportion, not a guaranteed population-level coverage certificate; with $N_{\text{val}} = 227$, the 95\% Clopper--Pearson exact binomial interval spans $[91.43\%, 97.60\%]$.
+We emphasize that the observed $95.1542\%$ validation coverage represents an empirical sample proportion, not a guaranteed population-level coverage certificate; with $N_{\text{val}} = 227$, the 95\% Clopper--Pearson exact binomial interval spans $[91.50\%, 97.56\%]$ (exact: $[91.4951\%, 97.5565\%]$).
 
 \subsection{Evaluation Metrics}
 \label{sec:evaluation_metrics}
@@ -268,17 +269,17 @@ To evaluate model performance across multiple operational dimensions, we define 
 \midrule
 \textbf{AUROC} & Continuous OOD Ranking & $\text{AUROC} = \int_{0}^1 \text{TPR}(\tau) \, d(\text{FPR}(\tau))$ & Higher ($\uparrow$) & Area under ROC curve treating OOD as positive ($y_{\text{ood}} = 1$); threshold-independent ranking. \\
 \addlinespace[3pt]
-\textbf{Retrospective FPR@95} & Retrospective OOD Separation & $\text{FPR@95} = \frac{|\{x \in \mathcal{D}_{\text{ood}} : S(x) \ge \tau_{95}^{\text{test}}\}|}{|\mathcal{D}_{\text{ood}}|}$ & Lower ($\downarrow$) & False positive rate on OOD when $\tau_{95}^{\text{test}}$ fixes ID TPR at 95.0\%; retrospective operating-point metric, not threshold-independent. \\
+\textbf{Retrospective FPR@95} & Retrospective Operating Point & $\text{FPR@95} = \frac{|\{x \in \mathcal{D}_{\text{ood}} : S(x) \ge \tau_{95}^{\text{test}}\}|}{|\mathcal{D}_{\text{ood}}|}$ & Lower ($\downarrow$) & False positive rate on negative class (OOD) when $\tau_{95}^{\text{test}}$ fixes positive class (ID) TPR at 95.0\%; retrospective operating-point metric. \\
 \addlinespace[3pt]
 \textbf{OSCR} & Open-Set Classification & $\text{OSCR} = \int_{0}^1 \text{CCR}(\tau) \, d(\text{FPR}(\tau))$ & Higher ($\uparrow$) & Area under Correct Classification Rate vs. False Positive Rate curve. \\
 \midrule
 \textbf{Operational UFAR} & Operational Rejection Gating & $\text{UFAR}(\tau_{95}) = \frac{|\{x \in \mathcal{D}_{\text{ood}} : \operatorname{ACCEPT}(x)\}|}{|\mathcal{D}_{\text{ood}}|}$ & Lower ($\downarrow$) & Proportion of out-of-distribution image records accepted under fixed validation threshold $\tau_{95}$. \\
 \addlinespace[3pt]
-\textbf{Operational UFAR-Fresh} & Produce Routing Outcome & $\text{UFAR-F}(\tau_{95}) = \frac{|\{x \in \mathcal{D}_{\text{ood}} : \operatorname{ACCEPT}(x) \land \hat{y}(x) \in \text{Fresh}\}|}{|\mathcal{D}_{\text{ood}}|}$ & Lower ($\downarrow$) & Proportion of OOD images accepted and assigned to a commercial Fresh class; image-level non-target acceptance outcome, not verified biological food safety. \\
+\textbf{Operational UFAR-Fresh} & Produce Routing Outcome & $\text{UFAR-F}(\tau_{95}) = \frac{|\{x \in \mathcal{D}_{\text{ood}} : \operatorname{ACCEPT}(x) \land \hat{y}(x) \in \text{Fresh}\}|}{|\mathcal{D}_{\text{ood}}|}$ & Lower ($\downarrow$) & Proportion of OOD image records accepted by the evaluated gate and assigned one of the classifier's Fresh-class output labels ($\hat{y} \in \{0,1,2\}$); image-level non-target acceptance outcome, not verified biological food safety or grade certification. \\
 \addlinespace[3pt]
-\textbf{Operational KRR} \newline (Abstention Rate) & Operational Inspection Cost & $\text{KRR}(\tau_{95}) = \frac{|\{x \in \mathcal{D}_{\text{id}} : \operatorname{REJECT}(x)\}|}{|\mathcal{D}_{\text{id}}|}$ & Lower ($\downarrow$) & Known-class rejection rate: proportion of valid known images unnecessarily routed to manual inspection. \\
+\textbf{Operational KRR} \newline (Abstention Rate) & Operational Inspection Cost & $\text{KRR}(\tau_{95}) = \frac{|\{x \in \mathcal{D}_{\text{id}} : \operatorname{REJECT}(x)\}|}{|\mathcal{D}_{\text{id}}|}$ & Lower ($\downarrow$) & Known-class rejection rate: proportion of known-class image records routed to manual inspection. \\
 \addlinespace[3pt]
-\textbf{Known Retention} & Operational Automation & $\text{Retention} = 1 - \text{KRR}(\tau_{95})$ & Higher ($\uparrow$) & Proportion of valid commercial known images retained and classified automatically without human review. \\
+\textbf{Known Retention} & Operational Automation & $\text{Retention} = 1 - \text{KRR}(\tau_{95})$ & Higher ($\uparrow$) & Proportion of known-class image records retained and classified automatically without human review. \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -304,11 +305,11 @@ Evaluated across in-distribution and out-of-distribution subsets ($\mathcal{D}_{
 \begin{equation}
 \text{AUROC} = P(-S(x_{\text{ood}}) > -S(x_{\text{id}})) = P(S(x_{\text{id}}) > S(x_{\text{ood}})).
 \end{equation}
-\item \textbf{Retrospective FPR@95:} The false positive rate (proportion of OOD images incorrectly accepted as known) when a threshold $\tau_{95}^{\text{test}}$ is chosen post-hoc on the evaluated test set to achieve exactly 95.0\% true positive rate (known retention) on $\mathcal{D}_{\text{id}}$:
+\item \textbf{Retrospective FPR@95:} The false positive rate (proportion of OOD images incorrectly accepted as known) when a threshold $\tau_{95}^{\text{test}}$ is chosen post-hoc on the evaluated test set to achieve at least 95.0\% true positive rate (known retention) on $\mathcal{D}_{\text{id}}$:
 \begin{equation}
 \tau_{95}^{\text{test}} = \sup \left\{ \tau : \frac{|\{x \in \mathcal{D}_{\text{id}} : S(x) \ge \tau\}|}{|\mathcal{D}_{\text{id}}|} \ge 0.95 \right\}, \quad \text{FPR@95} = \frac{|\{x \in \mathcal{D}_{\text{ood}} : S(x) \ge \tau_{95}^{\text{test}}\}|}{|\mathcal{D}_{\text{ood}}|}.
 \end{equation}
-Unlike AUROC, FPR@95 evaluates separation specifically at a high-coverage operating point, but remains a retrospective metric tuned to the test partition, with out-of-distribution instances designated as the positive class ($y_{\text{ood}} = 1$).
+In this operating-point formulation, in-distribution (ID) produce represents the positive class, and out-of-distribution (OOD) produce represents the negative class. Setting the retrospective threshold $\tau_{95}^{\text{test}}$ enforces an in-distribution True Positive Rate of at least 95.0\% ($\text{TPR}_{\text{id}} \ge 0.95$), and the false positive rate on OOD measures the proportion of negative (OOD) image records incorrectly accepted as positive (ID). This contrasts directly with AUROC, where out-of-distribution instances are designated as the positive target class ($y_{\text{ood}} = 1$) and evaluated across all possible operating thresholds using the anomaly score $-S(x)$.
 \item \textbf{Auxiliary Open-Set Discrimination Metrics:} In addition to primary ranking and separation metrics, exploratory discrimination diagnostics were evaluated during execution: the Correct Classification Rate vs. False Positive Rate curve ($\text{OSCR} = \int_0^1 \text{CCR}(\tau) \, d(\text{FPR}(\tau))$) and precision-recall curves (AUPR-IN treating knowns as positive; AUPR-OUT treating OOD as positive), preserved in {\small\nolinkurl{STAGE4_1_2_SOURCE_STRATIFIED_METRICS.csv}}.
 \end{enumerate}
 
@@ -319,29 +320,29 @@ Evaluated strictly using the prospective thresholds ($\tau_{95}$) locked on the 
 \begin{equation}
 \text{UFAR}(\tau_{95}) = \frac{|\{x \in \mathcal{D}_{\text{ood}} : \operatorname{ACCEPT}(x)\}|}{|\mathcal{D}_{\text{ood}}|}.
 \end{equation}
-\item \textbf{Unknown-to-Fresh False Acceptance Rate (UFAR-Fresh):} The proportion of out-of-distribution image records accepted and specifically assigned to a commercial Fresh class ($\hat{y}(x) \in \{0, 1, 2\}$, corresponding to fresh apple, fresh banana, or fresh orange):
+\item \textbf{Unknown-to-Fresh False Acceptance Rate (UFAR-Fresh):} The proportion of out-of-distribution image records accepted and specifically assigned to a model-predicted Fresh class ($\hat{y}(x) \in \{0, 1, 2\}$, corresponding to fresh apple, fresh banana, or fresh orange):
 \begin{equation}
 \text{UFAR-Fresh}(\tau_{95}) = \frac{|\{x \in \mathcal{D}_{\text{ood}} : \operatorname{ACCEPT}(x) \;\land\; \hat{y}(x) \in \{0, 1, 2\}\}|}{|\mathcal{D}_{\text{ood}}|}.
 \end{equation}
-Crucially, the denominator of UFAR-Fresh is the total number of OOD images ($|\mathcal{D}_{\text{ood}}|$), not the accepted subset, providing an absolute failure rate across the evaluated cohort. We reframe UFAR-Fresh strictly as an image-level sorting outcome representing acceptance and assignment to a Fresh known class; it is not claimed to represent verified biological food safety or commercial quality assurance certification.
-\item \textbf{Known-Class Rejection Rate (KRR / Abstention Rate):} The proportion of valid known-class images rejected by the gate:
+Crucially, the denominator of UFAR-Fresh is the total number of OOD images ($|\mathcal{D}_{\text{ood}}|$), not the accepted subset, providing an absolute failure rate across the evaluated cohort. We define UFAR-Fresh strictly as the proportion of OOD image records accepted by the evaluated gate and assigned one of the classifier's Fresh-class output labels; it is not claimed to represent verified biological freshness, microbial non-contamination, toxicological clearance, or commercial quality certification.
+\item \textbf{Known-Class Rejection Rate (KRR / Abstention Rate):} The proportion of known-class image records rejected by the gate:
 \begin{equation}
 \text{KRR}(\tau_{95}) = \frac{|\{x \in \mathcal{D}_{\text{id}} : \operatorname{REJECT}(x)\}|}{|\mathcal{D}_{\text{id}}|}.
 \end{equation}
-\item \textbf{Known-Class Retention Rate:} The proportion of known produce retained for automated sorting: $\text{Retention} = 1 - \text{KRR}(\tau_{95})$.
+\item \textbf{Known-Class Retention Rate:} The proportion of known-class image records retained for automated sorting: $\text{Retention} = 1 - \text{KRR}(\tau_{95})$.
 \end{enumerate}
 
 \subsection{Uncertainty Quantification and Statistical Reporting}
 \label{sec:uncertainty_quantification}
 
-All reported confidence intervals and statistical tests adhere to pre-specified, non-parametric protocols:
+All reported confidence intervals and empirical uncertainty summaries adhere to pre-specified, non-parametric protocols:
 \begin{enumerate}
-\item \textbf{Non-Parametric Bootstrap Protocol:} Point estimates are accompanied by 95\% bootstrap confidence intervals generated via $B = 1,000$ resamples with replacement. To ensure exact computational reproducibility, pseudo-random number generation was seeded at `\texttt{seed=42}'. Confidence intervals are constructed using the empirical percentile method:
+\item \textbf{Non-Parametric Bootstrap Protocol:} Point estimates are accompanied by 95\% bootstrap confidence intervals generated via $B = 1,000$ resamples with replacement. To support repeatability of the bootstrap resampling procedure across runs, pseudo-random number generation was initialized with `\texttt{seed=42}'. Confidence intervals are constructed using the empirical percentile method:
 \begin{equation}
 \text{CI}_{95} = \left[ \hat{\theta}^*_{(0.025 \cdot B)}, \; \hat{\theta}^*_{(0.975 \cdot B)} \right] = \left[ \hat{\theta}^*_{(25)}, \; \hat{\theta}^*_{(975)} \right].
 \end{equation}
 \item \textbf{Resampling Unit and Stratification Strategy:} The resampling unit is strictly an \textit{individual image record}. For closed-set metrics on Partitions A and B, bootstrap resampling is stratified by the $K = 6$ known classes. For out-of-distribution cohort evaluations (Cohorts A--D), resampling is stratified jointly across the reference ID population and the OOD cohort by species and condition labels.
-\item \textbf{Methodological Conditioning and Statistical Non-Independence:} All bootstrap confidence intervals are conditional on image-level exchangeability. As detailed in Section~\ref{sec:duplicate_handling_phash}, photographic records from web archives cannot be assumed to represent statistically independent biological fruit specimens. Furthermore, because FruitVision Known (Partition B, $N_{\text{id}} = 4,157$) is evaluated across Cohorts A, B, and C, the resulting confidence intervals across cohorts share a common reference population and must not be interpreted as statistically independent replications.
+\item \textbf{Methodological Conditioning and Statistical Non-Independence:} All bootstrap confidence intervals are conditional on image-level exchangeability. As detailed in Section~\ref{sec:duplicate_handling_phash}, photographic records from web archives cannot be assumed to represent statistically independent biological fruit specimens. Crucially, Cohorts A--C share the same underlying FruitVision Known reference population ($N_{\text{id}} = 4,157$). Although bootstrap resampling was performed independently for each cohort evaluation ($B = 1,000$, seed 42), the resulting marginal intervals are not paired confidence intervals for differences between cohorts. Consequently, these cohorts should not be treated as independent experimental replications, and their reported point estimates and confidence intervals share an underlying empirical reference sample.
 \item \textbf{Descriptive Comparison of Closed-Set Performance Differences:} The observed 28.56 percentage-point difference in top-1 accuracy between Partition A ($96.92\%$ [94.71\%, 98.68\%]) and Partition B ($68.36\%$ [67.20\%, 69.40\%]) displays non-overlapping 95\% bootstrap percentile intervals, reflecting substantial descriptive separation under the evaluated image-level resampling protocol without asserting formal inferential hypothesis testing.
 \end{enumerate}
 

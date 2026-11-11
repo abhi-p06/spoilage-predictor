@@ -20,7 +20,7 @@
 \volume{00}
 \firstpage{1}
 \journalname{Procedia Computer Science}
-\runauth{[Author surname(s) to be confirmed]}
+\runauth{Anonymous Author(s)}
 \jid{procs}
 
 %% natbib options for numbered citations compliant with Procedia Vancouver style
@@ -34,12 +34,12 @@
 \title{Source-Stratified Evaluation of Out-of-Distribution Detection in Fruit-Quality Classification Under Species and Treatment-Labelled Shifts}
 
 \author[a]{Author Names Redacted for Peer Review}
-\address[a]{[Department and Institution to be confirmed]}
+\address[a]{Affiliation Details Redacted for Double-Blind Peer Review}
 
 \begin{abstract}
 Automated fruit-quality classification using computer vision can achieve strong performance on familiar image distributions but may become unreliable under changes in data sources, fruit species, and post-harvest treatment conditions. This study presents a source-stratified empirical evaluation of a frozen MobileNetV2-based six-class fruit-quality classifier and multiple out-of-distribution (OOD) detection approaches. The evaluation uses 13,465 image records from three image repositories, organized into primary in-distribution, external known-class, unseen-species, treatment-labelled, and combined-shift cohorts.
 
-Five established OOD scoring approaches---Maximum Softmax Probability (MSP), Energy, ODIN, Mahalanobis distance, and OpenMax---are compared with an operational Energy--MSP dual-gate cascade. Closed-set accuracy decreases from 96.92\% on the primary in-distribution test partition to 68.36\% on the pooled external known-class partition, reflecting a 28.56 percentage-point difference across evaluation sources. Within the FruitVision repository, Energy achieves an AUROC of 81.57\% for the known-versus-unseen-species comparison, with an operational false acceptance rate of 13.18\%, whereas the observed AUROC on the source-matched Sultana unseen-species comparison was 67.52\%. In the evaluated FruitVision treatment-labelled cohort, discrimination between natural known-class images and treatment-labelled known-class images is limited, with Energy achieving 53.13\% AUROC. Under fixed dual-gate operating thresholds calibrated on validation data, 42.83\% of the treatment-labelled image records are accepted and assigned a Fresh class.
+Five post-hoc OOD scoring methods---Maximum Softmax Probability (MSP), Energy, an ODIN-style perturbation variant, Ledoit--Wolf Mahalanobis distance, and a modified OpenMax-style heuristic---are compared alongside an operational Energy--MSP dual-gate cascade. Closed-set accuracy decreases from 96.92\% on the primary in-distribution test partition to 68.36\% on the pooled external known-class partition, reflecting a 28.56 percentage-point difference across evaluation sources. Within the FruitVision repository, Energy achieves an AUROC of 81.57\% for the known-versus-unseen-species comparison, with a standalone Energy operational false acceptance rate of 13.18\% under its locked validation threshold, whereas the observed AUROC on the source-matched Sultana unseen-species comparison was 67.52\%. In the evaluated FruitVision treatment-labelled cohort, discrimination between natural known-class images and treatment-labelled known-class images is limited, with Energy achieving 53.13\% AUROC. Under fixed dual-gate operating thresholds calibrated on validation data, 42.83\% of the treatment-labelled image records are accepted by the evaluated gate and assigned one of the classifier's Fresh-class output labels.
 
 The findings demonstrate that post-hoc OOD detection performance varies substantially across distribution shifts and data sources. In the evaluated treatment cohort, tested RGB post-hoc scoring methods did not reliably separate images recorded under the dataset-reported treatment protocol from natural fruit. The study provides an image-level benchmark analysis with source-stratified comparisons, uncertainty estimates, duplicate-sensitivity analysis, and explicit limitations concerning dataset labels, specimen independence, and operational validation.
 \end{abstract}
@@ -48,7 +48,7 @@ The findings demonstrate that post-hoc OOD detection performance varies substant
 Fruit quality classification \sep Open-set recognition \sep Out-of-distribution detection \sep Domain shift \sep MobileNetV2 \sep Energy-based detection \sep Image classification \sep Food quality assessment
 \end{keyword}
 
-\cortext[cor1]{Corresponding author. E-mail: author@institution.edu}
+\cortext[cor1]{Corresponding author. Contact details redacted for double-blind peer review.}
 
 \end{frontmatter}
 
@@ -64,10 +64,14 @@ Fruit quality classification \sep Open-set recognition \sep Out-of-distribution 
 \input{sections/07_limitations}
 \input{sections/08_conclusion}
 
+\vspace*{-10pt}
 \section*{Acknowledgements}
-The authors acknowledge the creators and curators of the FruitQ, FruitVision, and Sultana datasets for making their photographic archives available for academic research.
+\vspace*{-4pt}
+The authors acknowledge the creators and curators of the Kaggle Fruit Quality, FruitVision, and Sultana datasets for making their photographic archives available for academic research.
 
 %% References section
+\clearpage
+\enlargethispage{\baselineskip}
 \bibliographystyle{elsarticle-num}
 \bibliography{bibliography/references}
 

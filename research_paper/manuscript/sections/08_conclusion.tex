@@ -1,5 +1,20 @@
-\section{Conclusion}
+\par\vspace*{-18pt}\section{Conclusion}
+\vspace*{-4pt}
 \label{sec:conclusion}
 
-This section summarizes the principal empirical findings, emphasizes the necessity of source-stratified evaluation protocols for agricultural vision benchmarks, and highlights prospective research directions in multi-sensor fusion for post-harvest quality assurance.
+This study conducted a rigorous, source-stratified empirical benchmark investigating the robustness of closed-set fruit-quality classification and post-hoc out-of-distribution detection under external domain, semantic species, and dataset-reported treatment-labelled condition shifts across $N = 13,465$ evaluated photographic records.
 
+Our findings provide empirical answers to the three core research questions:
+\vspace*{-4pt}
+\begin{enumerate}
+\setlength{\itemsep}{-2pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topsep}{0pt}
+\setlength{\partopsep}{0pt}
+\item \textbf{Resolution of RQ1 (External Domain Robustness):} Evaluating a high-performing frozen MobileNetV2 classifier (96.92\% [94.71\%, 98.68\%] top-1 accuracy on laboratory benchmarks) against external repository imagery reveals a substantial 28.56 percentage-point degradation to 68.36\% [67.20\%, 69.40\%] top-1 accuracy (69.14\% on FruitVision B, 65.63\% on Sultana B). This degradation is marked by an asymmetric collapse on Fresh Apples (32.12\% accuracy; 310/965 correct), with frequent misclassifications into decay classes (393 predicted Rotten Apple, 255 Rotten Orange out of 965). Qualitative visual inspection indicates natural surface striations, lenticel spots, and specular reflections consistent with varietal russeting; we present this texture correlation strictly as an untested observational hypothesis rather than a causally verified visual mechanism.
+\item \textbf{Resolution of RQ2 (Comparative Out-of-Distribution Discrimination):} Under source-stratified semantic shift, Energy-based scoring (AUROC = 81.57\% [80.81\%, 82.38\%] on FruitVision, 67.52\% [65.67\%, 69.25\%] on Sultana) and Ledoit--Wolf Mahalanobis distance (81.41\% and 68.15\%) achieve superior separation compared to baseline Maximum Softmax Probability (72.42\% and 59.77\%). However, under dataset-reported chemical preservative shift (Cohort B), evaluated post-hoc scoring algorithms exhibit weak or near-chance discrimination: Energy AUROC is 53.13\% [52.16\%, 54.09\%], the Energy--MSP linear-margin proxy (exploratory) is 53.96\% [52.96\%, 54.91\%], MSP is 58.77\%, and Ledoit--Wolf Mahalanobis distance is 47.91\%, with retrospective FPR@95 exceeding 91\% across all methods. On this evaluated treatment cohort, tested RGB post-hoc scoring methods did not reliably separate images recorded under the reported treatment protocol from natural fruit.
+\item \textbf{Resolution of RQ3 (Operational Feasibility and Rejection Trade-offs):} Validation-calibrated decision gating achieves partial unknown screening on semantic shifts (UFAR = 16.07\% in A, 9.54\% in C), but imposes a substantial in-distribution abstention rate that could present operational challenges: the system rejects 42.43\% [41.10\%, 43.76\%] of known-class image records across external repository conditions (KRR = 41.98\% on FruitVision B, 44.01\% on Sultana B), retaining automated decisions on only 57.57\% of known-class image records. Crucially, 42.83\% [41.26\%, 44.34\%] of dataset-reported treatment-labelled image records (821/1,917) are accepted by the Dual-Gate and assigned one of the classifier's Fresh-class output labels.
+\end{enumerate}
+
+We emphasize that this investigation is an empirical diagnostic evaluation, not a claim of algorithmic novelty or a certified production sorting deployment. By identifying the visual failure boundaries of convolutional neural networks in post-harvest grading, this work underscores the critical necessity of source-stratified benchmarking protocols. Prospective agricultural automation research should explore transitioning beyond standalone RGB computer vision toward multi-modal architectures integrating complementary modalities such as hyperspectral imaging, headspace volatile organic compound sensing, and dynamic cold-chain telemetry.

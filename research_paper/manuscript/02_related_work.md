@@ -56,7 +56,7 @@ Generalized out-of-distribution detection expands open-set recognition beyond se
 
 4. **Mahalanobis Feature Distance** [17]: Lee et al. (2018) proposed modeling penultimate feature representations $f(x)$ as a mixture of class-conditional multivariate Gaussians with class centroids $\mu_k$ and a tied covariance matrix $\mathbf{\Sigma} = \frac{1}{N} \sum_{k=1}^K \sum_{i: y_i=k} (f(x_i) - \mu_k)(f(x_i) - \mu_k)^\top$. The anomaly score is defined as the negative minimum Mahalanobis distance to the nearest class centroid:
    $$S_{\text{Maha}}(x) = -\min_{k \in \{1,\dots,K\}} (f(x) - \mu_k)^\top \mathbf{\Sigma}^{-1} (f(x) - \mu_k)$$
-   This distance quantifies the statistical deviation of the latent feature representation under the fitted class-conditional Gaussian feature model.
+   This squared distance quantifies the statistical deviation of the latent feature representation under the fitted class-conditional Gaussian feature model. In empirical implementations, the negated Euclidean Mahalanobis distance $-\sqrt{(f(x) - \mu_k)^\top \mathbf{\Sigma}^{-1} (f(x) - \mu_k)}$ is frequently computed instead; because the square root is a strictly monotonic transformation on non-negative quadratic distances, it preserves sample ranking, AUROC, and directional orientation without altering thresholded decision properties.
 
 5. **Energy-Based Out-of-Distribution Detection** [18]: Liu et al. (2020) demonstrated that mapping logits directly to Helmholtz free energy provides a theoretically grounded OOD scoring function that avoids the normalisation artifacts of softmax probabilities. The negative free energy is defined as:
    $$S_{\text{Energy}}(x) = -E(x; f) = T \cdot \log \sum_{k=1}^K \exp\left(\frac{z_k(x)}{T}\right)$$

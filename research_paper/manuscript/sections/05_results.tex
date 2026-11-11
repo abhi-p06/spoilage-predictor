@@ -6,59 +6,444 @@ This section presents the closed-set performance evaluation across partitions, s
 \subsection{Sensitivity and Near-Duplicate Robustness Analysis}
 \label{sec:results_sensitivity}
 
-To evaluate whether near-duplicate captures within external photographic archives artificially inflate or distort out-of-distribution detection metrics, detector performance was benchmarked across the three sensitivity tiers defined in Section~\ref{sec:duplicate_handling_phash}: Primary ($N = 13,465$), Tier 1 ($N = 13,409$), and Tier 2 ($N = 13,382$). Table~\ref{tab:phash_sensitivity} reports the complete empirical sensitivity evaluation across all five post-hoc scoring functions and the Dual-Gate operational decision rule for all four source-matched cohorts.
+To evaluate whether near-duplicate captures within external photographic archives artificially inflate or distort out-of-distribution detection metrics, detector performance was benchmarked across the three sensitivity tiers defined in Section~\ref{sec:duplicate_handling_phash}: Primary ($N = 13,465$), Tier 1 ($N = 13,409$), and Tier 2 ($N = 13,382$). Table~\ref{tab:phash_sensitivity} reports the complete empirical sensitivity evaluation across all five post-hoc scoring functions and the exploratory Dual-Gate linear-margin proxy for all four source-matched cohorts. We explicitly qualify that the Dual-Gate AUROC metric represents the exploratory continuous linear-margin proxy ($S_{\text{proxy}} = (S_E - \tau_E) + (S_M - \tau_M)$), whose unweighted formulation is scale-dependent and dominated by Energy variance ($\sigma \approx 2.15$ vs. $\sigma \approx 0.18$ for MSP), rather than the discrete operational Boolean AND rule itself.
 
 \begin{table*}[!t]
 \caption{Sensitivity analysis of out-of-distribution detection performance (AUROC, \%) across perceptual-hash (pHash) near-duplicate exclusion tiers. Results cover all five post-hoc scoring functions and the exploratory Dual-Gate linear margin proxy across Cohorts A--D. Relative detector rankings remain strictly invariant across all three tiers within every evaluation cohort.}
 \label{tab:phash_sensitivity}
 \centering
 \footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{2.3cm} >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{1.7cm}}
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.2cm} >{\raggedright\arraybackslash}p{2.6cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.5cm}}
 \toprule
-\textbf{Evaluation Cohort} & \textbf{Scoring Function} & \textbf{Primary ($N=13,465$)} & \textbf{Tier 1 ($N=13,409$)} & \textbf{Tier 2 ($N=13,382$)} & \textbf{Max $|\Delta|$ (pp)} \\
+\textbf{Evaluation Cohort} & \textbf{Scoring Method} & \textbf{Primary ($N=13,465$)} & \textbf{Tier 1 ($N=13,409$)} & \textbf{Tier 2 ($N=13,382$)} & \textbf{Max $|\Delta|$ (pp)} \\
 \midrule
-\textbf{Cohort A: Semantic Shift} & MSP & 72.42 & 72.38 & 72.33 & 0.09 \\
-\textit{FruitVision B vs D1} & Energy & 81.57 & 81.53 & 81.46 & 0.11 \\
-($N_{\text{id}} = 4,157$, & ODIN & 72.30 & 72.27 & 72.20 & 0.10 \\
-$N_{\text{ood}} = 2,776 \to 2,746$) & Mahalanobis & 81.41 & 81.34 & 81.27 & 0.14 \\
- & OpenMax & 72.46 & 72.44 & 72.38 & 0.08 \\
- & Dual-Gate (Proxy) & 80.93 & 80.89 & 80.82 & 0.11 \\
+\textbf{Cohort A: Semantic Shift} \newline
+\textit{FruitVision B vs D1} \newline
+{\scriptsize $N_{\text{id}}: 4,157 \to 4,146 \to 4,140$} \newline
+{\scriptsize $N_{\text{ood}}: 2,776 \to 2,762 \to 2,746$} & MSP \newline Energy \newline ODIN (Variant) \newline LW-Mahalanobis \newline OpenMax (Mod.) \newline Dual-Gate (Proxy) & 72.42 \newline 81.57 \newline 72.30 \newline 81.41 \newline 72.46 \newline 80.93 & 72.38 \newline 81.53 \newline 72.27 \newline 81.34 \newline 72.44 \newline 80.89 & 72.33 \newline 81.46 \newline 72.20 \newline 81.27 \newline 72.38 \newline 80.82 & 0.09 \newline 0.11 \newline 0.10 \newline 0.14 \newline 0.08 \newline 0.11 \\
 \midrule
-\textbf{Cohort B: Treatment Shift} & MSP & 58.77 & 58.80 & 58.81 & 0.04 \\
-\textit{FruitVision B vs C} & Energy & 53.13 & 53.18 & 53.19 & 0.06 \\
-($N_{\text{id}} = 4,157$, & ODIN & 56.73 & 56.78 & 56.78 & 0.05 \\
-$N_{\text{ood}} = 1,917 \to 1,901$) & Mahalanobis & 47.91 & 47.96 & 48.01 & 0.10 \\
- & OpenMax & 55.35 & 55.38 & 55.40 & 0.05 \\
- & Dual-Gate (Proxy) & 53.96 & 54.01 & 54.02 & 0.06 \\
+\textbf{Cohort B: Treatment Shift} \newline
+\textit{FruitVision B vs C} \newline
+{\scriptsize $N_{\text{id}}: 4,157 \to 4,146 \to 4,140$} \newline
+{\scriptsize $N_{\text{ood}}: 1,917 \to 1,906 \to 1,901$} & MSP \newline Energy \newline ODIN (Variant) \newline LW-Mahalanobis \newline OpenMax (Mod.) \newline Dual-Gate (Proxy) & 58.77 \newline 53.13 \newline 56.73 \newline 47.91 \newline 55.35 \newline 53.96 & 58.80 \newline 53.18 \newline 56.78 \newline 47.96 \newline 55.38 \newline 54.01 & 58.81 \newline 53.19 \newline 56.78 \newline 48.01 \newline 55.40 \newline 54.02 & 0.04 \newline 0.06 \newline 0.05 \newline 0.10 \newline 0.05 \newline 0.06 \\
 \midrule
-\textbf{Cohort C: Combined Shift} & MSP & 76.47 & 76.48 & 76.50 & 0.03 \\
-\textit{FruitVision B vs D2} & Energy & 84.72 & 84.64 & 84.65 & 0.08 \\
-($N_{\text{id}} = 4,157$, & ODIN & 78.11 & 78.11 & 78.13 & 0.02 \\
-$N_{\text{ood}} = 1,195 \to 1,175$) & Mahalanobis & 80.08 & 79.88 & 79.86 & 0.22 \\
- & OpenMax & 77.22 & 77.22 & 77.22 & 0.00 \\
- & Dual-Gate (Proxy) & 84.16 & 84.09 & 84.10 & 0.07 \\
+\textbf{Cohort C: Combined Shift} \newline
+\textit{FruitVision B vs D2} \newline
+{\scriptsize $N_{\text{id}}: 4,157 \to 4,146 \to 4,140$} \newline
+{\scriptsize $N_{\text{ood}}: 1,195 \to 1,175 \to 1,175$} & MSP \newline Energy \newline ODIN (Variant) \newline LW-Mahalanobis \newline OpenMax (Mod.) \newline Dual-Gate (Proxy) & 76.47 \newline 84.72 \newline 78.11 \newline 80.08 \newline 77.22 \newline 84.16 & 76.48 \newline 84.64 \newline 78.11 \newline 79.88 \newline 77.22 \newline 84.09 & 76.50 \newline 84.65 \newline 78.13 \newline 79.86 \newline 77.22 \newline 84.10 & 0.03 \newline 0.08 \newline 0.02 \newline 0.22 \newline 0.00 \newline 0.07 \\
 \midrule
-\textbf{Cohort D: Semantic Shift} & MSP & 59.77 & 59.77 & 59.77 & 0.00 \\
-\textit{Sultana B vs D1} & Energy & 67.52 & 67.52 & 67.52 & 0.00 \\
-($N_{\text{id}} = 1,193$, & ODIN & 60.02 & 60.02 & 60.02 & 0.00 \\
-$N_{\text{ood}} = 2,000 \to 2,000$) & Mahalanobis & 68.15 & 68.15 & 68.15 & 0.00 \\
- & OpenMax & 64.38 & 64.38 & 64.38 & 0.00 \\
- & Dual-Gate (Proxy) & 66.68 & 66.68 & 66.68 & 0.00 \\
+\textbf{Cohort D: Semantic Shift} \newline
+\textit{Sultana B vs D1} \newline
+{\scriptsize $N_{\text{id}}: 1,193 \to 1,193 \to 1,193$} \newline
+{\scriptsize $N_{\text{ood}}: 2,000 \to 2,000 \to 2,000$} & MSP \newline Energy \newline ODIN (Variant) \newline LW-Mahalanobis \newline OpenMax (Mod.) \newline Dual-Gate (Proxy) & 59.77 \newline 67.52 \newline 60.02 \newline 68.15 \newline 64.38 \newline 66.68 & 59.77 \newline 67.52 \newline 60.02 \newline 68.15 \newline 64.38 \newline 66.68 & 59.77 \newline 67.52 \newline 60.02 \newline 68.15 \newline 64.38 \newline 66.68 & 0.00 \newline 0.00 \newline 0.00 \newline 0.00 \newline 0.00 \newline 0.00 \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
 The sensitivity analysis demonstrates two critical empirical findings:
 \begin{enumerate}
-\item \textbf{High Metric Stability:} Across all 24 evaluated detector-cohort configurations, metric fluctuations between the Primary benchmark and Tier 2 remain minor: the maximum observed change in AUROC across all methods is $0.22$ percentage points (Mahalanobis in Cohort C, shifting from 80.08\% to 79.86\%). For most scoring functions, AUROC shifts are bounded within $\pm 0.11$ percentage points. In Cohort D (Sultana et al.), where zero cross-partition or multi-label pHash collisions were detected at $r \le 8$, metrics remain completely invariant.
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topsep}{1pt}
+\setlength{\partopsep}{0pt}
+\item \textbf{High Metric Stability:} Across all 24 evaluated detector-cohort configurations, metric fluctuations between the Primary benchmark and Tier 2 remain minor: the maximum observed change in AUROC across all methods is $0.22$ percentage points (Ledoit--Wolf Mahalanobis in Cohort C, shifting from 80.08\% to 79.86\%). For most scoring functions, AUROC shifts are bounded within $\pm 0.11$ percentage points. In Cohort D (Sultana et al.), where zero cross-partition or multi-label pHash collisions were detected at $r \le 8$, metrics remain completely invariant.
 \item \textbf{Strict Detector Ranking Invariance:} In all four cohorts, the relative ranking of detection methods is preserved without a single rank inversion across the three evaluation tiers:
 \begin{itemize}
-\item \textit{Cohort A (FruitVision Semantic Shift):} Energy (81.57\% $\to$ 81.46\%) $>$ Mahalanobis (81.41\% $\to$ 81.27\%) $>$ Dual-Gate Proxy (80.93\% $\to$ 80.82\%) $>$ OpenMax (72.46\% $\to$ 72.38\%) $>$ MSP (72.42\% $\to$ 72.33\%) $>$ ODIN (72.30\% $\to$ 72.20\%).
-\item \textit{Cohort B (FruitVision Treatment Shift):} MSP (58.77\% $\to$ 58.81\%) $>$ ODIN (56.73\% $\to$ 56.78\%) $>$ OpenMax (55.35\% $\to$ 55.40\%) $>$ Dual-Gate Proxy (53.96\% $\to$ 54.02\%) $>$ Energy (53.13\% $\to$ 53.19\%) $>$ Mahalanobis (47.91\% $\to$ 48.01\%).
-\item \textit{Cohort C (FruitVision Combined Shift):} Energy (84.72\% $\to$ 84.65\%) $>$ Dual-Gate Proxy (84.16\% $\to$ 84.10\%) $>$ Mahalanobis (80.08\% $\to$ 79.86\%) $>$ ODIN (78.11\% $\to$ 78.13\%) $>$ OpenMax (77.22\% $\to$ 77.22\%) $>$ MSP (76.47\% $\to$ 76.50\%).
-\item \textit{Cohort D (Sultana Semantic Shift):} Mahalanobis (68.15\%) $>$ Energy (67.52\%) $>$ Dual-Gate Proxy (66.68\%) $>$ OpenMax (64.38\%) $>$ ODIN (60.02\%) $>$ MSP (59.77\%) (invariant across all three tiers).
+\item \textit{Cohort A (FruitVision Semantic Shift):} Energy (81.57\% $\to$ 81.46\%) $>$ Ledoit--Wolf Mahalanobis (81.41\% $\to$ 81.27\%) $>$ Dual-Gate Proxy (80.93\% $\to$ 80.82\%) $>$ Modified OpenMax (72.46\% $\to$ 72.38\%) $>$ MSP (72.42\% $\to$ 72.33\%) $>$ ODIN Variant (72.30\% $\to$ 72.20\%).
+\item \textit{Cohort B (FruitVision Treatment Shift):} MSP (58.77\% $\to$ 58.81\%) $>$ ODIN Variant (56.73\% $\to$ 56.78\%) $>$ Modified OpenMax (55.35\% $\to$ 55.40\%) $>$ Dual-Gate Proxy (53.96\% $\to$ 54.02\%) $>$ Energy (53.13\% $\to$ 53.19\%) $>$ Ledoit--Wolf Mahalanobis (47.91\% $\to$ 48.01\%).
+\item \textit{Cohort C (FruitVision Combined Shift):} Energy (84.72\% $\to$ 84.65\%) $>$ Dual-Gate Proxy (84.16\% $\to$ 84.10\%) $>$ Ledoit--Wolf Mahalanobis (80.08\% $\to$ 79.86\%) $>$ ODIN Variant (78.11\% $\to$ 78.13\%) $>$ Modified OpenMax (77.22\% $\to$ 77.22\%) $>$ MSP (76.47\% $\to$ 76.50\%).
+\item \textit{Cohort D (Sultana Semantic Shift):} Ledoit--Wolf Mahalanobis (68.15\%) $>$ Energy (67.52\%) $>$ Dual-Gate Proxy (66.68\%) $>$ Modified OpenMax (64.38\%) $>$ ODIN Variant (60.02\%) $>$ MSP (59.77\%) (invariant across all three tiers).
 \end{itemize}
 \end{enumerate}
 
 \noindent \textit{Evidence Bounds on Sensitivity Conclusions:} These results establish that the benchmark performance estimates and comparative method orderings are robust with respect to the tested pHash collision exclusions and evaluated image records. However, we qualify this conclusion: perceptual hashing at low-frequency DCT resolution captures detectable visual near-duplicates, but cannot prove the complete absence of subtle burst captures, viewpoint variations, or unmodelled specimen-level correlations in the underlying repositories. Complete point estimates and operational metrics across all tiers are preserved in canonical register: \newline {\raggedright\small\nolinkurl{STAGE4_1_2_1_SOURCE_STRATIFIED_PHASH_SENSITIVITY.csv}\par}
+
+\vspace*{-4pt}\subsection{Closed-Set Classification Performance Across External Domains}
+\label{sec:results_closed_set}
+
+Closed-set classification measures the predictive fidelity of the frozen MobileNetV2 backbone across the six known classes ($K = 6$: Fresh Apple, Rotten Apple, Fresh Banana, Rotten Banana, Fresh Orange, Rotten Orange) under primary in-distribution benchmark conditions (Partition A, $N = 227$) versus external photographic repository conditions (Partition B, $N = 5,350$). Table~\ref{tab:closed_set_comparison} reports overall top-1 accuracy, macro-averaged F1, and balanced accuracy across partitions alongside their 95\% bootstrap confidence intervals.
+
+\begin{table*}[!t]
+\caption{Closed-set classification performance across laboratory and external photographic domains. The frozen MobileNetV2 classifier experiences a descriptive 28.56 percentage-point degradation in top-1 accuracy when evaluated on external imagery. Brackets indicate 95\% non-parametric bootstrap percentile intervals ($B = 1,000$, seed 42) conditional on image-level resampling.}
+\label{tab:closed_set_comparison}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{3.8cm} >{\centering\arraybackslash}p{1.0cm} >{\centering\arraybackslash}p{2.2cm} >{\centering\arraybackslash}p{2.2cm} >{\centering\arraybackslash}p{2.2cm}}
+\toprule
+\textbf{Evaluation Partition} & \textbf{Upstream Source Description} & \textbf{$N$} & \textbf{Top-1 Accuracy (\%)} & \textbf{Macro-Averaged F1 (\%)} & \textbf{Balanced Accuracy (\%)} \\
+\midrule
+\textbf{Partition A (ID Test)} & Kaggle Primary Benchmark (Lab) & 227 & 96.92 [94.71, 98.68] & 96.87 [94.65, 99.05] & 97.09 [94.80, 98.98] \\
+\addlinespace[3pt]
+\textbf{Partition B (Pooled External)} & FruitVision ($N=4,157$) + Sultana ($N=1,193$) & 5,350 & 68.36 [67.20, 69.40] & 67.28 [66.21, 68.32] & 68.66 [67.55, 69.69] \\
+\addlinespace[3pt]
+\textbf{FruitVision B Subset} & FruitVision Known subset (mixed capture settings) & 4,157 & 69.14 [68.13, 70.17] & 66.75 [65.62, 68.01] & 69.56 [68.52, 70.58] \\
+\addlinespace[3pt]
+\textbf{Sultana B Subset} & Sultana Known subset (retail and field) & 1,193 & 65.63 [63.03, 68.15] & 65.77 [63.32, 68.13] & 65.55 [63.11, 67.99] \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Under laboratory capture conditions (Partition A), the model achieves 96.92\% [94.71\%, 98.68\%] top-1 accuracy (220/227 correct), 96.87\% [94.65\%, 99.05\%] macro-F1, and 97.09\% [94.80\%, 98.98\%] balanced accuracy, demonstrating strong baseline feature extraction under uniform illumination and neutral backgrounds. However, when evaluated on external repository images (Partition B), top-1 accuracy drops by 28.56 percentage points to 68.36\% [67.20\%, 69.40\%] (3,657/5,350 correct), with macro-F1 falling to 67.28\% [66.21\%, 68.32\%] and balanced accuracy to 68.66\% [67.55\%, 69.69\%]. The 95\% bootstrap percentile intervals between Partition A and Partition B exhibit complete non-overlap, reflecting substantial descriptive separation under the evaluated image-level resampling protocol without asserting formal inferential hypothesis testing. Performance remains similarly constrained across both external repositories: 69.14\% [68.13\%, 70.17\%] on FruitVision B ($N = 4,157$) and 65.63\% [63.03\%, 68.15\%] on Sultana B ($N = 1,193$).
+
+\begin{table*}[!t]
+\caption{Class-wise classification performance and primary misclassification modes on external repository imagery (Partition B, $N = 5,350$). The lowest class-wise accuracy is observed for Fresh Apple (32.12\%), which the model systematically confuses with Rotten Apples and Rotten Oranges.}
+\label{tab:classwise_performance_b}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm} >{\centering\arraybackslash}p{1.6cm} >{\centering\arraybackslash}p{1.4cm} >{\centering\arraybackslash}p{1.8cm} >{\raggedright\arraybackslash}p{6.8cm}}
+\toprule
+\textbf{Class / Species Group} & \textbf{Ground Truth ($N$)} & \textbf{Correct ($n$)} & \textbf{Accuracy (\%)} & \textbf{Primary Empirical Misclassification Modes} \\
+\midrule
+\textbf{Fresh Apple} & 965 & 310 & 32.12 & Rotten Apple (393 / 40.73\%), Rotten Orange (255 / 26.42\%) \\
+\textbf{Rotten Apple} & 830 & 310 & 37.35 & Rotten Orange (361 / 43.49\%), Fresh Apple (157 / 18.92\%) \\
+\textbf{Fresh Banana} & 948 & 736 & 77.64 & Rotten Banana (207 / 21.84\%) \\
+\textbf{Rotten Banana} & 831 & 826 & 99.40 & Fresh Banana (3 / 0.36\%) \\
+\textbf{Fresh Orange} & 946 & 828 & 87.53 & Rotten Orange (93 / 9.83\%), Fresh Apple (9 / 0.95\%) \\
+\textbf{Rotten Orange} & 830 & 647 & 77.95 & Fresh Orange (106 / 12.77\%), Rotten Apple (70 / 8.43\%) \\
+\midrule
+\textbf{Species: Apple} & 1,795 & 620 & 34.54 & Pervasive decay-state confusion and cross-species misclassification into orange \\
+\textbf{Species: Banana} & 1,779 & 1,562 & 87.80 & High species fidelity; asymmetric bias toward decay over fresh \\
+\textbf{Species: Orange} & 1,776 & 1,475 & 83.05 & Robust species recognition; moderate decay underestimation \\
+\midrule
+\textbf{Total Partition B} & \textbf{5,350} & \textbf{3,657} & \textbf{68.36} & \textbf{Overall external domain degradation: $-28.56$ percentage points} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+To diagnose the drivers of this external degradation, Table~\ref{tab:classwise_performance_b} breaks down classification performance across individual classes and species. Inspection reveals that domain degradation is highly asymmetric:
+\begin{enumerate}
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topsep}{1pt}
+\setlength{\partopsep}{0pt}
+\item \textbf{Catastrophic Fresh Apple Collapse:} Fresh Apple accuracy collapses to 32.12\% (310/965 correct). The classifier systematically misidentifies 40.73\% of fresh apples as Rotten Apple (393 images) and 26.42\% as Rotten Orange (255 images). Across the entire Apple species cohort ($N = 1,795$), overall accuracy is only 34.54\% (620/1,795).
+\item \textbf{Source-Level Diagnostic Patterns:} Within the FruitVision B Fresh Apple subset ($N = 765$), exactly 174 images are correctly classified as Fresh Apple, while 345 are predicted as Rotten Apple, 242 as Rotten Orange, 2 as Fresh Orange, and 2 as Rotten Banana. Within the Sultana B Fresh Orange subset ($N = 193$), 98 images are correct Fresh Orange, while 9 are predicted Fresh Apple, 15 Rotten Apple, and 71 Rotten Orange.
+\item \textbf{High Banana and Orange Fidelity:} In contrast, Banana classification remains resilient at 87.80\% overall accuracy (1,562/1,779), with Rotten Banana achieving 99.40\% accuracy (826/831). Orange classification achieves 83.05\% overall accuracy (1,475/1,776), though Rotten Orange exhibits modest confusion with Fresh Orange (12.77\%).
+\item \textbf{Observational Russeting Hypothesis:} Visual inspection of the misclassified FruitVision fresh apple imagery reveals prominent natural surface striations, lenticel spots, and specular reflections characteristic of commercial varietal russeting. We hypothesize that the frozen MobileNetV2 backbone, trained predominantly on smooth, uniform laboratory specimens, correlates surface texture irregularities with fungal decay lesions. We explicitly present this russeting correlation as an observational diagnostic hypothesis rather than a causally verified physiological mechanism.
+\end{enumerate}
+
+\vspace*{-4pt}\subsection{Source-Stratified Out-of-Distribution Discrimination}
+\label{sec:results_ood_discrimination}
+
+To evaluate out-of-distribution discrimination across structured distribution shifts, detection performance was benchmarked across the four source-matched cohorts defined in Section~\ref{sec:source_stratified_cohorts}. Source matching reduces repository-level provenance differences, while within-repository acquisition variation remains possible. Table~\ref{tab:source_stratified_ood_results} presents continuous discrimination metrics (AUROC, retrospective FPR@95, AUPR-IN, AUPR-OUT, and OSCR) across all five post-hoc scoring algorithms and the Energy--MSP linear-margin proxy (exploratory).
+
+\begin{table*}[!t]
+\caption{Source-stratified out-of-distribution discrimination benchmark across Cohorts A--D. AUROC and retrospective FPR@95 are primary discrimination metrics; AUPR-IN, AUPR-OUT, and OSCR are auxiliary diagnostics. Retrospective FPR@95 measures the proportion of OOD produce incorrectly accepted when thresholding ID knowns at $\text{TPR}_{\text{id}} \ge 95.0\%$. Brackets report 95\% bootstrap percentile intervals ($B = 1,000$, seed 42) for Energy and the Energy--MSP linear-margin proxy (exploratory).}
+\label{tab:source_stratified_ood_results}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{3.2cm} >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.6cm} >{\centering\arraybackslash}p{1.6cm} >{\centering\arraybackslash}p{1.4cm}}
+\toprule
+\textbf{Evaluation Cohort} & \textbf{Detection Algorithm} & \textbf{AUROC (\%)} & \textbf{FPR@95 (\%)} & \textbf{AUPR-IN (\%)} & \textbf{AUPR-OUT (\%)} & \textbf{OSCR (\%)} \\
+\midrule
+\textbf{Cohort A: Semantic} \newline
+\textit{FruitVision B vs D1} \newline
+{\scriptsize ID: Apple, Banana, Orange} \newline
+{\scriptsize OOD: Grape, Mango} \newline
+{\scriptsize $N_{\text{id}} = 4,157, N_{\text{ood}} = 2,776$}
+& MSP (Single Gate) \newline
+Energy (Single Gate) \newline
+ODIN-style Variant (Single Gate) \newline
+Ledoit--Wolf Mahalanobis (Single Gate) \newline
+Modified OpenMax-style (Single Gate) \newline
+Energy--MSP Proxy (Exploratory)
+& 72.42 \newline
+\textbf{81.57} [80.81, 82.38] \newline
+72.30 \newline
+81.41 \newline
+72.46 \newline
+80.93 [80.13, 81.72]
+& 82.74 \newline
+\textbf{68.84} \newline
+87.43 \newline
+79.00 \newline
+91.28 \newline
+69.27
+& 82.04 \newline
+88.36 \newline
+81.58 \newline
+87.65 \newline
+83.85 \newline
+87.98
+& 59.91 \newline
+72.19 \newline
+57.46 \newline
+68.83 \newline
+55.91 \newline
+71.54
+& 55.92 \newline
+61.28 \newline
+56.32 \newline
+54.35 \newline
+57.26 \newline
+61.11 \\
+\midrule
+\textbf{Cohort B: Condition} \newline
+\textit{FruitVision B vs C} \newline
+{\scriptsize ID: Natural Knowns} \newline
+{\scriptsize OOD: Treated Knowns} \newline
+{\scriptsize $N_{\text{id}} = 4,157, N_{\text{ood}} = 1,917$}
+& MSP (Single Gate) \newline
+Energy (Single Gate) \newline
+ODIN-style Variant (Single Gate) \newline
+Ledoit--Wolf Mahalanobis (Single Gate) \newline
+Modified OpenMax-style (Single Gate) \newline
+Energy--MSP Proxy (Exploratory)
+& 58.77 \newline
+53.13 [52.16, 54.09] \newline
+56.73 \newline
+47.91 \newline
+55.35 \newline
+53.96 [52.96, 54.91]
+& 92.85 \newline
+94.42 \newline
+91.13 \newline
+98.07 \newline
+95.20 \newline
+94.16
+& 78.59 \newline
+71.25 \newline
+76.89 \newline
+67.53 \newline
+75.43 \newline
+72.03
+& 36.73 \newline
+33.41 \newline
+36.60 \newline
+29.60 \newline
+33.60 \newline
+33.99
+& 47.62 \newline
+43.45 \newline
+46.35 \newline
+32.67 \newline
+45.77 \newline
+44.23 \\
+\midrule
+\textbf{Cohort C: Combined} \newline
+\textit{FruitVision B vs D2} \newline
+{\scriptsize ID: Natural Knowns} \newline
+{\scriptsize OOD: Treated Unknowns} \newline
+{\scriptsize $N_{\text{id}} = 4,157, N_{\text{ood}} = 1,195$}
+& MSP (Single Gate) \newline
+Energy (Single Gate) \newline
+ODIN-style Variant (Single Gate) \newline
+Ledoit--Wolf Mahalanobis (Single Gate) \newline
+Modified OpenMax-style (Single Gate) \newline
+Energy--MSP Proxy (Exploratory)
+& 76.47 \newline
+\textbf{84.72} [83.85, 85.58] \newline
+78.11 \newline
+80.08 \newline
+77.22 \newline
+84.16 [83.28, 85.05]
+& 76.40 \newline
+\textbf{64.94} \newline
+83.85 \newline
+78.49 \newline
+88.12 \newline
+63.18
+& 92.18 \newline
+95.41 \newline
+93.17 \newline
+93.82 \newline
+93.25 \newline
+95.18
+& 47.85 \newline
+56.71 \newline
+43.32 \newline
+47.10 \newline
+39.71 \newline
+57.63
+& 58.01 \newline
+62.92 \newline
+59.69 \newline
+53.42 \newline
+59.62 \newline
+62.74 \\
+\midrule
+\textbf{Cohort D: Semantic} \newline
+\textit{Sultana B vs D1} \newline
+{\scriptsize ID: Apple, Banana, Orange} \newline
+{\scriptsize OOD: Guava, Jujube, etc.} \newline
+{\scriptsize $N_{\text{id}} = 1,193, N_{\text{ood}} = 2,000$}
+& MSP (Single Gate) \newline
+Energy (Single Gate) \newline
+ODIN-style Variant (Single Gate) \newline
+Ledoit--Wolf Mahalanobis (Single Gate) \newline
+Modified OpenMax-style (Single Gate) \newline
+Energy--MSP Proxy (Exploratory)
+& 59.77 \newline
+67.52 [65.67, 69.25] \newline
+60.02 \newline
+\textbf{68.15} \newline
+64.38 \newline
+66.68 [64.98, 68.38]
+& 94.30 \newline
+83.50 \newline
+94.25 \newline
+\textbf{81.20} \newline
+94.75 \newline
+84.60
+& 53.25 \newline
+57.10 \newline
+52.76 \newline
+59.17 \newline
+57.23 \newline
+56.54
+& 67.96 \newline
+76.35 \newline
+67.88 \newline
+77.07 \newline
+70.56 \newline
+75.47
+& 43.11 \newline
+46.62 \newline
+42.62 \newline
+42.01 \newline
+45.59 \newline
+46.54 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+
+The empirical results across the four source-matched cohorts illuminate sharp performance disparities depending on the nature of the distribution shift:
+\begin{enumerate}
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topsep}{1pt}
+\setlength{\partopsep}{0pt}
+\item \textbf{Comparative Performance of Energy and Feature Scoring on Semantic Shifts:} In Cohort A (FruitVision Semantic Shift), Energy scoring achieves the highest discrimination (AUROC = 81.57\% [80.81\%, 82.38\%], FPR@95 = 68.84\%), closely followed by Ledoit--Wolf Mahalanobis (AUROC = 81.41\%, FPR@95 = 79.00\%) and the Energy--MSP linear-margin proxy (exploratory) (AUROC = 80.93\% [80.13\%, 81.72\%], FPR@95 = 69.27\%). Standard MSP (72.42\%), the ODIN-style variant (72.30\%), and modified OpenMax (72.46\%) lag by approximately 9 percentage points in AUROC, with retrospective false positive rates exceeding 82\%. In Cohort C (Combined Shift), the observed AUROC for Energy was higher (84.72\% [83.85\%, 85.58\%]) than in Cohort A (81.57\%) under the evaluated cohort definitions. However, because Cohort C evaluates a distinct subset of unseen species bearing dataset-reported treatment labels (Partition D2) rather than an isolated treatment intervention on Cohort A, this comparison reflects the empirical cohort ordering and cannot isolate a causal treatment effect.
+\item \textbf{Weak Discrimination under Treatment-Labelled Condition Shift (Cohort B):} Under Cohort B, where identical known species (apple, banana, orange) are evaluated under dataset-reported treatment labels (formalin preservative immersion condition), all evaluated post-hoc scoring algorithms exhibit weak or near-chance discrimination. Energy AUROC is 53.13\% [52.16\%, 54.09\%], the Energy--MSP linear-margin proxy (exploratory) is 53.96\% [52.96\%, 54.91\%], modified OpenMax is 55.35\%, the ODIN variant is 56.73\%, and MSP is 58.77\%. Ledoit--Wolf Mahalanobis falls below chance (AUROC = 47.91\%, FPR@95 = 98.07\%). Retrospective false positive rates exceed 91\% across all methods, indicating that at a 95\% known retention operating point, virtually all images bearing dataset-reported treatment labels are accepted into the known class distribution.
+\item \textbf{Domain-Dependent Morphological Confounding (Cohort D):} In Cohort D (Sultana Semantic Shift), discrimination is notably lower than in FruitVision Semantic Shift (Cohort A): Ledoit--Wolf Mahalanobis achieves 68.15\% AUROC, Energy achieves 67.52\% [65.67\%, 69.25\%], and MSP achieves only 59.77\%. Retrospective FPR@95 ranges from 81.20\% to 94.75\%. As an untested observational hypothesis, this lower discrimination may relate to visual commonalities among spherical green fruit classes (such as guava and jujube in Sultana D1 and green apples or citrus in the known set); however, this visual resemblance was not formally quantified or causally tested.
+\item \textbf{Exploratory Energy--MSP Proxy Properties:} The Energy--MSP linear-margin proxy (exploratory) achieves AUROC values (80.93\% in A, 53.96\% in B, 84.16\% in C, 66.68\% in D) that mirror Energy scoring within 0.84 percentage points across all cohorts. As established in Section~\ref{sec:continuous_proxy}, this alignment occurs because unweighted linear combination of unbounded Energy with bounded MSP is mathematically dominated by Energy variance ($\sigma \approx 2.15$ vs. $\sigma \approx 0.18$), yielding a Spearman rank correlation $\rho > 0.992$ between the proxy and raw Energy scores across all 13,465 evaluated image records.
+\end{enumerate}
+
+\vspace*{-4pt}\subsection{Operational Rejection and Image-Level Decision Performance}
+\label{sec:results_operational_rejection}
+
+While AUROC evaluates threshold-independent ranking and retrospective FPR@95 evaluates post-hoc operating points on test data, prospective industrial grading systems must operate under fixed thresholds calibrated a priori. Table~\ref{tab:operational_decision_performance} reports offline operational metrics of standalone Energy and the joint Dual-Gate cascade under locked prospective thresholds calibrated on primary validation data ($\tau_{95}$, targeting 95.15\% validation coverage); these metrics evaluate computational image-level acceptance and rejection, not a physical sorting deployment.
+
+\begin{table*}[!t]
+\caption{Operational decision performance under prospective validation-calibrated operating thresholds ($\tau_{95}$). Standalone Energy uses $\tau_E = 1.054579$; Dual-Gate Cascade evaluates $S_{\text{Energy}} \ge 0.918451 \land S_{\text{MSP}} \ge 0.582610$. Brackets indicate 95\% bootstrap percentile intervals ($B = 1,000$, seed 42). UFAR-Fresh measures false acceptance as the proportion of OOD image records accepted by the evaluated gate and assigned one of the classifier's Fresh-class output labels ($\hat{y} \in \{0,1,2\}$), rather than commercial quality certification; KRR measures abstention on known-class image records.}
+\label{tab:operational_decision_performance}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{3.1cm} >{\centering\arraybackslash}p{2.3cm} >{\centering\arraybackslash}p{2.4cm} >{\centering\arraybackslash}p{2.3cm} >{\centering\arraybackslash}p{2.1cm}}
+\toprule
+\textbf{Evaluation Cohort} & \textbf{Operational Configuration} & \textbf{Operational UFAR (\%)} & \textbf{Operational UFAR-Fresh (\%)} & \textbf{Operational KRR (\%)} & \textbf{Retained Knowns (\%)} \\
+\midrule
+\textbf{Cohort A: Semantic} \newline
+\textit{FruitVision B vs D1} \newline
+{\scriptsize $N_{\text{id}} = 4,157, N_{\text{ood}} = 2,776$}
+& Standalone Energy ($\tau_E = 1.054579$) \newline
+Dual-Gate Cascade ($\tau_E \land \tau_M$)
+& 13.18 [12.07, 14.34] (366) \newline
+16.07 [14.77, 17.40] (446)
+& 7.64 [6.70, 8.65] (212) \newline
+10.48 [9.37, 11.60] (291)
+& 41.42 [40.34, 42.58] (1,722) \newline
+41.98 [40.75, 43.06] (1,745)
+& 58.58 (2,435) \newline
+58.02 (2,412) \\
+\midrule
+\textbf{Cohort B: Condition} \newline
+\textit{FruitVision B vs C} \newline
+{\scriptsize $N_{\text{id}} = 4,157, N_{\text{ood}} = 1,917$}
+& Standalone Energy ($\tau_E = 1.054579$) \newline
+Dual-Gate Cascade ($\tau_E \land \tau_M$)
+& 53.94 [52.16, 55.66] (1,034) \newline
+52.63 [50.81, 54.25] (1,009)
+& 44.03 [42.41, 45.59] (844) \newline
+42.83 [41.26, 44.34] (821)
+& 41.42 [40.34, 42.58] (1,722) \newline
+41.98 [40.80, 43.23] (1,745)
+& 58.58 (2,435) \newline
+58.02 (2,412) \\
+\midrule
+\textbf{Cohort C: Combined} \newline
+\textit{FruitVision B vs D2} \newline
+{\scriptsize $N_{\text{id}} = 4,157, N_{\text{ood}} = 1,195$}
+& Standalone Energy ($\tau_E = 1.054579$) \newline
+Dual-Gate Cascade ($\tau_E \land \tau_M$)
+& 6.86 [5.52, 8.28] (82) \newline
+9.54 [7.86, 11.30] (114)
+& 4.94 [3.85, 6.19] (59) \newline
+7.28 [5.94, 8.70] (87)
+& 41.42 [40.34, 42.63] (1,722) \newline
+41.98 [40.89, 43.20] (1,745)
+& 58.58 (2,435) \newline
+58.02 (2,412) \\
+\midrule
+\textbf{Cohort D: Semantic} \newline
+\textit{Sultana B vs D1} \newline
+{\scriptsize $N_{\text{id}} = 1,193, N_{\text{ood}} = 2,000$}
+& Standalone Energy ($\tau_E = 1.054579$) \newline
+Dual-Gate Cascade ($\tau_E \land \tau_M$)
+& 34.15 [32.35, 35.90] (683) \newline
+34.90 [33.00, 36.95] (698)
+& 21.45 [19.85, 23.10] (429) \newline
+22.65 [20.95, 24.30] (453)
+& 41.74 [39.31, 44.26] (498) \newline
+44.01 [41.41, 46.61] (525)
+& 58.26 (695) \newline
+55.99 (668) \\
+\midrule
+\textbf{Partition B Pooled} \newline
+\textit{Pooled External Knowns} \newline
+{\scriptsize $N_{\text{id}} = 5,350$}
+& Standalone Energy ($\tau_E = 1.054579$) \newline
+Dual-Gate Cascade ($\tau_E \land \tau_M$)
+& --- \newline
+---
+& --- \newline
+---
+& 41.50 [40.21, 42.69] (2,220) \newline
+42.43 [41.10, 43.76] (2,270)
+& 58.50 (3,130) \newline
+57.57 [56.24, 58.90] (3,080) \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+
+Analysis of operational screening reveals notable operational trade-offs and rejection/acceptance outcomes:
+\begin{enumerate}
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topsep}{1pt}
+\setlength{\partopsep}{0pt}
+\item \textbf{Severe In-Distribution Abstention Penalty:} Operating thresholds calibrated to accept 95.15\% of primary in-distribution validation images suffer substantial over-rejection when transferred to external repository images. Standalone Energy exhibits an operational Known-Class Rejection Rate (KRR) of 41.42\% on FruitVision B and 41.74\% on Sultana B (41.50\% pooled). Dual-Gate exhibits a KRR of 41.98\% [40.75\%, 43.06\%] on FruitVision B and 44.01\% [41.41\%, 46.61\%] on Sultana B, pooling at 42.43\% [41.10\%, 43.76\%] (2,270/5,350 known images rejected). Note that because stratified bootstrap resampling was conducted independently per cohort evaluation ($B = 1,000$), resampled draws of the shared in-distribution reference subset (FruitVision B, $N_{\text{id}} = 4,157$) varied across runs, yielding identical point estimates ($41.98\%$ for Dual-Gate, $41.42\%$ for standalone Energy) alongside minor variations in empirical percentile bounds across Cohorts A, B, and C. Consequently, retaining automated sorting decisions on only 57.57\% of known-class image records presents substantial operational abstention overhead.
+\item \textbf{Operational False Acceptance Rates:} On FruitVision Semantic Shift (Cohort A), standalone Energy restricts UFAR to 13.18\% [12.07\%, 14.34\%] (366/2,776 accepted), while Dual-Gate allows 16.07\% [14.77\%, 17.40\%] (446/2,776 accepted). In Cohort C (Combined Shift), UFAR is further suppressed to 6.86\% (Energy) and 9.54\% (Dual-Gate). However, in Cohort D (Sultana Semantic Shift), operational false acceptance rises steeply to 34.15\% (Energy) and 34.90\% [33.00\%, 36.95\%] (Dual-Gate), establishing weaker discrimination and higher operational false acceptance in Cohort D than in Cohort A. While visual commonalities among unseen species (such as guava and jujube in Sultana D1) and known classes represent an untested observational hypothesis, morphological geometry, color distributions, and feature-space overlap were not directly measured, and visual similarity cannot be inferred as the causal driver of this difference.
+\item \textbf{Dataset-Reported Treatment Routing Failure:} Under locked validation thresholds, 821 out of 1,917 treatment-labelled image records (42.83\% [41.26\%, 44.34\%]) in FruitVision C are accepted by the Dual-Gate and assigned one of the classifier's Fresh-class output labels ($\hat{y} \in \{0, 1, 2\}$). Standalone Energy exhibits an even higher UFAR-Fresh of 44.03\% (844/1,917). Under the evaluated operating thresholds, a substantial fraction of treatment-labelled image records were accepted and assigned one of the classifier's Fresh-class output labels. This outcome does not establish that their confidence-score distributions match those of untreated fresh fruit.
+\item \textbf{Food-Safety Scope Disclaimer:} We emphasize that UFAR-Fresh measures strictly the proportion of OOD image records accepted by the evaluated gate and assigned one of the classifier's Fresh-class output labels; it is not claimed to represent verified biological freshness, commercial fruit-grade certification, microbial non-contamination, or toxicological clearance.
+\end{enumerate}
+
+\vspace*{-4pt}\subsection{Uncertainty Quantification and Consolidated Benchmark Findings}
+\label{sec:results_consolidated_findings}
+
+Synthesizing the empirical evidence from Sections~\ref{sec:results_sensitivity} through~\ref{sec:results_operational_rejection}, we consolidate the benchmark findings with respect to the study's three core research questions:
+
+\begin{enumerate}
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topsep}{1pt}
+\setlength{\partopsep}{0pt}
+\item \textbf{Addressing RQ1 (External Domain Robustness and Spoilage Misclassification):} The frozen MobileNetV2 classifier suffers a marked 28.56 percentage-point degradation in top-1 accuracy (from 96.92\% to 68.36\%) when evaluated on external repository images. The primary failure mode is asymmetric collapse on Fresh Apples (32.12\% accuracy; 310/965 correct), where misclassifications frequently fall into decay classes (393 predicted Rotten Apple, 255 Rotten Orange out of 965). Qualitative visual inspection indicates natural surface striations, lenticel spots, and specular reflections consistent with varietal russeting; we present this texture correlation strictly as an untested observational hypothesis rather than a demonstrated causal mechanism.
+\item \textbf{Addressing RQ2 (Comparative Efficacy under Species vs. Condition Shifts):} Under source-stratified semantic shift, Energy-based scoring (AUROC = 81.57\% on FruitVision, 67.52\% on Sultana) and Ledoit--Wolf Mahalanobis distance (81.41\% and 68.15\%) substantially outperform standard MSP (72.42\% and 59.77\%). However, under dataset-reported treatment-labelled condition shift (Cohort B), all evaluated scoring algorithms exhibit weak or near-chance discrimination (Energy AUROC = 53.13\%, Mahalanobis = 47.91\%, MSP = 58.77\%). Tested RGB post-hoc scoring functions did not reliably separate images recorded under the dataset-reported treatment protocol from natural fruit.
+\item \textbf{Addressing RQ3 (Operational Dual-Gate Feasibility and Trade-offs):} Validation-calibrated decision gating achieves partial unknown screening on semantic shifts (UFAR = 16.07\% in A, 9.54\% in C), but imposes a substantial operational abstention burden: 42.43\% of known-class image records are rejected / abstained across external repository conditions (KRR = 41.98\% on FruitVision, 44.01\% on Sultana). Crucially, 42.83\% of dataset-reported treatment-labelled image records (821/1,917) are accepted by the Dual-Gate and assigned one of the classifier's Fresh-class output labels, demonstrating that the evaluated visual OOD gates did not provide reliable screening on this treatment cohort. Because physical conveyance, staffing overhead, and financial expenditure were not measured, evaluating real-world operational trade-offs requires dedicated field validation.
+\item \textbf{Methodological Conditioning and Statistical Non-Independence:} All reported confidence intervals are conditional on image-level resampling exchangeability ($B = 1,000$). Although Cohorts A--C share the same underlying FruitVision known-class reference records ($N_{\text{id}} = 4,157$), bootstrap resampling was performed independently for each cohort evaluation. Therefore, the marginal confidence intervals should not be interpreted as paired intervals for differences between cohorts. These cohorts are not independent experimental replications.
+\end{enumerate}

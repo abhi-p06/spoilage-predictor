@@ -1,0 +1,45 @@
+\section{Dataset Architecture and Experimental Design}
+\label{sec:dataset_and_design}
+
+\subsection{Photographic Repositories and Deduplication Auditing}
+Our empirical benchmark evaluates $N = 13,465$ authentic photographic records from three independent sources:
+\begin{itemize}
+\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}\setlength{\topsep}{1pt}\setlength{\partopsep}{0pt}
+\item \textbf{Kaggle Fruit Quality Benchmark:} Curated benchmark covering three commercial fruit species---apple (\textit{Malus domestica}), banana (\textit{Musa acuminata}), and orange (\textit{Citrus sinensis})---in fresh and rotten states under neutral backgrounds. From 2,043 test images, we isolate strictly the 227 raw photographic images (`\texttt{is\_raw == 1}') to construct Partition A (Primary ID Test), setting aside 1,816 synthetic augmentations. An independent validation partition of 227 raw images is maintained strictly for prospective threshold calibration.
+\item \textbf{FruitVision Dataset \cite{bijoy2025fruitvision}:} Large-scale benchmark containing 10,154 published raw photographs, yielding $N = 10,045$ evaluated records after 109 hash-identified duplicate exclusions across five species: three known species (apple, banana, orange) and two unseen non-target species (grape \textit{Vitis vinifera} and mango \textit{Mangifera indica}). Photographed across wholesale markets, retail stalls, and laboratory benches using three commercial smartphones under unconstrained lighting. Crucially, FruitVision includes produce lots subjected to post-harvest preservative immersion (formalin chemical treatment protocol), providing labelled condition shifts.
+\item \textbf{Sultana et al.\ Dataset \cite{sultana2022extensive}:} Benchmark containing approximately 3,200 raw photographs, yielding $N = 3,193$ evaluated records after seven hash-identified duplicate exclusions of fresh and rotten fruits collected across local market stalls and open fields in Bangladesh, providing $N = 1,193$ known-class instances (apple, banana, orange) and $N = 2,000$ non-target agricultural commodities (guava, jujube, pomegranate, etc.).
+\end{itemize}
+MD5 checksums confirmed zero bit-level collisions across partitions. Discrete cosine transform perceptual hashing (64-bit pHash) audited image similarity across Hamming scan radii $r \in \{0, 4, 8\}$. The canonical evaluation tiers evaluate metric sensitivity: Primary ($N = 13,465$); Tier 1 ($N = 13,409$), which excludes 56 unique cross-partition collision records detected at $r \le 8$ (11 FruitVision Known reference records, 14 FruitVision D1 records, 11 FruitVision C records, 20 FruitVision D2 records; zero corresponding Sultana exclusions); and Tier 2 ($N = 13,382$), which excludes an additional 27 intra-partition multi-label collision records (6 Partition B records, 5 Partition C records, 16 Partition D1 records).
+
+\begin{table*}[!t]
+\caption{Dataset partitioning architecture, source provenance, and source-stratified evaluation cohort definitions ($N = 13,465$ photographic records).}
+\label{tab:dataset_partitions_cohorts}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lllccl}
+\toprule
+\textbf{Partition / Cohort} & \textbf{Upstream Repository} & \textbf{Species Included} & \textbf{Condition / State} & \textbf{$N$} & \textbf{Evaluation Role / Comparison} \\
+\midrule
+\textbf{Partition A} & Kaggle Benchmark & Apple, Banana, Orange & Fresh, Rotten (Lab) & 227 & Primary In-Distribution (ID) Test Split \\
+\textbf{Partition B (FruitVision B)} & FruitVision \cite{bijoy2025fruitvision} & Apple, Banana, Orange & Fresh, Rotten (Natural) & 4,157 & Source-matched ID reference (Cohorts A, B, C) \\
+\textbf{Partition B (Sultana B)} & Sultana et al.\ \cite{sultana2022extensive} & Apple, Banana, Orange & Fresh, Rotten (Market/Field) & 1,193 & Source-matched ID reference (Cohort D) \\
+\textbf{Partition C} & FruitVision \cite{bijoy2025fruitvision} & Apple, Banana, Orange & Formalin-Treated Knowns & 1,917 & Condition Shift OOD (Cohort B) \\
+\textbf{Partition D1 (FruitVision)} & FruitVision \cite{bijoy2025fruitvision} & Grape, Mango & Natural Unseen Species & 2,776 & Semantic Species Shift OOD (Cohort A) \\
+\textbf{Partition D1 (Sultana)} & Sultana et al.\ \cite{sultana2022extensive} & Guava, Jujube, etc. & Unseen Agricultural Produce & 2,000 & Semantic Species Shift OOD (Cohort D) \\
+\textbf{Partition D2} & FruitVision \cite{bijoy2025fruitvision} & Grape, Mango & Formalin-Treated Unseen & 1,195 & Combined Semantic + Condition Shift (Cohort C) \\
+\midrule
+\textbf{Cohort A: Semantic} & FruitVision (Same Source) & ID: Apple, Banana, Orange & OOD: Grape, Mango (Natural) & 6,933 & Isolates pure botanical species shift \\
+\textbf{Cohort B: Condition} & FruitVision (Same Source) & ID: Natural Knowns & OOD: Formalin-Treated Knowns & 6,074 & Evaluates post-harvest treatment shift \\
+\textbf{Cohort C: Combined} & FruitVision (Same Source) & ID: Natural Knowns & OOD: Formalin-Treated Unseen & 5,352 & Evaluates joint species and treatment shift \\
+\textbf{Cohort D: Semantic} & Sultana et al.\ (Same Source) & ID: Apple, Banana, Orange & OOD: Non-target Produce & 3,193 & Sultana source-matched semantic-shift evaluation \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+\subsection{Partitioning Architecture and Source-Matched Cohorts}
+To prevent camera hardware and lighting differences from confounding anomaly detection, we organize image records into five partitions and four source-matched cohorts (Table~\ref{tab:dataset_partitions_cohorts}). Source matching ensures that known and anomaly distributions share the same capture repository, reducing repository-level acquisition divergence.
+
+\noindent\textbf{Specimen Independence Caveat:} Public crowdsourced repositories lack individual fruit tracking identifiers; multiple records may represent rotated captures of the same fruit. All bootstrap confidence intervals are strictly conditional on image-level resampling exchangeability.

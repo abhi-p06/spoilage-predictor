@@ -1,0 +1,48 @@
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Classifier Architecture and Preprocessing Pipeline}
+We evaluate a frozen MobileNetV2 architecture \cite{sandler2018mobilenetv2} trained on curated produce imagery. Input images are resized to $224 \times 224 \times 3$, normalized to $[-1, 1]$, and processed through inverted residual bottleneck blocks. Global average pooling produces a 1280-dimensional feature vector $f(x) \in \mathbb{R}^{1280}$, passed through a dropout layer ($p = 0.3$) and a dense softmax layer over $K = 6$ classes (Fresh/Rotten Apple, Banana, Orange). Model weights remain frozen under verified SHA-256 checksum `\texttt{4a12f354...b6b4}`.
+
+\subsection{Evaluated Post-Hoc OOD Detection Scoring Functions}
+We benchmark five post-hoc OOD scoring algorithms operating on internal representations of the frozen network, summarized in Table~\ref{tab:detector_formulations}.
+
+\begin{table*}[!t]
+\caption{Mathematical formulations, operating spaces, and hyperparameter specifications for evaluated post-hoc OOD detection algorithms.}
+\label{tab:detector_formulations}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lllp{6.8cm}}
+\toprule
+\textbf{Detection Algorithm} & \textbf{Operating Representation} & \textbf{Mathematical Scoring Function $S(x)$} & \textbf{Implementation Details and Hyperparameters} \\
+\midrule
+\textbf{Maximum Softmax Probability (MSP) \cite{hendrycks2017baseline}} & Softmax Probabilities $p(x) \in [0, 1]^K$ & $S_{\text{MSP}}(x) = \max_{k \in \{1,\dots,K\}} \frac{\exp(z_k(x))}{\sum_{j=1}^K \exp(z_j(x))}$ & Baseline confidence scoring; bounded in $[1/K, 1]$. \\
+\addlinespace[2pt]
+\textbf{Energy-Based Detection \cite{liu2020energy}} & Raw Logits $z(x) \in \mathbb{R}^K$ & $S_{\text{Energy}}(x) = T \cdot \log \sum_{k=1}^K \exp(z_k(x) / T)$ & Post-hoc free energy score with $T = 1.0$; mathematically unbounded on $(-\infty, +\infty)$; not treated as a calibrated density estimator. \\
+\addlinespace[2pt]
+\textbf{ODIN Perturbation Variant \cite{liang2018enhancing}} & Input Space $\tilde{x} \in [-1, 1]^{H \times W \times C}$ & $S_{\text{ODIN}}(x) = \max_k \frac{\exp(z_k(\tilde{x}) / T)}{\sum_j \exp(z_j(\tilde{x}) / T)}$ & Evaluated variant uses sign gradient of maximum logit: $\tilde{x} = x + \varepsilon \operatorname{sign}(\nabla_x \max_k z_k(x))$ with $T = 1000.0, \varepsilon = 0.0014$. \\
+\addlinespace[2pt]
+\textbf{Ledoit--Wolf Mahalanobis \cite{lee2018simple}} & Latent Features $f(x) \in \mathbb{R}^{1280}$ & $S_{\text{Maha}}(x) = -\sqrt{\max(d_M^2(x), 0)}$ & Uses Ledoit--Wolf shrinkage covariance $\mathbf{\Sigma}$; square root is a strictly monotonic transformation preserving AUROC and ranking. \\
+\addlinespace[2pt]
+\textbf{Modified OpenMax Variant \cite{bendale2016towards}} & Latent Features $f(x) \in \mathbb{R}^{1280}$ & $S_{\text{OpenMax}}(x) = 1 - P(y = \text{unknown} \mid x)$ & Evaluated variant fits Weibull distributions to 1280-dim global features ($\alpha = 2, \eta = 20$) with rank weighting leaving top-1 logit unaltered. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+\subsection{Operational Energy--MSP Dual-Gate Cascade}
+In production sorting lines, continuous scoring functions must trigger discrete accept/reject decisions. The Energy score is a post-hoc logit-based OOD scoring function motivated by an energy-based formulation; it is not treated here as a calibrated estimate of the true input marginal density. To combine the discriminative characteristics of logit-based Energy scoring with the confidence calibration of MSP, we evaluate an operational Boolean Dual-Gate cascade:
+\begin{equation}
+\operatorname{ACCEPT}(x) = \mathbb{I}(S_{\text{Energy}}(x) \ge \tau_E \;\land\; S_{\text{MSP}}(x) \ge \tau_M), \qquad \operatorname{REJECT}(x) = 1 - \operatorname{ACCEPT}(x).
+\end{equation}
+An exploratory linear-margin proxy, $S_{\text{proxy}}(x) = (S_{\text{Energy}}(x) - \tau_E) + (S_{\text{MSP}}(x) - \tau_M)$, facilitates continuous ROC analysis. Because raw Energy scores exhibit empirical variance ($\sigma \approx 2.15$) twelve times larger than that of bounded MSP ($\sigma \approx 0.18$), this proxy is scale-dependent and dominated by Energy variance (Spearman rank correlation $\rho > 0.992$). All operational screening metrics evaluate strictly the discrete Boolean conjunction rule.
+
+\subsection{Validation Calibration and Evaluation Metrics}
+Operating thresholds are locked prospectively on the independent primary validation partition ($N = 227$), targeting $95.15\%$ known retention ($11/227$ rejected): Standalone Energy $\tau_E = 1.054579$ ($s_{(11)}$); Dual-Gate Cascade $\tau_E = 0.918451 \land \tau_M = 0.582610$ ($s_{(7)}$ on both constituent gates, yielding $|R_E|=6, |R_M|=6, |R_E \cap R_M|=1 \implies |R_{\text{union}}|=11$). 
+
+We report threshold-independent AUROC (OOD positive class, anomaly score $-S(x)$) and retrospective FPR@95 (OOD accepted at $\ge 95\%$ known retention). Under locked validation thresholds ($\tau_{95}$), we evaluate operational metrics: (1) \textbf{Unknown False Acceptance Rate (UFAR):} proportion of OOD images accepted into known distribution; (2) \textbf{UFAR-Fresh:} proportion of OOD images accepted and assigned one of the classifier's Fresh-class output labels ($\hat{y} \in \{0, 1, 2\}$), disclaiming commercial grade or biological freshness certification; and (3) \textbf{Known-Class Rejection Rate (KRR):} in-distribution abstention rate.
+
+\subsection{Uncertainty Quantification Protocol}
+Point estimates are accompanied by 95\% non-parametric bootstrap percentile intervals ($B = 1,000$ resamples with replacement, `\texttt{seed=42}'), stratified by class and condition groups. Crucially, Cohorts A--C share the FruitVision known reference partition ($N_{\text{id}} = 4,157$). Because bootstrap resampling was executed independently per cohort, marginal confidence intervals are not paired intervals for cohort differences, and these cohorts should not be treated as independent experimental replications.

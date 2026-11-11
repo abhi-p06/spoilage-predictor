@@ -1,0 +1,66 @@
+% Template for Elsevier CRC journal article
+% Procedia Computer Science - ICMLDE 2026
+% Concise Conference Version (Target <= 10 Pages)
+
+\documentclass[3p,times,procedia]{elsarticle}
+\flushbottom
+
+\usepackage{ecrc}
+\usepackage[bookmarks=false]{hyperref}
+\hypersetup{colorlinks,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+%% ecrc package configurations
+\volume{00}
+\firstpage{1}
+\journalname{Procedia Computer Science}
+\runauth{Anonymous Author(s)}
+\jid{procs}
+
+%% Vancouver numbered citations
+\biboptions{sort&compress}
+
+\begin{document}
+\begin{frontmatter}
+
+\dochead{5th International Conference on Machine Learning and Data Engineering}
+
+\title{Source-Stratified Evaluation of Out-of-Distribution Detection in Fruit-Quality Classification Under Species and Treatment-Labelled Shifts}
+
+\author[a]{Author Names Redacted for Peer Review}
+\address[a]{Affiliation Details Redacted for Double-Blind Peer Review}
+
+\begin{abstract}
+Automated fruit-quality classification via computer vision achieves high accuracy on curated benchmarks but frequently degrades under real-world distribution shifts. This study conducts a rigorous, source-stratified empirical evaluation of a frozen MobileNetV2 six-class fruit-quality classifier and five post-hoc out-of-distribution (OOD) scoring methods: Maximum Softmax Probability (MSP), Energy, an ODIN-style perturbation variant, Ledoit--Wolf Mahalanobis distance, and a modified OpenMax-style heuristic, alongside an operational Energy--MSP Boolean Dual-Gate cascade. The evaluation encompasses $N = 13,465$ photographic records across three repositories, organized into primary in-distribution, external known-class, unseen-species, dataset-reported treatment-labelled, and combined-shift cohorts. Closed-set accuracy degrades from 96.92\% on primary laboratory test data to 68.36\% on pooled external known-class imagery (a 28.56 percentage-point decline), driven primarily by an asymmetric collapse on Fresh Apples (32.12\% accuracy; 310/965 correct). For semantic species shift within FruitVision (Cohort A), Energy achieves 81.57\% AUROC, whereas on Sultana (Cohort D) it drops to 67.52\%. Under dataset-reported chemical treatment shift (Cohort B), all evaluated post-hoc scoring functions exhibit weak discrimination (Energy AUROC = 53.13\%, Mahalanobis = 47.91\%). Under validation-calibrated operating thresholds ($\tau_{95}$), the Dual-Gate incurs a 42.43\% known-class rejection rate on external imagery and accepts 42.83\% (821/1,917) of treatment-labelled image records into classifier Fresh-class output labels. Perceptual-hash sensitivity analysis establishes detector ranking invariance across deduplication tiers (maximum AUROC shift $\le 0.22$ percentage points). These findings expose the visual failure boundaries of standalone RGB classification and demonstrate the value of source-stratified evaluation; future work could evaluate whether complementary sensing modalities improve screening in post-harvest grading.
+\end{abstract}
+
+\begin{keyword}
+Fruit quality classification \sep Open-set recognition \sep Out-of-distribution detection \sep Domain shift \sep MobileNetV2 \sep Energy-based detection \sep Food quality assessment
+\end{keyword}
+
+\cortext[cor1]{Corresponding author. Contact details redacted for double-blind peer review.}
+
+\end{frontmatter}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_dataset_and_experimental_design}
+\input{sections/04_methodology}
+\input{sections/05_results}
+\input{sections/06_discussion_limitations}
+\input{sections/07_conclusion}
+
+\section*{Acknowledgements}
+The authors acknowledge the creators and curators of the Kaggle Fruit Quality, FruitVision, and Sultana datasets for making their photographic archives available for academic research.
+
+\bibliographystyle{elsarticle-num}
+\bibliography{bibliography/references}
+
+\end{document}

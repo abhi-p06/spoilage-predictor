@@ -1,5 +1,64 @@
 \section{Experimental Results and Failure Analysis}
 \label{sec:results}
 
-This section presents the closed-set performance evaluation across partitions, source-stratified OOD detection AUROC and FPR@95 metrics, operational Dual-Gate rejection rates (UFAR, UFAR-Fresh, KRR), and non-parametric bootstrap confidence intervals.
+This section presents the closed-set performance evaluation across partitions, source-stratified OOD detection AUROC and FPR@95 metrics, operational Dual-Gate rejection rates (UFAR, UFAR-Fresh, KRR), non-parametric bootstrap confidence intervals, and sensitivity analysis across perceptual-hash (pHash) near-duplicate exclusion tiers.
 
+\subsection{Sensitivity and Near-Duplicate Robustness Analysis}
+\label{sec:results_sensitivity}
+
+To evaluate whether near-duplicate captures within external photographic archives artificially inflate or distort out-of-distribution detection metrics, detector performance was benchmarked across the three sensitivity tiers defined in Section~\ref{sec:duplicate_handling_phash}: Primary ($N = 13,465$), Tier 1 ($N = 13,409$), and Tier 2 ($N = 13,382$). Table~\ref{tab:phash_sensitivity} reports the complete empirical sensitivity evaluation across all five post-hoc scoring functions and the Dual-Gate operational decision rule for all four source-matched cohorts.
+
+\begin{table*}[!t]
+\caption{Sensitivity analysis of out-of-distribution detection performance (AUROC, \%) across perceptual-hash (pHash) near-duplicate exclusion tiers. Results cover all five post-hoc scoring functions and the exploratory Dual-Gate linear margin proxy across Cohorts A--D. Relative detector rankings remain strictly invariant across all three tiers within every evaluation cohort.}
+\label{tab:phash_sensitivity}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{2.3cm} >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{1.7cm}}
+\toprule
+\textbf{Evaluation Cohort} & \textbf{Scoring Function} & \textbf{Primary ($N=13,465$)} & \textbf{Tier 1 ($N=13,409$)} & \textbf{Tier 2 ($N=13,382$)} & \textbf{Max $|\Delta|$ (pp)} \\
+\midrule
+\textbf{Cohort A: Semantic Shift} & MSP & 72.42 & 72.38 & 72.33 & 0.09 \\
+\textit{FruitVision B vs D1} & Energy & 81.57 & 81.53 & 81.46 & 0.11 \\
+($N_{\text{id}} = 4,157$, & ODIN & 72.30 & 72.27 & 72.20 & 0.10 \\
+$N_{\text{ood}} = 2,776 \to 2,746$) & Mahalanobis & 81.41 & 81.34 & 81.27 & 0.14 \\
+ & OpenMax & 72.46 & 72.44 & 72.38 & 0.08 \\
+ & Dual-Gate (Proxy) & 80.93 & 80.89 & 80.82 & 0.11 \\
+\midrule
+\textbf{Cohort B: Treatment Shift} & MSP & 58.77 & 58.80 & 58.81 & 0.04 \\
+\textit{FruitVision B vs C} & Energy & 53.13 & 53.18 & 53.19 & 0.06 \\
+($N_{\text{id}} = 4,157$, & ODIN & 56.73 & 56.78 & 56.78 & 0.05 \\
+$N_{\text{ood}} = 1,917 \to 1,901$) & Mahalanobis & 47.91 & 47.96 & 48.01 & 0.10 \\
+ & OpenMax & 55.35 & 55.38 & 55.40 & 0.05 \\
+ & Dual-Gate (Proxy) & 53.96 & 54.01 & 54.02 & 0.06 \\
+\midrule
+\textbf{Cohort C: Combined Shift} & MSP & 76.47 & 76.48 & 76.50 & 0.03 \\
+\textit{FruitVision B vs D2} & Energy & 84.72 & 84.64 & 84.65 & 0.08 \\
+($N_{\text{id}} = 4,157$, & ODIN & 78.11 & 78.11 & 78.13 & 0.02 \\
+$N_{\text{ood}} = 1,195 \to 1,175$) & Mahalanobis & 80.08 & 79.88 & 79.86 & 0.22 \\
+ & OpenMax & 77.22 & 77.22 & 77.22 & 0.00 \\
+ & Dual-Gate (Proxy) & 84.16 & 84.09 & 84.10 & 0.07 \\
+\midrule
+\textbf{Cohort D: Semantic Shift} & MSP & 59.77 & 59.77 & 59.77 & 0.00 \\
+\textit{Sultana B vs D1} & Energy & 67.52 & 67.52 & 67.52 & 0.00 \\
+($N_{\text{id}} = 1,193$, & ODIN & 60.02 & 60.02 & 60.02 & 0.00 \\
+$N_{\text{ood}} = 2,000 \to 2,000$) & Mahalanobis & 68.15 & 68.15 & 68.15 & 0.00 \\
+ & OpenMax & 64.38 & 64.38 & 64.38 & 0.00 \\
+ & Dual-Gate (Proxy) & 66.68 & 66.68 & 66.68 & 0.00 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The sensitivity analysis demonstrates two critical empirical findings:
+\begin{enumerate}
+\item \textbf{High Metric Stability:} Across all 24 evaluated detector-cohort configurations, metric fluctuations between the Primary benchmark and Tier 2 remain minor: the maximum observed change in AUROC across all methods is $0.22$ percentage points (Mahalanobis in Cohort C, shifting from 80.08\% to 79.86\%). For most scoring functions, AUROC shifts are bounded within $\pm 0.11$ percentage points. In Cohort D (Sultana et al.), where zero cross-partition or multi-label pHash collisions were detected at $r \le 8$, metrics remain completely invariant.
+\item \textbf{Strict Detector Ranking Invariance:} In all four cohorts, the relative ranking of detection methods is preserved without a single rank inversion across the three evaluation tiers:
+\begin{itemize}
+\item \textit{Cohort A (FruitVision Semantic Shift):} Energy (81.57\% $\to$ 81.46\%) $>$ Mahalanobis (81.41\% $\to$ 81.27\%) $>$ Dual-Gate Proxy (80.93\% $\to$ 80.82\%) $>$ OpenMax (72.46\% $\to$ 72.38\%) $>$ MSP (72.42\% $\to$ 72.33\%) $>$ ODIN (72.30\% $\to$ 72.20\%).
+\item \textit{Cohort B (FruitVision Treatment Shift):} MSP (58.77\% $\to$ 58.81\%) $>$ ODIN (56.73\% $\to$ 56.78\%) $>$ OpenMax (55.35\% $\to$ 55.40\%) $>$ Dual-Gate Proxy (53.96\% $\to$ 54.02\%) $>$ Energy (53.13\% $\to$ 53.19\%) $>$ Mahalanobis (47.91\% $\to$ 48.01\%).
+\item \textit{Cohort C (FruitVision Combined Shift):} Energy (84.72\% $\to$ 84.65\%) $>$ Dual-Gate Proxy (84.16\% $\to$ 84.10\%) $>$ Mahalanobis (80.08\% $\to$ 79.86\%) $>$ ODIN (78.11\% $\to$ 78.13\%) $>$ OpenMax (77.22\% $\to$ 77.22\%) $>$ MSP (76.47\% $\to$ 76.50\%).
+\item \textit{Cohort D (Sultana Semantic Shift):} Mahalanobis (68.15\%) $>$ Energy (67.52\%) $>$ Dual-Gate Proxy (66.68\%) $>$ OpenMax (64.38\%) $>$ ODIN (60.02\%) $>$ MSP (59.77\%) (invariant across all three tiers).
+\end{itemize}
+\end{enumerate}
+
+\noindent \textit{Evidence Bounds on Sensitivity Conclusions:} These results establish that the benchmark performance estimates and comparative method orderings are robust with respect to the tested pHash collision exclusions and evaluated image records. However, we qualify this conclusion: perceptual hashing at low-frequency DCT resolution captures detectable visual near-duplicates, but cannot prove the complete absence of subtle burst captures, viewpoint variations, or unmodelled specimen-level correlations in the underlying repositories. Complete point estimates and operational metrics across all tiers are preserved in canonical register: \newline {\raggedright\small\nolinkurl{STAGE4_1_2_1_SOURCE_STRATIFIED_PHASH_SENSITIVITY.csv}\par}

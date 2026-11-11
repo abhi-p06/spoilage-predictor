@@ -49,26 +49,29 @@ research_paper/
 │   └── PROCS_ICMLDE_2026_Templates_clean.docx   # Clean .docx working template (192 x 262 mm)
 ├── manuscript/
 │   ├── main.tex                                 # Master LaTeX root document (canonical source)
-│   ├── main.pdf                                 # Compiled Procedia Computer Science PDF (14 pages)
+│   ├── main.pdf                                 # Compiled Procedia Computer Science PDF (34 pages)
 │   ├── ecrc.sty, elsarticle.cls, framed.sty    # Official template style definitions
 │   ├── Procs.pdf, SDlogo-3p.pdf, etc.          # Elsevier official vector branding assets
 │   ├── sections/                                # Modular LaTeX section files
-│   │   ├── 01_introduction.tex                 # Audited Section 1; metric terminology and gap framing synchronized
-│   │   ├── 02_related_work.tex                 # Section 2 drafted; targeted audit corrections applied
-│   │   ├── 03_dataset_and_experimental_design.tex # Section 3 stub
-│   │   ├── 04_methodology.tex                  # Section 4 stub
-│   │   ├── 05_results.tex                      # Section 5 stub
-│   │   ├── 06_discussion.tex                   # Section 6 stub
-│   │   ├── 07_limitations.tex                  # Section 7 stub
-│   │   └── 08_conclusion.tex                   # Section 8 stub
+│   │   ├── 01_introduction.tex                 # Section 1: Drafted and audited, subject to final source review
+│   │   ├── 02_related_work.tex                 # Section 2: Drafted and audited, subject to final source review
+│   │   ├── 03_dataset_and_experimental_design.tex # Section 3: Drafted and audited, subject to final source review
+│   │   ├── 04_methodology.tex                  # Section 4: Drafted, audited, and compiled (Subsections 4.1--4.8, Fig 2, Tabs 5--7)
+│   │   ├── 05_results.tex                      # Section 5: Sensitivity analysis table & evaluation integrated
+│   │   ├── 06_discussion.tex                   # Section 6: Pending
+│   │   ├── 07_limitations.tex                  # Section 7: Pending
+│   │   └── 08_conclusion.tex                   # Section 8: Pending
 │   ├── bibliography/
-│   │   └── references.bib                      # Canonical BibTeX database (24 verified entries)
+│   │   └── references.bib                      # Canonical BibTeX database (27 verified entries: 24 active, 3 reserved)
 │   ├── manuscript_working.docx                  # Working Word manuscript (archival fallback)
-│   └── 01_introduction.md                       # Markdown archival source of Section 1
+│   ├── 01_introduction.md                       # Markdown archival source of Section 1
+│   ├── 02_related_work.md                       # Markdown archival source of Section 2
+│   ├── 03_dataset_and_experimental_design.md    # Markdown archival source of Section 3
+│   └── 04_methodology.md                        # Markdown archival source of Section 4
 ├── references/
-│   ├── references_audit.csv                     # Structured ledger of 24 DOIs, venues, and types
-│   ├── references_audit.md                      # Human-readable table of verified citations
-│   └── references.bib                           # Synchronized BibTeX database
+│   ├── references_audit.csv                     # Structured ledger of 27 DOIs, venues, and types
+│   ├── references_audit.md                      # Human-readable table of 27 verified citations
+│   └── references.bib                           # Synchronized BibTeX database (27 entries)
 ├── figures/                                     # Figure vector and bitmap assets
 ├── tables/                                      # Standalone tables and summaries
 └── audit/
@@ -80,8 +83,10 @@ research_paper/
     ├── REVIEWER_RESPONSE_DRAFT.md               # Point-by-point formal response letter draft
     ├── ICMLDE_RESUBMISSION_REQUIREMENTS_CHECKLIST.md # 12-point resubmission & Procedia compliance checklist
     ├── ICMLDE_SCOPE_CHANGE_QUERY_DRAFT.md       # Administrative inquiry draft for conference secretariat
+    ├── SECTION_3_AUDIT.md                       # Comprehensive Section 3 evidence reconciliation report
+    ├── SECTION_4_METHODS_AUDIT.md               # Comprehensive Section 4 methods evidence reconciliation report
     └── page_renders/                            # High-resolution PNG renders of compiled PDF
-        ├── page_1.png ... page_12.png           # 150 DPI visual verification renders
+        ├── page_01.png ... page_34.png          # 150 DPI visual verification renders of all 34 compiled pages
 ```
 
 ---
@@ -188,4 +193,81 @@ research_paper/
   - Reference Audit Ledger Reconciled: Updated both `references_audit.csv` and `references_audit.md` to reflect all 27 entries with complete fields (citation key, author list, year, exact title, journal/conference with volume/issue/pages, DOI/URL, publication type, peer-reviewed status, verification status, and section cited). Reconciled obsolete `abayomi2023fruitq` key to `abayomi2024fruitq`.
   - Archival Markdown Mirrors: Created `research_paper/manuscript/02_related_work.md` synchronized with `02_related_work.tex`.
   - Verification & Rendering: Recompiled with `tectonic` (exit code 0, 14 pages, 0 unresolved `??` citations); generated high-resolution page renders covering all 14 pages in `research_paper/audit/page_renders/`. Created `MANUSCRIPT_SYNC_AUDIT.md`.
-- Ready to proceed to Section 3 — Dataset Census and Experimental Design.
+- **2026-11-11 13:30:** Authored, verified, audited, and compiled Section 3 (Dataset Census and Experimental Design) in canonical LaTeX manuscript:
+  - Canonical LaTeX File: Authored `research_paper/manuscript/sections/03_dataset_and_experimental_design.tex` spanning 8 complete subsections (3.1 Study Design Overview, 3.2 Dataset Sources and Provenance, 3.3 Known-Class Definition and Label Mapping, 3.4 Image-Level Census and Partition Construction, 3.5 Source-Stratified Evaluation Cohorts, 3.6 Image Curation, Duplicate Handling, and Sensitivity Analysis, 3.7 Evaluation Integrity and Experimental Separation, 3.8 Reproducibility and Data Availability).
+  - Archival Markdown Copy: Authored `research_paper/manuscript/03_dataset_and_experimental_design.md` fully synchronized word-for-word, equation-for-equation, and table-for-table.
+  - Three Publication-Quality Tables:
+    - Table 2: Dataset Source and Provenance Summary (Primary Kaggle, FruitVision, Sultana et al. with published vs. evaluated subsets and capture environments).
+    - Table 3: Evaluation Partition Census ($N = 13,465$ images across Partitions A, B, C, D1, D2 with full species, conditions, sub-counts, and source reconciliation: $B = 4,157 + 1,193 = 5,350$; $D1 = 2,776 + 2,000 = 4,776$).
+    - Table 4: Source-Matched OOD Cohort Construction (Cohorts A, B, C, D detailing reference ID subsets, shifted OOD subsets, source repositories, shift dimensions, and specific research questions).
+  - Experimental Separation Safeguards: Formally verified that the primary validation calibration population ($N = 227$ raw Kaggle validation images, `is_raw == 1` in `FINAL_GROUP_VAL_V4_1.csv`) is strictly distinct from Partition A ($N = 227$ raw Kaggle test images, `is_raw == 1` in `FINAL_GROUP_TEST_V4_1.csv`) with exactly zero MD5 overlap, and is strictly excluded from the $N = 13,465$ evaluation census.
+  - Deduplication & pHash Audit: Documented 116 upstream exact duplicate exclusions (109 FruitVision, 7 Sultana); verified pHash sensitivity across Hamming radii $r \in \{0, 4, 8\}$ across Primary ($N = 13,465$), Tier 1 ($N = 13,409$), and Tier 2 ($N = 13,382$) with AUROC shifts $\le 0.22$ percentage points.
+  - Compilation & Verification: Successfully compiled `main.tex` via `tectonic` into a 21-page PDF with 0 errors, 0 warnings in Section 3, 0 unresolved `??` citations/references, and zero table margin overflows. Rendered high-resolution pages 13–19 to `research_paper/audit/page_renders/`.
+  - Comprehensive Audit Deliverable: Authored `SECTION_3_AUDIT.md` (and mirrored to `research_paper/audit/SECTION_3_AUDIT.md`).
+- **2026-11-11 13:45:** Executed targeted correction pass across Section 3 audit package:
+  - Shared Reference Subset & Non-Independence: Clarified in Section 3.5 and Section 3.6.2 that FruitVision Known (Partition B, $N_{\text{id}} = 4,157$) is a shared reference subset evaluated across Cohorts A, B, and C; explicitly documented that these cohorts reuse common reference records and do not constitute independent datasets.
+  - Non-Additivity of Cohort pHash Exclusions: Stated explicitly that cohort-level pHash exclusions are not additive; distinguished the global count of unique excluded image records across the benchmark (56 in Tier 1, 83 in Tier 2) from repeated cohort-specific counts.
+  - Deduplication vs. Augmentation Distinctions: Strictly distinguished the 116 exact binary duplicate exclusions (109 FruitVision, 7 Sultana et al.) from the 1,816 Kaggle synthetic augmentations excluded during test set curation to isolate the 227 raw photographic captures (`is_raw == 1`), enforcing that augmentations are never classified as duplicate removals.
+  - Evidence-Bounded Validation Separation: Replaced absolute language with evidence-bounded phrasing in Section 3.7 Item 1 and audit ledgers, noting that cryptographic MD5 separation establishes no exact-file overlap between the reported validation calibration and test sets, but does not prove the absence of every conceivable upstream correlation.
+  - Perceptual Hash Sensitivity Levels & Limitations: Formally defined Tier 1 (cross-partition collisions at $r \le 8$) and Tier 2 (cross-partition plus intra-partition multi-label collisions); articulated the low-frequency DCT limitations of pHash and explicitly disclaimed that all near-duplicates have been eliminated.
+  - Workspace Inventory Updated: Formally updated repository inventory to record Section 3 as drafted and integrated, canonical bibliography at 27 entries (24 active, 3 reserved), compiled PDF at 22 pages, and visual page-render archive containing all 22 pages (`page_01.png` through `page_22.png`).
+  - Synchronization & PDF Compilation: Recompiled canonical `main.tex` via `tectonic` into a 22-page PDF (0 errors, 0 warnings in Section 3, 0 unresolved `??` citations); synchronized all updates to `research_paper/manuscript/03_dataset_and_experimental_design.md` and `SECTION_3_AUDIT.md` (and its mirror); re-rendered all 22 pages to `research_paper/audit/page_renders/page_01.png` through `page_22.png`.
+- **2026-11-11 13:55:** Final narrowly scoped audit of Section 3 completed:
+  - Numerical Sensitivity Results Relocated: Inspected Section 3.6.2 and identified empirical AUROC sensitivity results; cleanly moved all numerical findings into Section 5.1 (`sec:results_sensitivity` in `05_results.tex`), preserving every single reported numerical metric (Cohort A Energy: $81.57\% \to 81.53\% \to 81.46\%$; Cohort B Energy: $53.13\% \to 53.18\% \to 53.19\%$; Cohort C Energy: $84.72\% \to 84.64\% \to 84.65\%$; Cohort D Energy: $67.52\%$ invariant; max shift $\le 0.22$ pp).
+  - Experimental Design Scope Restored: Section 3 is now strictly focused on study design, pHash hashing methodology, definitions of Primary ($N=13,465$), Tier 1 ($N=13,409$), and Tier 2 ($N=13,382$) tiers, and pHash methodological limitations.
+  - Terminology Standardized: The 116 duplicate exclusions across external repositories (109 FruitVision, 7 Sultana et al.) are consistently characterized as "hash-identified duplicate files" based on cryptographic hash collision detection, avoiding over-assertion of byte-for-byte comparison. Exclusion counts remain unchanged.
+  - Section 3 Audit Checklist Updated: Reflected exact manuscript state in `SECTION_3_AUDIT.md` (and mirrored copy).
+- **2026-11-11 14:35:** Executed final scientific wording correction and sensitivity-table enhancement across Section 3 and Section 5:
+  - Source-Matching Framing: Replaced claims that source matching "controls" or "isolates" confounders with evidence-bounded phrasing: "source matching reduces repository-level provenance differences, while within-repository acquisition variation remains possible" across §3.1, §3.5, and Table 4 caption/body.
+  - FruitVision Cohort Framing: Removed unsupported claims that FruitVision known and unseen subsets were photographed across the same market locations with the same smartphone cameras; described strictly as same-repository comparisons.
+  - Dataset-Reported Treatment Framing: Reframed Cohorts B and C descriptions in §3.3 and §3.5 strictly as "dataset-reported treatment-labelled condition", eliminating claims of independent chemical detection or treatment-caused visual anomalies.
+  - Speculative Mimicry Purged: Removed speculative assertion that green guava and jujube visually mimic green apples and citrus from Cohort D; described strictly as diverse unseen agricultural species.
+  - Deduplication Terminology: Standardized terminology to "duplicate files identified through matching cryptographic digests" (MD5/SHA-256), purging "hash collision" terminology when referring to duplicate files and avoiding byte-for-byte comparison claims.
+  - Reproducibility Terminology: Renamed Section 3.8 to "Experimental Traceability and Data Availability", replacing "Complete experimental reproducibility" with "Experimental traceability", and explicitly distinguishing preserved research artifacts (checkpoints, prediction records, manifests, ledgers) from external runtime and publisher dependencies.
+  - Perceptual Hash Design: Clarified pairwise scanning radii $r \in \{0, 4, 8\}$ as scanning thresholds ($r=0$ exact perceptual match, $r \le 4$ strict near-duplicate, $r \le 8$ permissive visual collision), cleanly distinguishing these radii from the resulting evaluation tiers (Primary, Tier 1, Tier 2), while strictly preserving 56 and 83 unique global exclusions.
+  - Section 5 Sensitivity Table & Ranking Invariance: Embedded compact Table 5 in `05_results.tex` reporting all 5 post-hoc detectors + Dual-Gate across all 4 cohorts and 3 sensitivity tiers (24 evaluated configurations) derived from canonical `STAGE4_1_2_1_SOURCE_STRATIFIED_PHASH_SENSITIVITY.csv`. Formally verified and documented that relative detector rankings remain strictly invariant across all three tiers in every single cohort. Qualified conclusions as applying to tested pHash exclusions and evaluated image records.
+  - File Synchronization: Word-for-word synchronization applied to `03_dataset_and_experimental_design.md` and audit ledgers.
+  - Compilation & Layout Verification: Compiled canonical `main.tex` via `tectonic` into a 23-page PDF with 0 errors, 0 overfull hboxes in Section 3 and Section 5, 0 underfull hboxes, and 0 unresolved `??` citations. All 23 pages rendered at 150 DPI to `research_paper/audit/page_renders/page_01.png` through `page_23.png`.
+  - Status Reconfirmed:
+    - Sections 1–4: Drafted, audited, and compiled.
+    - Section 5: Sensitivity analysis table & evaluation integrated.
+    - Sections 6–8: Pending.
+- **2026-11-11 15:00:** Authored, verified, audited, and compiled Section 4 (Methodology) in canonical LaTeX manuscript:
+  - Canonical LaTeX File: Authored `research_paper/manuscript/sections/04_methodology.tex` covering 8 complete subsections:
+    - 4.1 Methodological Overview (with Figure 2 vector pipeline graphic).
+    - 4.2 Frozen MobileNetV2 Classifier (architecture, label space $\mathcal{Y}$, input preprocessing, immutability safeguards, checkpoint SHA-256: `4a12f354...b6b4`).
+    - 4.3 Post-Hoc OOD Detection Scoring Functions (MSP, Energy as log-sum-exp, ODIN with perturbation $T=1000, \varepsilon=0.0014$, Ledoit-Wolf regularized Mahalanobis distance, OpenMax with Weibull tail fitting $\eta=20, \alpha=2$).
+    - 4.4 Operational Energy--MSP Dual-Gate Cascade (discrete acceptance rule $\operatorname{ACCEPT}(x) \iff S_{\text{Energy}}(x) \ge 0.918451 \land S_{\text{MSP}}(x) \ge 0.582610$, and continuous linear margin proxy for exploratory AUROC).
+    - 4.5 Validation-Based Operating-Threshold Calibration ($N_{\text{val}} = 227$ raw Kaggle validation images, order-statistic derivations, inclusion--exclusion joint calibration for Dual-Gate matching $95.1542\%$ empirical ID coverage, 95% Clopper--Pearson exact interval $[91.43\%, 97.60\%]$).
+    - 4.6 Evaluation Metrics (closed-set Acc/BalAcc/Macro-F1, continuous OOD AUROC/FPR@95/OSCR, operational UFAR/UFAR-Fresh/KRR/Retention).
+    - 4.7 Uncertainty Quantification and Statistical Reporting ($B = 1,000$ non-parametric bootstrap, `seed=42`, percentile CIs, image record resampling unit, class/cohort stratification, statistical conditioning on exchangeability, shared reference population disclaimers).
+    - 4.8 Software and Implementation Reproducibility (controlled Python/TensorFlow/SciPy/scikit-learn environment, canonical CSV ledgers).
+  - Three Publication-Quality Tables:
+    - Table 5: Post-Hoc Out-of-Distribution Detector Formulations and Verified Configurations.
+    - Table 6: Calibrated Operating Thresholds ($\tau_{95}$) Determined on Validation Data ($N_{\text{val}} = 227$).
+    - Table 7: Authoritative Evaluation Metrics Across Closed-Set Classification, Continuous OOD Ranking, and Operational Gating.
+  - Figure 2 Pipeline Graphic: Generated vector and raster assets (`research_paper/figures/figure_02_pipeline.pdf` & `.png`, mirrored in `research_paper/manuscript/figures/`).
+  - Archival Markdown Copy: Authored `research_paper/manuscript/04_methodology.md` fully synchronized word-for-word, equation-for-equation, and table-for-table.
+  - Comprehensive Audit Deliverable: Authored `SECTION_4_METHODS_AUDIT.md` (and mirrored to `research_paper/manuscript/audit/SECTION_4_METHODS_AUDIT.md`).
+  - Compilation & Formatting Verification: Successfully compiled `main.tex` via `tectonic` into a 34-page PDF with 0 errors, ZERO overfull hboxes in Section 4, ZERO unresolved `??` citations, and all 27 references resolved. All 34 pages rendered at 150 DPI to `research_paper/audit/page_renders/page_01.png` through `page_34.png`.
+  - Status Reconfirmed:
+    - Sections 1–4: Drafted, audited, and compiled.
+    - Section 5: Drafted sensitivity subsection; full results write-up pending.
+    - Sections 6–8: Pending.
+- **2026-11-11 16:15:** Completed Final Scientific Correction Pass on Section 4 (Methodology):
+  - Verified OpenMax Code Parity: `scripts/run_stage4_1_benchmark.py` (L267–290) calculates rank-adjusted weights as `alpha_weight = 1.0 - (rank_idx / float(alpha)) * (1.0 - omega_k)`. For top rank `rank_idx = 0` ($r = 1$), `rank_idx / alpha = 0 / 2 = 0`, giving $w_{c_1} \equiv 1.0$ (no Weibull logit discount). Reconciled manuscript equation to $w_{c_r} = 1.0 - \frac{r-1}{\alpha}(1 - \omega_r(x))$ with $r \in \{1, \dots, \alpha\}$. Formally documented this as a modified OpenMax-style heuristic evaluated on 1280-D global average pooled features.
+  - Verified ODIN Code Parity: Benchmark code (L217–231) perturbs inputs along the sign gradient of the maximum temperature-scaled logit $\max_k z_k/T_{\text{ODIN}}$, clipped to $[-1.0, 1.0]$. Documented as an ODIN-style perturbation variant.
+  - Reconciled MobileNetV2 Architecture: Verified against `MODEL_B_V4_1_CHECKPOINT.keras`: 1 initial $3\times 3$ conv + 17 bottleneck blocks (1 initial inverted bottleneck + 16 inverted residual blocks with expansion factor 6; 155 layer operations in functional graph), 1280-D global average pooling, Dropout(0.3), 6-class dense head. Replaced legacy "53 inverted residual bottleneck layers" phrasing.
+  - Clarified Dual-Gate Decision Rule vs. Exploratory Proxy: Operational decision rule is strictly a discrete Boolean conjunction ($\operatorname{ACCEPT} \iff S_{\text{Energy}} \ge 0.918451 \land S_{\text{MSP}} \ge 0.582610$). Continuous linear margin proxy $S_{\text{proxy}} = (S_E - \tau_E) + (S_M - \tau_M)$ documented as an exploratory metric with scale-dependence notes ($[0,10]$ vs $(1/6,1]$). Renamed Table 8 entry in `05_results.tex` to `Dual-Gate (Proxy)`.
+  - Reconciled Evaluation Metrics: Clarified AUROC as threshold-independent; Retrospective FPR@95 as post-hoc operating-point metric with OOD as positive class ($y_{\text{ood}} = 1$); documented AUPR and OSCR as auxiliary metrics in CSV ledgers; regenerated Figure 1 to match exact labels; reframed UFAR-Fresh as produce routing / non-target acceptance outcome (disclaiming biological food safety).
+  - Rephrased Statistical Reporting: Descriptive comparison for closed-set domain shift (non-overlapping bootstrap percentile intervals show substantial descriptive separation without asserting formal inferential hypothesis testing). Verified $B=1,000$, `seed=42`, image-level unit, stratified resampling.
+  - Validation Threshold Calibration: Documented $N_{\text{val}} = 227$ raw validation images, order statistics $s_{(12)}$ (single gate) and $s_{(7)}$ (Dual-Gate), inclusion-exclusion union $|R_{\text{union}}| = 11$, and Clopper-Pearson interval $[91.43\%, 97.60\%]$. Softened absolute claims of "zero circularity" to evidence-bounded terms.
+  - Synchronized Markdown Mirror: Updated `04_methodology.md` to match `04_methodology.tex` word-for-word, equation-for-equation, and table-for-table. Standardized figure label to **Figure 1** (matching compiled PDF numbering). Canonical citations verified: MobileNetV2 [7], MSP [9], Sultana [11], FruitVision [12], OpenMax [14], ODIN [16], Mahalanobis [17], Energy [18].
+  - Checkpoint Integrity: Checkpoint SHA-256 `4a12f354...b6b4` strictly unmodified; zero weights altered; zero thresholds modified; zero synthetic runs; zero numbers altered.
+  - LaTeX Compilation: Recompiled canonical `main.tex` via `tectonic` into 34-page PDF with 0 errors, ZERO overfull hboxes in Section 4, ZERO unresolved `??` citations, and all references resolved.
+  - Comprehensive Audit Deliverable: Updated `SECTION_4_METHODS_AUDIT.md` (and mirrored to `research_paper/manuscript/audit/SECTION_4_METHODS_AUDIT.md`).
+  - Repository Completion Status:
+    - Sections 1–4: Drafted, audited, and compiled.
+    - Section 5: Drafted sensitivity subsection (Table 8 with Dual-Gate Proxy); full results write-up pending.
+    - Sections 6–8: Pending.
+- Ready to proceed to Section 5 — Results and Empirical Evaluation drafting.

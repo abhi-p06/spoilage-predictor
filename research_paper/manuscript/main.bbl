@@ -1,0 +1,178 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{fao2019state}
+{Food and Agriculture Organization},
+  \href{https://www.fao.org/3/ca6030en/ca6030en.pdf}{{The State of Food and
+  Agriculture 2019: Moving forward on food loss and waste reduction}}, Tech.
+  rep., Food and Agriculture Organization of the United Nations, Rome, Italy
+  (2019).
+\newline\urlprefix\url{https://www.fao.org/3/ca6030en/ca6030en.pdf}
+
+\bibitem{jha2015assessment}
+S.~N. Jha, R.~K. Vishwakarma, T.~Ahmad, A.~Rai, A.~K. Dixit, {Assessment of
+  quantitative harvest and post-harvest losses of major crops and commodities
+  in India}, Tech. rep., ICAR-All India Coordinated Research Project on
+  Post-Harvest Technology, ICAR-CIPHET, Ludhiana, India, iSBN 978-81-901418-7-9
+  (2015).
+
+\bibitem{rizzo2023fruit}
+M.~Rizzo, M.~Marcuzzo, A.~Zangari, A.~Gasparetto, A.~Albarelli, Fruit ripeness
+  classification: A survey, Artificial Intelligence in Agriculture 7 (2023)
+  44--57.
+\newblock \href {https://doi.org/10.1016/j.aiia.2023.02.004}
+  {\path{doi:10.1016/j.aiia.2023.02.004}}.
+
+\bibitem{zhang2024fruit}
+Y.~Zhang, X.~Yang, Y.~Cheng, X.-J. Wu, X.~Sun, R.~Hou, H.~Wang, Fruit freshness
+  detection based on multi-task convolutional neural network, Current Research
+  in Food Science 8 (2024) 100733.
+\newblock \href {https://doi.org/10.1016/j.crfs.2024.100733}
+  {\path{doi:10.1016/j.crfs.2024.100733}}.
+
+\bibitem{chen2024classification}
+H.~Chen, G.~Zhou, W.~He, X.~Duan, H.~Jiang, Classification and identification
+  of agricultural products based on improved {MobileNetV2}, Scientific Reports
+  14~(1) (2024) 3454.
+\newblock \href {https://doi.org/10.1038/s41598-024-53349-w}
+  {\path{doi:10.1038/s41598-024-53349-w}}.
+
+\bibitem{gulzar2023fruit}
+Y.~Gulzar, Fruit image classification model based on {MobileNetV2} with deep
+  transfer learning technique, Sustainability 15~(3) (2023) 1906.
+\newblock \href {https://doi.org/10.3390/su15031906}
+  {\path{doi:10.3390/su15031906}}.
+
+\bibitem{sandler2018mobilenetv2}
+M.~Sandler, A.~Howard, M.~Zhu, A.~Zhmoginov, L.-C. Chen, {MobileNetV2}:
+  Inverted residuals and linear bottlenecks, in: Proceedings of the IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition (CVPR), 2018, pp.
+  4510--4520.
+\newblock \href {https://doi.org/10.1109/CVPR.2018.00474}
+  {\path{doi:10.1109/CVPR.2018.00474}}.
+
+\bibitem{guo2017calibration}
+C.~Guo, G.~Pleiss, Y.~Sun, K.~Q. Weinberger,
+  \href{https://proceedings.mlr.press/v70/guo17a.html}{On calibration of modern
+  neural networks}, in: Proceedings of the 34th International Conference on
+  Machine Learning (ICML), Vol.~70, 2017, pp. 1321--1330.
+\newline\urlprefix\url{https://proceedings.mlr.press/v70/guo17a.html}
+
+\bibitem{hendrycks2017baseline}
+D.~Hendrycks, K.~Gimpel, \href{https://openreview.net/forum?id=Hkg4TI9xl}{A
+  baseline for detecting misclassified and out-of-distribution examples in
+  neural networks}, in: Proceedings of the 5th International Conference on
+  Learning Representations (ICLR), 2017.
+\newline\urlprefix\url{https://openreview.net/forum?id=Hkg4TI9xl}
+
+\bibitem{abayomi2024fruitq}
+O.~O. Abayomi-Alli, R.~Dama{\v{s}}evi{\v{c}}ius, S.~Misra, A.~Abayomi-Alli,
+  {FruitQ}: A new dataset of multiple fruit images for freshness evaluation,
+  Multimedia Tools and Applications 83~(4) (2024) 11433--11460.
+\newblock \href {https://doi.org/10.1007/s11042-023-16058-6}
+  {\path{doi:10.1007/s11042-023-16058-6}}.
+
+\bibitem{sultana2022extensive}
+N.~Sultana, M.~Jahan, M.~S. Uddin, An extensive dataset for successful
+  recognition of fresh and rotten fruits, Data in Brief 44 (2022) 108552.
+\newblock \href {https://doi.org/10.1016/j.dib.2022.108552}
+  {\path{doi:10.1016/j.dib.2022.108552}}.
+
+\bibitem{bijoy2025fruitvision}
+M.~H.~I. Bijoy, S.~Z. Tasnim, S.~A. Awsaf, M.~Z. Hasan, {FruitVision}: A
+  benchmark dataset for fresh, rotten, and formalin-mixed fruit detection, Data
+  in Brief 61 (2025) 111752.
+\newblock \href {https://doi.org/10.1016/j.dib.2025.111752}
+  {\path{doi:10.1016/j.dib.2025.111752}}.
+
+\bibitem{scheirer2013toward}
+W.~J. Scheirer, A.~de~Rezende~Rocha, R.~J. Micheals, T.~E. Boult, Toward open
+  set recognition, IEEE Transactions on Pattern Analysis and Machine
+  Intelligence 35~(7) (2013) 1757--1772.
+\newblock \href {https://doi.org/10.1109/TPAMI.2012.256}
+  {\path{doi:10.1109/TPAMI.2012.256}}.
+
+\bibitem{bendale2016towards}
+A.~Bendale, T.~E. Boult, Towards open set deep networks, in: Proceedings of the
+  IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2016, pp.
+  1563--1572.
+\newblock \href {https://doi.org/10.1109/CVPR.2016.173}
+  {\path{doi:10.1109/CVPR.2016.173}}.
+
+\bibitem{yang2024generalized}
+J.~Yang, K.~Zhou, Y.~Li, Z.~Liu, Generalized out-of-distribution detection: A
+  survey, International Journal of Computer Vision 132 (2024) 4619--4654.
+\newblock \href {https://doi.org/10.1007/s11263-024-02117-4}
+  {\path{doi:10.1007/s11263-024-02117-4}}.
+
+\bibitem{liang2018enhancing}
+S.~Liang, Y.~Li, R.~Srikant,
+  \href{https://openreview.net/forum?id=H1VGkIxRZ}{Enhancing the reliability of
+  out-of-distribution image detection in neural networks}, in: Proceedings of
+  the 6th International Conference on Learning Representations (ICLR), 2018.
+\newline\urlprefix\url{https://openreview.net/forum?id=H1VGkIxRZ}
+
+\bibitem{lee2018simple}
+K.~Lee, K.~Lee, H.~Lee, J.~Shin,
+  \href{https://proceedings.neurips.cc/paper/2018/hash/abdeb6f57507016e5c68b32ca3233a7e-Abstract.html}{A
+  simple unified framework for detecting out-of-distribution samples and
+  adversarial attacks}, in: Advances in Neural Information Processing Systems
+  (NeurIPS), Vol.~31, 2018, pp. 7167--7177.
+\newline\urlprefix\url{https://proceedings.neurips.cc/paper/2018/hash/abdeb6f57507016e5c68b32ca3233a7e-Abstract.html}
+
+\bibitem{liu2020energy}
+W.~Liu, X.~Wang, J.~Owens, Y.~Li,
+  \href{https://proceedings.neurips.cc/paper/2020/hash/f5449014e287de5039d3fb05fe9bb9e9-Abstract.html}{Energy-based
+  out-of-distribution detection}, in: Advances in Neural Information Processing
+  Systems (NeurIPS), Vol.~33, 2020, pp. 21464--21475.
+\newline\urlprefix\url{https://proceedings.neurips.cc/paper/2020/hash/f5449014e287de5039d3fb05fe9bb9e9-Abstract.html}
+
+\bibitem{vaze2022open}
+S.~Vaze, K.~Han, A.~Vedaldi, A.~Zisserman,
+  \href{https://openreview.net/forum?id=5hLP5BamQH}{Open-set recognition: A
+  good closed-set classifier is all you need}, in: Proceedings of the 10th
+  International Conference on Learning Representations (ICLR), 2022.
+\newline\urlprefix\url{https://openreview.net/forum?id=5hLP5BamQH}
+
+\bibitem{sattar2024sensornet}
+A.~Sattar, M.~A.~M. Ridoy, A.~K. Saha, H.~M.~H. Babu, M.~N. Huda, A
+  comprehensive approach to detecting chemical adulteration in fruits using
+  computer vision, deep learning, and chemical sensors, Intelligent Systems
+  with Applications 23 (2024) 200402.
+\newblock \href {https://doi.org/10.1016/j.iswa.2024.200402}
+  {\path{doi:10.1016/j.iswa.2024.200402}}.
+
+\bibitem{wang2023crossdomain}
+J.~Wang, C.~Zhang, T.~Yan, J.~Yang, X.~Lu, G.~Lu, H.~Zhang, A cross-domain
+  fruit classification method based on lightweight attention networks and
+  unsupervised domain adaptation, Complex \& Intelligent Systems 9~(4) (2023)
+  4227--4247.
+\newblock \href {https://doi.org/10.1007/s40747-022-00955-8}
+  {\path{doi:10.1007/s40747-022-00955-8}}.
+
+\bibitem{pehlivan2026lightweight}
+N.~Pehlivan, R.~Kara, A lightweight one-shot open-set metric learning framework
+  for food recognition and decision support in smart ovens, Electronics 15~(16)
+  (2026) 3533.
+\newblock \href {https://doi.org/10.3390/electronics15163533}
+  {\path{doi:10.3390/electronics15163533}}.
+
+\bibitem{jansi2026peos}
+E.~Jansi, B.~R. Kavitha, {PEOS-Net}: A prototype-energy open-set network for
+  robust tomato leaf disease recognition beyond the closed-world assumption,
+  Frontiers in Artificial Intelligence 9 (2026) 1938398.
+\newblock \href {https://doi.org/10.3389/frai.2026.1938398}
+  {\path{doi:10.3389/frai.2026.1938398}}.
+
+\bibitem{yan2026pagmsbnet}
+S.~Yan, L.~Lou, J.~Lin, T.~Cernava, Q.~Migheli, S.~Oufensou, X.~Chen, X.~Zhang,
+  {PAG-MSBNet}: Prototype-aware gated multi-scale branch network for open-set
+  crop disease recognition, Ecological Informatics 95 (2026) 103703.
+\newblock \href {https://doi.org/10.1016/j.ecoinf.2026.103703}
+  {\path{doi:10.1016/j.ecoinf.2026.103703}}.
+
+\end{thebibliography}
